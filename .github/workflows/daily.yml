@@ -27,6 +27,11 @@ permissions:
   pages: write
   id-token: write
 
+# 同一分支同一 workflow 串行执行，避免多个定时档位/手动触发并行 push 导致冲突
+concurrency:
+  group: jingcai-football-main
+  cancel-in-progress: false
+
 jobs:
   analyze:
     runs-on: ubuntu-latest
@@ -64,6 +69,7 @@ jobs:
           git push
 
   daily-feedback:
+    needs: analyze
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -100,7 +106,7 @@ jobs:
           git push
 
   deploy:
-    needs: analyze
+    needs: [analyze, daily-feedback]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

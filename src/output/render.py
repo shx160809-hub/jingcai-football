@@ -426,13 +426,63 @@ def _load_predict(day: str) -> list[dict]:
 
 
 def _load_settlement() -> list[dict]:
-    """读取结算记录（含置信度、命中标记）。"""
-    sp = data_dir("results") / "settlement.csv"
-    if not sp.exists():
-        return []
+    """读取结算记录（含置信度、命中标记）。
+
+    数据源优先级：match_results.csv（统一赛果数据库，归档最全，含回填的
+    市场去水概率命中标记）为主，settlement.csv（开赛前预测快照，含置信度）
+    兜底补全置信度字段。两者按 (date, match_num) 去重合并，避免命中数据
+    因预测文件丢失而缺失展示。
+    """
     import pandas as pd
 
-    df = pd.read_csv(sp)
+    db_path = data_dir("results") / "match_results.csv"
+    sp = data_dir("results") / "settlement.csv"
+
+    if not db_path.exists() and not sp.exists():
+        return []
+
+    frames = []
+    if db_path.exists():
+        db = pd.read_csv(db_path)
+        if not db.empty:
+            frames.append(db)
+    if sp.exists():
+        st = pd.read_csv(sp)
+        if not st.empty:
+            frames.append(st)
+
+    if not frames:
+        return []
+
+    # 统一 date 为字符串，避免 int/str 混合导致日期比较/去重失效
+    for f in frames:
+        if "date" in f.columns:
+            f["date"] = f["date"].astype(str)
+
+    # 合并：match_results 为主，settlement 用其置信度字段补全
+    if len(frames) == 1:
+        df = frames[0]
+    else:
+        db, st = frames[0], frames[1]
+        # 以 match_results 为主表，settlement 补 confidence_score
+        cols_to_fill = [c for c in st.columns if c in db.columns and c not in ("date", "match_num")]
+        df = db.copy()
+        if "confidence_score" in cols_to_fill:
+            # 按 (date, match_num) 用 settlement 的置信度补全
+            conf_map = st.dropna(subset=["confidence_score"]).set_index(["date", "match_num"])["confidence_score"].to_dict()
+            df["confidence_score"] = df.apply(
+                lambda r: conf_map.get((r["date"], r["match_num"]), r.get("confidence_score")), axis=1
+            )
+        # 去重：match_results 优先，settlement 里 match_results 没有的场次也保留
+        db_keys = set(zip(df["date"], df["match_num"]))
+        extra = st[~st.apply(lambda r: (r["date"], r["match_num"]) in db_keys, axis=1)]
+        if not extra.empty:
+            df = pd.concat([df, extra], ignore_index=True)
+
+    # pred_hit 统一为 bool（None/NaN 除外，保留为 None 表示"无预测"）
+    if "pred_hit" in df.columns:
+        df["pred_hit"] = df["pred_hit"].map(lambda v: bool(v) if pd.notna(v) else None)
+
     return df.to_dict("records")
 
 
