@@ -1,121 +1,11 @@
 {
   "date": "20261025",
-  "generated_at": "2026-10-25T14:57:36.902915",
+  "generated_at": "2026-10-25T23:52:31.348569",
   "disclaimer": "本工具为体育数据分析工具，所有输出（概率、预期比分分布、模型参考值）仅用于统计分析，不构成任何投注建议或中奖预测。不保证任何结果，不展示胜率，不接入投注/支付/资金通道。请理性看待数据，遵守中国法律法规，远离非法博彩。",
   "matches": [
     {
-      "home": "霍芬海姆",
-      "away": "勒沃库森",
-      "p_home": 0.3221,
-      "p_draw": 0.2176,
-      "p_away": 0.4603,
-      "expected_home_goals": 1.747,
-      "expected_away_goals": 2.38,
-      "most_likely_score": "1-2",
-      "top_scores": [
-        {
-          "score": "1-2",
-          "prob": 0.0799
-        },
-        {
-          "score": "2-2",
-          "prob": 0.0698
-        },
-        {
-          "score": "1-1",
-          "prob": 0.0642
-        },
-        {
-          "score": "1-3",
-          "prob": 0.0634
-        },
-        {
-          "score": "2-1",
-          "prob": 0.0586
-        }
-      ],
-      "source": "dixon_coles",
-      "confidence": "high",
-      "match_id": 2042230,
-      "match_num": "周日018",
-      "league": "德甲",
-      "match_date": "2026-10-25",
-      "kickoff": "2026-10-25 22:30:00",
-      "match_time": "2026-10-25 22:30:00",
-      "had_win": "3.13",
-      "had_draw": "4.25",
-      "had_lose": "1.74",
-      "calibrated": true,
-      "confidence_score": 0.0407,
-      "score_confidence": 0.0799,
-      "divergence": 0.0485,
-      "market_p_home": 0.2829,
-      "market_p_draw": 0.2083,
-      "market_p_away": 0.5088,
-      "model_higher_on": "客胜",
-      "model_market_gap": -0.0485
-    },
-    {
-      "home": "塞尔塔",
-      "away": "贝蒂斯",
-      "p_home": 0.4116,
-      "p_draw": 0.285,
-      "p_away": 0.3034,
-      "expected_home_goals": 1.353,
-      "expected_away_goals": 1.183,
-      "most_likely_score": "1-1",
-      "top_scores": [
-        {
-          "score": "1-1",
-          "prob": 0.1414
-        },
-        {
-          "score": "0-0",
-          "prob": 0.0939
-        },
-        {
-          "score": "1-0",
-          "prob": 0.0924
-        },
-        {
-          "score": "2-1",
-          "prob": 0.0857
-        },
-        {
-          "score": "0-1",
-          "prob": 0.079
-        }
-      ],
-      "source": "dixon_coles",
-      "confidence": "high",
-      "match_id": 2042231,
-      "match_num": "周日019",
-      "league": "西甲",
-      "match_date": "2026-10-25",
-      "kickoff": "2026-10-25 23:15:00",
-      "match_time": "2026-10-25 23:15:00",
-      "had_win": "3.15",
-      "had_draw": "3.32",
-      "had_lose": "1.96",
-      "calibrated": true,
-      "confidence_score": 0.0124,
-      "score_confidence": 0.1414,
-      "divergence": 0.1486,
-      "market_p_home": 0.2812,
-      "market_p_draw": 0.2668,
-      "market_p_away": 0.452,
-      "model_higher_on": "客胜",
-      "model_market_gap": -0.1486
-    },
-    {
       "home": "雷恩",
       "away": "斯特拉斯",
-      "p_home": 0.4948,
-      "p_draw": 0.2235,
-      "p_away": 0.2818,
-      "expected_home_goals": 2.664,
-      "expected_away_goals": 1.915,
-      "most_likely_score": "2-1",
       "top_scores": [
         {
           "score": "2-1",
@@ -138,8 +28,17 @@
           "prob": 0.0552
         }
       ],
-      "source": "dixon_coles",
+      "expected_home_goals": 2.664,
+      "expected_away_goals": 1.915,
+      "most_likely_score": "2-1",
       "confidence": "high",
+      "p_home": 0.5785,
+      "p_draw": 0.2083,
+      "p_away": 0.2133,
+      "model_p_home": 0.5227,
+      "model_p_draw": 0.1959,
+      "model_p_away": 0.2815,
+      "source": "market_implied+dc",
       "match_id": 2042232,
       "match_num": "周日020",
       "league": "法甲",
@@ -149,25 +48,18 @@
       "had_win": "1.53",
       "had_draw": "4.25",
       "had_lose": "4.15",
-      "calibrated": true,
-      "confidence_score": 0.0534,
+      "confidence_score": 0.1144,
       "score_confidence": 0.0699,
-      "divergence": 0.0837,
+      "divergence": 0.0682,
       "market_p_home": 0.5785,
       "market_p_draw": 0.2083,
       "market_p_away": 0.2133,
-      "model_higher_on": "主胜",
-      "model_market_gap": -0.0837
+      "model_higher_on": "客胜",
+      "model_market_gap": 0.0682
     },
     {
       "home": "桑德兰",
       "away": "利兹联",
-      "p_home": 0.2981,
-      "p_draw": 0.2864,
-      "p_away": 0.4156,
-      "expected_home_goals": 0.918,
-      "expected_away_goals": 1.279,
-      "most_likely_score": "1-1",
       "top_scores": [
         {
           "score": "1-1",
@@ -190,8 +82,17 @@
           "prob": 0.0909
         }
       ],
-      "source": "dixon_coles",
+      "expected_home_goals": 0.918,
+      "expected_away_goals": 1.279,
+      "most_likely_score": "1-1",
       "confidence": "high",
+      "p_home": 0.3105,
+      "p_draw": 0.3207,
+      "p_away": 0.3688,
+      "model_p_home": 0.2663,
+      "model_p_draw": 0.2944,
+      "model_p_away": 0.4394,
+      "source": "market_implied+dc",
       "match_id": 2042233,
       "match_num": "周日021",
       "league": "英超",
@@ -201,25 +102,18 @@
       "had_win": "2.85",
       "had_draw": "2.76",
       "had_lose": "2.40",
-      "calibrated": true,
-      "confidence_score": 0.0135,
+      "confidence_score": 0.0026,
       "score_confidence": 0.1407,
-      "divergence": 0.0468,
+      "divergence": 0.0706,
       "market_p_home": 0.3105,
       "market_p_draw": 0.3207,
       "market_p_away": 0.3688,
       "model_higher_on": "客胜",
-      "model_market_gap": 0.0468
+      "model_market_gap": 0.0706
     },
     {
       "home": "弗赖堡",
       "away": "拜仁",
-      "p_home": 0.2266,
-      "p_draw": 0.2033,
-      "p_away": 0.5701,
-      "expected_home_goals": 1.448,
-      "expected_away_goals": 2.663,
-      "most_likely_score": "1-2",
       "top_scores": [
         {
           "score": "1-2",
@@ -242,8 +136,17 @@
           "prob": 0.0582
         }
       ],
-      "source": "dixon_coles",
+      "expected_home_goals": 1.448,
+      "expected_away_goals": 2.663,
+      "most_likely_score": "1-2",
       "confidence": "high",
+      "p_home": 0.144,
+      "p_draw": 0.164,
+      "p_away": 0.692,
+      "model_p_home": 0.1927,
+      "model_p_draw": 0.1626,
+      "model_p_away": 0.6447,
+      "source": "market_implied+dc",
       "match_id": 2042234,
       "match_num": "周日022",
       "league": "德甲",
@@ -253,25 +156,18 @@
       "had_win": "6.15",
       "had_draw": "5.40",
       "had_lose": "1.28",
-      "calibrated": true,
-      "confidence_score": 0.1074,
+      "confidence_score": 0.2442,
       "score_confidence": 0.0843,
-      "divergence": 0.1219,
+      "divergence": 0.0487,
       "market_p_home": 0.144,
       "market_p_draw": 0.164,
       "market_p_away": 0.692,
-      "model_higher_on": "客胜",
-      "model_market_gap": -0.1219
+      "model_higher_on": "主胜",
+      "model_market_gap": 0.0487
     },
     {
       "home": "莱切",
       "away": "尤文图斯",
-      "p_home": 0.2475,
-      "p_draw": 0.2804,
-      "p_away": 0.4721,
-      "expected_home_goals": 0.863,
-      "expected_away_goals": 1.489,
-      "most_likely_score": "0-1",
       "top_scores": [
         {
           "score": "0-1",
@@ -294,8 +190,17 @@
           "prob": 0.0911
         }
       ],
-      "source": "dixon_coles",
+      "expected_home_goals": 0.863,
+      "expected_away_goals": 1.489,
+      "most_likely_score": "0-1",
       "confidence": "high",
+      "p_home": 0.1323,
+      "p_draw": 0.2111,
+      "p_away": 0.6566,
+      "model_p_home": 0.2225,
+      "model_p_draw": 0.2415,
+      "model_p_away": 0.5359,
+      "source": "market_implied+dc",
       "match_id": 2042235,
       "match_num": "周日023",
       "league": "意甲",
@@ -305,25 +210,18 @@
       "had_win": "6.70",
       "had_draw": "4.20",
       "had_lose": "1.35",
-      "calibrated": true,
-      "confidence_score": 0.0384,
+      "confidence_score": 0.2061,
       "score_confidence": 0.1451,
-      "divergence": 0.1845,
+      "divergence": 0.1206,
       "market_p_home": 0.1323,
       "market_p_draw": 0.2111,
       "market_p_away": 0.6566,
       "model_higher_on": "客胜",
-      "model_market_gap": -0.1845
+      "model_market_gap": -0.1207
     },
     {
       "home": "皇家社会",
       "away": "莱万特",
-      "p_home": 0.5128,
-      "p_draw": 0.2254,
-      "p_away": 0.2618,
-      "expected_home_goals": 2.636,
-      "expected_away_goals": 1.753,
-      "most_likely_score": "2-1",
       "top_scores": [
         {
           "score": "2-1",
@@ -346,8 +244,17 @@
           "prob": 0.0583
         }
       ],
-      "source": "dixon_coles",
+      "expected_home_goals": 2.636,
+      "expected_away_goals": 1.753,
+      "most_likely_score": "2-1",
       "confidence": "high",
+      "p_home": 0.6464,
+      "p_draw": 0.1968,
+      "p_away": 0.1567,
+      "model_p_home": 0.5364,
+      "model_p_draw": 0.205,
+      "model_p_away": 0.2586,
+      "source": "market_implied+dc",
       "match_id": 2042236,
       "match_num": "周日024",
       "league": "西甲",
@@ -357,25 +264,18 @@
       "had_win": "1.37",
       "had_draw": "4.50",
       "had_lose": "5.65",
-      "calibrated": true,
-      "confidence_score": 0.0632,
+      "confidence_score": 0.1877,
       "score_confidence": 0.0757,
-      "divergence": 0.1336,
+      "divergence": 0.11,
       "market_p_home": 0.6464,
       "market_p_draw": 0.1968,
       "market_p_away": 0.1567,
       "model_higher_on": "主胜",
-      "model_market_gap": -0.1336
+      "model_market_gap": -0.11
     },
     {
       "home": "阿尔克马",
       "away": "特温特",
-      "p_home": 0.4027,
-      "p_draw": 0.2832,
-      "p_away": 0.3141,
-      "expected_home_goals": 1.287,
-      "expected_away_goals": 1.291,
-      "most_likely_score": "1-1",
       "top_scores": [
         {
           "score": "1-1",
@@ -398,8 +298,17 @@
           "prob": 0.0759
         }
       ],
-      "source": "dixon_coles",
+      "expected_home_goals": 1.287,
+      "expected_away_goals": 1.291,
+      "most_likely_score": "1-1",
       "confidence": "high",
+      "p_home": 0.4784,
+      "p_draw": 0.236,
+      "p_away": 0.2855,
+      "model_p_home": 0.345,
+      "model_p_draw": 0.3029,
+      "model_p_away": 0.3522,
+      "source": "market_implied+dc",
       "match_id": 2042237,
       "match_num": "周日025",
       "league": "荷甲",
@@ -409,25 +318,18 @@
       "had_win": "1.85",
       "had_draw": "3.75",
       "had_lose": "3.10",
-      "calibrated": true,
-      "confidence_score": 0.0103,
+      "confidence_score": 0.043,
       "score_confidence": 0.1484,
-      "divergence": 0.0758,
+      "divergence": 0.1335,
       "market_p_home": 0.4784,
       "market_p_draw": 0.236,
       "market_p_away": 0.2855,
       "model_higher_on": "主胜",
-      "model_market_gap": -0.0757
+      "model_market_gap": -0.1334
     },
     {
       "home": "乌迪内斯",
       "away": "AC米兰",
-      "p_home": 0.256,
-      "p_draw": 0.2525,
-      "p_away": 0.4914,
-      "expected_home_goals": 1.06,
-      "expected_away_goals": 1.772,
-      "most_likely_score": "1-1",
       "top_scores": [
         {
           "score": "1-1",
@@ -450,8 +352,17 @@
           "prob": 0.0655
         }
       ],
-      "source": "dixon_coles",
+      "expected_home_goals": 1.06,
+      "expected_away_goals": 1.772,
+      "most_likely_score": "1-1",
       "confidence": "high",
+      "p_home": 0.1925,
+      "p_draw": 0.2362,
+      "p_away": 0.5713,
+      "model_p_home": 0.2268,
+      "model_p_draw": 0.216,
+      "model_p_away": 0.5572,
+      "source": "market_implied+dc",
       "match_id": 2042238,
       "match_num": "周日026",
       "league": "意甲",
@@ -461,25 +372,18 @@
       "had_win": "4.60",
       "had_draw": "3.75",
       "had_lose": "1.55",
-      "calibrated": true,
-      "confidence_score": 0.0484,
+      "confidence_score": 0.1099,
       "score_confidence": 0.1076,
-      "divergence": 0.0799,
+      "divergence": 0.0343,
       "market_p_home": 0.1925,
       "market_p_draw": 0.2362,
       "market_p_away": 0.5713,
-      "model_higher_on": "客胜",
-      "model_market_gap": -0.0799
+      "model_higher_on": "主胜",
+      "model_market_gap": 0.0343
     },
     {
       "home": "巴萨",
       "away": "皇马",
-      "p_home": 0.5846,
-      "p_draw": 0.2222,
-      "p_away": 0.1932,
-      "expected_home_goals": 2.535,
-      "expected_away_goals": 1.314,
-      "most_likely_score": "2-1",
       "top_scores": [
         {
           "score": "2-1",
@@ -502,8 +406,17 @@
           "prob": 0.0592
         }
       ],
-      "source": "dixon_coles",
+      "expected_home_goals": 2.535,
+      "expected_away_goals": 1.314,
+      "most_likely_score": "2-1",
       "confidence": "high",
+      "p_home": 0.5868,
+      "p_draw": 0.1737,
+      "p_away": 0.2395,
+      "model_p_home": 0.6114,
+      "model_p_draw": 0.1965,
+      "model_p_away": 0.1921,
+      "source": "market_implied+dc",
       "match_id": 2042239,
       "match_num": "周日027",
       "league": "西甲",
@@ -513,25 +426,18 @@
       "had_win": "1.51",
       "had_draw": "5.10",
       "had_lose": "3.70",
-      "calibrated": true,
-      "confidence_score": 0.121,
+      "confidence_score": 0.1269,
       "score_confidence": 0.09,
-      "divergence": 0.0485,
+      "divergence": 0.0474,
       "market_p_home": 0.5868,
       "market_p_draw": 0.1737,
       "market_p_away": 0.2395,
-      "model_higher_on": "平局",
-      "model_market_gap": 0.0485
+      "model_higher_on": "客胜",
+      "model_market_gap": -0.0474
     },
     {
       "home": "里斯本",
       "away": "维塞乌",
-      "p_home": 0.4086,
-      "p_draw": 0.281,
-      "p_away": 0.3104,
-      "expected_home_goals": 1.252,
-      "expected_away_goals": 1.142,
-      "most_likely_score": "1-1",
       "top_scores": [
         {
           "score": "1-1",
@@ -554,8 +460,17 @@
           "prob": 0.0817
         }
       ],
-      "source": "dixon_coles",
+      "expected_home_goals": 1.252,
+      "expected_away_goals": 1.142,
+      "most_likely_score": "1-1",
       "confidence": "high",
+      "p_home": 0.4061,
+      "p_draw": 0.2818,
+      "p_away": 0.3121,
+      "model_p_home": 0.3905,
+      "model_p_draw": 0.2644,
+      "model_p_away": 0.345,
+      "source": "dixon_coles+elo",
       "match_id": 2042240,
       "match_num": "周日028",
       "league": "葡超",
@@ -566,21 +481,24 @@
       "had_draw": null,
       "had_lose": null,
       "calibrated": true,
-      "confidence_score": 0.0119,
+      "confidence_score": 0.0112,
       "score_confidence": 0.1231
     },
     {
       "home": "洛杉矶FC",
       "away": "洛城银河",
-      "p_home": 0.5772,
-      "p_draw": 0.2268,
-      "p_away": 0.196,
       "expected_home_goals": null,
       "expected_away_goals": null,
       "most_likely_score": null,
       "top_scores": [],
-      "source": "odds_implied",
       "confidence": "low",
+      "p_home": 0.6193,
+      "p_draw": 0.2036,
+      "p_away": 0.1771,
+      "model_p_home": 0.6193,
+      "model_p_draw": 0.2036,
+      "model_p_away": 0.1771,
+      "source": "market_implied",
       "match_id": 2042241,
       "match_num": "周日029",
       "league": "美职",
@@ -590,15 +508,14 @@
       "had_win": "1.43",
       "had_draw": "4.35",
       "had_lose": "5.00",
-      "calibrated": true,
-      "confidence_score": 0.1142,
+      "confidence_score": 0.1559,
       "score_confidence": null,
-      "divergence": 0.0421,
+      "divergence": 0.0,
       "market_p_home": 0.6193,
       "market_p_draw": 0.2036,
       "market_p_away": 0.1771,
       "model_higher_on": "主胜",
-      "model_market_gap": -0.0421
+      "model_market_gap": 0.0
     }
   ]
 }

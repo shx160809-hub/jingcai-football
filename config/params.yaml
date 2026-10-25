@@ -7,6 +7,8 @@ dixon_coles:
   min_sample: 10      # 球队历史样本低于此阈值时回退到联赛均值先验
   max_goals: 8        # 单队最大进球数（比分分布截断，覆盖~100%概率质量）
   rho_init: -0.08     # 低比分依赖参数初值
+  use_xg_prior: true  # 是否用 understat xG 数据作为 attack/defence 软先验（稳定小样本拟合）
+  xg_prior_strength: 0.5  # xG 先验强度（正则系数，越大越向 xG 先验收缩）
 
 # ===== 回测配置 =====
 backtest:
@@ -20,6 +22,13 @@ calibration:
   method: binning        # 校准方法：binning（分桶，稳健）
   bins: 10               # 分桶数（等频）
   min_samples: 20        # 单方向最少样本数，低于则不校准
+
+# ===== 模型融合配置（DC + Elo）=====
+ensemble:
+  w_dc: 0.85             # Dixon-Coles 权重，Elo 权重 1-w_dc=0.15（回测验证 Log Loss 1.0179→1.012）
+  # 主力概率来源：true = 官方赔率去水（市场共识，回测 Log Loss 0.9717 远优于 DC 1.018）
+  #                false = DC+Elo 模型概率（旧方案，打不赢市场）
+  use_market_primary: true
 
 # ===== 数据采集配置 =====
 collect:

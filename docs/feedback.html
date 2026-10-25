@@ -5,30 +5,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>每日数据回馈报告 - 竞彩概率分析</title>
 <style>
-body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; background:#f4f5f9; color:#1e293b; line-height:1.6; margin:0; }
-.navbar { position:sticky; top:0; z-index:100; background:linear-gradient(135deg,#1e1b4b,#312e81); box-shadow:0 2px 10px rgba(0,0,0,.15); }
-.navbar-inner { max-width:960px; margin:0 auto; padding:0 16px; display:flex; align-items:center; justify-content:space-between; height:60px; }
-.brand { color:#fff; font-size:17px; font-weight:700; letter-spacing:.5px; text-decoration:none; display:flex; align-items:center; gap:8px; }
-.brand .logo { width:28px; height:28px; background:linear-gradient(135deg,#6366f1,#a855f7); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:15px; }
-.nav-links { display:flex; gap:4px; }
-.nav-links a { color:#c7d2fe; text-decoration:none; font-size:14px; padding:8px 14px; border-radius:8px; transition:all .2s; white-space:nowrap; }
-.nav-links a:hover { background:rgba(255,255,255,.1); color:#fff; }
-.nav-links a.active { background:rgba(255,255,255,.16); color:#fff; font-weight:600; }
+body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; background:radial-gradient(1200px 600px at 20% -10%,rgba(99,102,241,.18),transparent 60%),radial-gradient(1000px 500px at 100% 0%,rgba(168,85,247,.14),transparent 55%),#0a0e1a; background-attachment:fixed; color:#e8ecf6; line-height:1.6; margin:0; }
+.navbar { position:sticky; top:0; z-index:100; background:rgba(13,17,30,.82); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-bottom:1px solid rgba(99,102,241,.25); box-shadow:0 2px 20px rgba(0,0,0,.4); }
+.navbar-inner { max-width:1080px; margin:0 auto; padding:0 16px; display:flex; align-items:center; justify-content:space-between; height:60px; }
+.brand { color:#fff; font-size:17px; font-weight:800; letter-spacing:.5px; text-decoration:none; display:flex; align-items:center; gap:9px; }
+.brand .logo { width:30px; height:30px; background:linear-gradient(135deg,#6366f1,#a855f7); border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:16px; box-shadow:0 0 16px rgba(124,58,237,.5); }
+.nav-links { display:flex; gap:2px; }
+.nav-links a { color:#a7b0c8; text-decoration:none; font-size:13px; padding:8px 12px; border-radius:9px; transition:all .2s; white-space:nowrap; }
+.nav-links a:hover { background:rgba(99,102,241,.16); color:#fff; }
+.nav-links a.active { background:linear-gradient(135deg,rgba(99,102,241,.9),rgba(168,85,247,.85)); color:#fff; font-weight:600; box-shadow:0 2px 12px rgba(99,102,241,.4); }
 .container { max-width:720px; margin:0 auto; padding:32px 16px 48px; }
-h1 { font-size:24px; font-weight:800; }
-.sub { color:#64748b; font-size:13px; margin-bottom:24px; }
-.card { background:#fff; border-radius:14px; padding:20px; margin-bottom:16px; box-shadow:0 1px 3px rgba(15,23,42,.06); border:1px solid #e8ebf1; }
-.card h2 { font-size:16px; margin:0 0 14px; }
+h1 { font-size:24px; font-weight:800; background:linear-gradient(135deg,#a5b4fc,#c4b5fd,#22d3ee); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.sub { color:#8b94ad; font-size:13px; margin-bottom:24px; }
+.card { background:linear-gradient(180deg,#232c46,#1b2236); border-radius:14px; padding:20px; margin-bottom:16px; box-shadow:0 4px 16px rgba(0,0,0,.35); border:1px solid #2a334d; }
+.card h2 { font-size:16px; margin:0 0 14px; color:#e8ecf6; }
 .stat-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
-.stat { background:#f8fafc; border-radius:10px; padding:14px; text-align:center; }
-.stat .num { font-size:22px; font-weight:800; color:#4f46e5; }
-.stat .lbl { font-size:11px; color:#64748b; margin-top:4px; }
+.stat { background:#121828; border-radius:10px; padding:14px; text-align:center; border:1px solid #2a334d; }
+.stat .num { font-size:22px; font-weight:800; color:#a5b4fc; }
+.stat .lbl { font-size:11px; color:#8b94ad; margin-top:4px; }
 .prob { display:flex; align-items:center; justify-content:space-between; margin:8px 0; font-size:14px; }
-.prob-label { color:#334155; }
-.prob-val { font-weight:600; }
-.banner { background:#fff7ed; border:1px solid #fde68a; border-radius:10px; padding:12px 16px; font-size:12px; color:#92400e; }
-.footer { text-align:center; color:#94a3b8; font-size:12px; margin-top:24px; }
-@media (max-width:640px) { .nav-links a { font-size:13px; padding:7px 10px; } .navbar-inner { height:56px; } }
+.prob-label { color:#cbd5e1; }
+.prob-val { font-weight:600; color:#e8ecf6; }
+.banner { background:rgba(245,158,11,.12); border:1px solid rgba(245,158,11,.25); border-radius:10px; padding:12px 16px; font-size:12px; color:#fcd34d; }
+.footer { text-align:center; color:#6b748c; font-size:12px; margin-top:24px; }
+@media (max-width:640px) { .nav-links a { font-size:12px; padding:7px 9px; } .navbar-inner { height:56px; } }
 </style>
 </head>
 <body>
@@ -36,7 +36,7 @@ h1 { font-size:24px; font-weight:800; }
 <nav class="navbar">
   <div class="navbar-inner">
     <a href="index.html" class="brand"><span class="logo">⚽</span>竞彩概率分析</a>
-    <div class="nav-links"><a href="index.html" class="">首页</a><a href="live.html" class="">今日赛果</a><a href="matches.html" class="">今日场次</a><a href="scores.html" class="">比分</a><a href="finished.html" class="">已完赛</a><a href="settled.html" class="">已结算场次</a><a href="accuracy.html" class="">累计命中率</a><a href="feedback.html" class="active">数据回馈</a><a href="calculator.html" class="">官方计算器</a></div>
+    <div class="nav-links"><a href="index.html" class="">首页</a><a href="matches.html" class="">今日场次</a><a href="scores.html" class="">比分推荐</a><a href="live.html" class="">今日赛果</a><a href="settled.html" class="">结算场次</a><a href="accuracy.html" class="">累计命中率</a><a href="feedback.html" class="active">数据回馈</a><a href="calculator.html" class="">官方计算器</a></div>
   </div>
 </nav>
 <div class="container">
@@ -75,6 +75,8 @@ h1 { font-size:24px; font-weight:800; }
     <h2>概率校准效果（out-of-sample）</h2>
     <div class="stat-grid"><div class="stat"><div class="num">49.76%</div><div class="lbl">校准前 Top-1</div></div><div class="stat"><div class="num" style="color:#15803d">51.62%</div><div class="lbl">校准后 Top-1</div></div></div><div class="prob"><div class="prob-label">命中率变化</div><div class="prob-val" style="color:#15803d">↑+1.86%</div></div><div class="sub" style="font-size:12px;color:#64748b;margin-top:8px">基于 1664 场 out-of-sample 样本验证</div>
   </div>
+
+  
 
   <div class="banner">⚠️ 本报告为模型统计评估，命中率变化不构成任何投注建议，不代表未来结果。</div>
   <div class="footer">竞彩概率分析工具 · 数据回馈闭环</div>

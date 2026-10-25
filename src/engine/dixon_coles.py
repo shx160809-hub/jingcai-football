@@ -23,10 +23,44 @@ from scipy.special import gammaln
 from src.common import load_config
 
 
+def _load_xg_prior() -> dict[tuple[str, str], tuple[float, float]]:
+    """加载 xG 先验：{(league, team): (xgf, xga)}。
+
+    xgf/xga 为该队场均期望进球/失球（understat 数据）。
+    用于给 DC 模型的 attack/defence 参数施加软先验，稳定小样本拟合。
+    无 xG 数据时返回空 dict。
+    """
+    try:
+        from pathlib import Path
+
+        from src.common import ROOT
+
+        path = ROOT / "data" / "raw" / "xg_matches.csv"
+        if not path.exists():
+            return {}
+        df = pd.read_csv(path)
+        if df.empty or "xG" not in df.columns:
+            return {}
+        df = df.dropna(subset=["xG", "xGA"])
+        agg = (
+            df.groupby(["league", "team"])
+            .agg(xgf=("xG", "mean"), xga=("xGA", "mean"))
+            .reset_index()
+        )
+        return {
+            (str(r.league), str(r.team)): (float(r.xgf), float(r.xga))
+            for r in agg.itertuples(index=False)
+        }
+    except Exception:  # noqa: BLE001
+        return {}
+
+
 class DixonColes:
-    def __init__(self, xi: float = 0.0065, min_sample: int = 10):
+    def __init__(self, xi: float = 0.0065, min_sample: int = 10, use_xg_prior: bool = True):
         self.xi = xi
         self.min_sample = min_sample
+        self.use_xg_prior = use_xg_prior
+        self.xg_prior_strength = 0.5
         self.attack: dict[str, float] = {}
         self.defence: dict[str, float] = {}
         self.home_adv: float = 0.0
@@ -58,6 +92,29 @@ class DixonColes:
         days_ago = (today - matches["date"]).dt.days.to_numpy(dtype=float)
         days_ago = np.clip(days_ago, 0, None)
         weights = np.exp(-self.xi * days_ago)
+
+        # xG 先验：为有 xG 数据的球队计算 attack/defence 的对数偏差先验
+        #   attack_prior[t] = log(xgf_t / league_xgf_mean)
+        #   defence_prior[t] = log(league_xga_mean / xga_t)  （防守越强 xga 越低，defence 越小）
+        league = str(matches["league"].iloc[0]) if "league" in matches.columns else ""
+        attack_prior = np.zeros(n)
+        defence_prior = np.zeros(n)
+        xg_mask = np.zeros(n, dtype=bool)
+        if self.use_xg_prior and league:
+            xg = _load_xg_prior()
+            league_xg = {team: v for (lg, team), v in xg.items() if lg == league}
+            if league_xg:
+                xgf_vals = np.array([v[0] for v in league_xg.values()])
+                xga_vals = np.array([v[1] for v in league_xg.values()])
+                xgf_mean = float(xgf_vals.mean())
+                xga_mean = float(xga_vals.mean())
+                for t, i in team_idx.items():
+                    if t in league_xg:
+                        xgf, xga = league_xg[t]
+                        if xgf > 0 and xga > 0:
+                            attack_prior[i] = np.log(xgf / xgf_mean)
+                            defence_prior[i] = np.log(xga_mean / xga)
+                            xg_mask[i] = True
 
         def unpack(params):
             attack = params[:n]
@@ -97,6 +154,14 @@ class DixonColes:
             # 可识别性约束：攻击与防守参数各自和为 0（软惩罚）
             # 消除 attack/defence 之间的平移自由度，避免参数漂移
             penalty = 1e-4 * (attack.sum() ** 2) + 1e-4 * (defence.sum() ** 2)
+
+            # xG 软先验：把有 xG 数据的球队参数拉向 xG 隐含的先验（稳定小样本）
+            if xg_mask.any():
+                lam_xg = self.xg_prior_strength  # 先验强度（正则系数）
+                penalty += lam_xg * (
+                    np.sum((attack[xg_mask] - attack_prior[xg_mask]) ** 2)
+                    + np.sum((defence[xg_mask] - defence_prior[xg_mask]) ** 2)
+                )
             return -np.sum(weights * log_p) + penalty
 
         # 初值
@@ -208,15 +273,25 @@ def train_and_predict(
 
     # 为每个有历史数据的联赛分别训练模型
     models: dict[str, DixonColes] = {}
+    elos: dict[str, dict[str, float]] = {}
     for code, lhist in history.groupby("league", observed=True):
         if len(lhist) < cfg["backtest"]["min_matches_to_train"]:
             continue
         dc = DixonColes(
             xi=cfg["dixon_coles"]["xi"],
             min_sample=cfg["dixon_coles"]["min_sample"],
+            use_xg_prior=cfg["dixon_coles"].get("use_xg_prior", True),
         )
+        dc.xg_prior_strength = cfg["dixon_coles"].get("xg_prior_strength", 0.5)
         dc.fit(lhist)
         models[code] = dc
+        # 计算该联赛 Elo（供概率融合，回测验证 Log Loss 1.0179→1.012 有稳定增益）
+        try:
+            from src.engine.elo import compute_elo
+
+            elos[code] = compute_elo(lhist)
+        except Exception:  # noqa: BLE001
+            pass
 
     from src.strategy.de_vig import de_vig_probabilities
 
@@ -231,42 +306,101 @@ def train_and_predict(
         home_en = league_team_map.get(fx["home"], fx["home"])
         away_en = league_team_map.get(fx["away"], fx["away"])
 
+        # 主力概率：官方赔率去水（市场共识），回测验证 Log Loss 0.9717 远优于 DC 1.018。
+        dv = de_vig_probabilities(
+            fx.get("had_win"), fx.get("had_draw"), fx.get("had_lose")
+        )
+
+        # DC/Elo 模型概率作为辅助参考值（比分分布/期望进球的来源），存 model_p_* 字段。
+        model_probs = None
         if model is not None:
-            pred = model.predict(home_en, away_en, max_goals=max_goals)
-            matrix = pred.pop("score_matrix")
-            pred["top_scores"] = _top_scores(matrix)
-            pred["source"] = "dixon_coles"
-            pred["confidence"] = "high"
-            # 模型内部用英文队名查参数，但对外输出的队名回填为竞彩中文名，
-            # 避免首页/今日场次/比分等页面显示英文队名。
-            pred["home"] = fx["home"]
-            pred["away"] = fx["away"]
+            dc_pred = model.predict(home_en, away_en, max_goals=max_goals)
+            matrix = dc_pred.pop("score_matrix")
+            model_probs = {
+                "p_home": dc_pred["p_home"],
+                "p_draw": dc_pred["p_draw"],
+                "p_away": dc_pred["p_away"],
+            }
+            # Elo 融合（回测验证稳定小幅增益），仍用于「模型参考值」
+            elo_map = elos.get(code)
+            if elo_map:
+                try:
+                    from src.engine.elo import elo_to_prob
+                    from src.strategy.ensemble import blend_probabilities
+
+                    w_dc = cfg.get("ensemble", {}).get("w_dc", 0.85)
+                    p_elo = elo_to_prob(
+                        elo_map.get(home_en, 1500), elo_map.get(away_en, 1500)
+                    )
+                    model_probs = blend_probabilities(model_probs, p_elo, w_dc=w_dc)
+                except Exception:  # noqa: BLE001
+                    pass
+            pred = {
+                "home": fx["home"],
+                "away": fx["away"],
+                # 比分分布/期望进球由 DC 提供（赔率给不了）
+                "top_scores": _top_scores(matrix),
+                "expected_home_goals": dc_pred.get("expected_home_goals"),
+                "expected_away_goals": dc_pred.get("expected_away_goals"),
+                "most_likely_score": dc_pred.get("most_likely_score"),
+                "confidence": "high",
+            }
         else:
-            # 降级：官方赔率反推
-            dv = de_vig_probabilities(
-                fx.get("had_win"), fx.get("had_draw"), fx.get("had_lose")
-            )
-            if dv is None:
-                # 连赔率都没有，均匀先验
-                pred = {
-                    "home": fx["home"],
-                    "away": fx["away"],
-                    "p_home": 1 / 3,
-                    "p_draw": 1 / 3,
-                    "p_away": 1 / 3,
-                }
+            pred = {
+                "home": fx["home"],
+                "away": fx["away"],
+                "expected_home_goals": None,
+                "expected_away_goals": None,
+                "most_likely_score": None,
+                "top_scores": [],
+                "confidence": "low",
+            }
+
+        # 主力概率：优先市场去水，其次 DC 模型，最后均匀先验
+        use_market_primary = cfg.get("ensemble", {}).get("use_market_primary", True)
+        if use_market_primary:
+            if dv is not None:
+                pred["p_home"] = dv["p_home"]
+                pred["p_draw"] = dv["p_draw"]
+                pred["p_away"] = dv["p_away"]
+            elif model_probs is not None:
+                pred["p_home"] = model_probs["p_home"]
+                pred["p_draw"] = model_probs["p_draw"]
+                pred["p_away"] = model_probs["p_away"]
             else:
-                pred = {
-                    "home": fx["home"],
-                    "away": fx["away"],
-                    **dv,
-                }
-            pred["expected_home_goals"] = None
-            pred["expected_away_goals"] = None
-            pred["most_likely_score"] = None
-            pred["top_scores"] = []
-            pred["source"] = "odds_implied" if dv else "uniform_prior"
-            pred["confidence"] = "low"
+                pred["p_home"] = pred["p_draw"] = pred["p_away"] = 1 / 3
+        else:
+            # 旧方案回退：DC+Elo 模型概率为主力（开关关闭时）
+            if model_probs is not None:
+                pred["p_home"] = model_probs["p_home"]
+                pred["p_draw"] = model_probs["p_draw"]
+                pred["p_away"] = model_probs["p_away"]
+            elif dv is not None:
+                pred["p_home"] = dv["p_home"]
+                pred["p_draw"] = dv["p_draw"]
+                pred["p_away"] = dv["p_away"]
+            else:
+                pred["p_home"] = pred["p_draw"] = pred["p_away"] = 1 / 3
+
+        # 模型参考值（若 DC 可用）；否则回退到主力概率本身
+        if model_probs is not None:
+            pred["model_p_home"] = model_probs["p_home"]
+            pred["model_p_draw"] = model_probs["p_draw"]
+            pred["model_p_away"] = model_probs["p_away"]
+        else:
+            pred["model_p_home"] = pred["p_home"]
+            pred["model_p_draw"] = pred["p_draw"]
+            pred["model_p_away"] = pred["p_away"]
+
+        # source 标记：市场去水为主，DC 仅辅助
+        if dv is not None and model_probs is not None:
+            pred["source"] = "market_implied+dc"
+        elif dv is not None:
+            pred["source"] = "market_implied"
+        elif model_probs is not None:
+            pred["source"] = "dixon_coles+elo"
+        else:
+            pred["source"] = "uniform_prior"
 
         pred.update(
             {
@@ -289,7 +423,12 @@ def train_and_predict(
 
 
 def _apply_calibration(results: list[dict]) -> list[dict]:
-    """对预测结果应用概率校准（若已拟合且启用）。"""
+    """对预测结果应用概率校准（若已拟合且启用）。
+
+    注意：主力概率若来自市场去水（source 含 market_implied），已接近最优，
+    不再校准（校准映射是用 DC 概率拟合的，套到市场概率上会失真）。
+    仅对「纯 DC 模型概率」来源的场次应用校准。
+    """
     try:
         cfg = load_config()
         if not cfg.get("calibration", {}).get("enabled", False):
@@ -300,6 +439,10 @@ def _apply_calibration(results: list[dict]) -> list[dict]:
         if not calib:
             return results
         for m in results:
+            src = m.get("source", "")
+            if "market_implied" in src:
+                # 市场去水概率为主力，不校准
+                continue
             ph, pd_, pa = calibrate_probabilities(
                 m["p_home"], m["p_draw"], m["p_away"], calib
             )

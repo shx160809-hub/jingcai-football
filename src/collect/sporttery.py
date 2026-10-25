@@ -195,7 +195,59 @@ def fetch_today(day: str | None = None) -> dict:
 
     out = data_dir("raw") / f"odds_{day}.json"
     out.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    # 归档体彩官方赔率到历史 CSV（供将来回测验证「体彩赔率去水」的真实质量）
+    _archive_odds(kept, day)
+
     return result
+
+
+def _archive_odds(matches: list[dict], day: str) -> None:
+    """把当日采集的体彩赔率追加归档到 data/raw/market_odds_history.csv。
+
+    长期积累体彩官方赔率历史，将来可与官方赛果对账，回测验证
+    「体彩赔率去水概率」的质量（区别于 football-data 的市场收盘赔率）。
+    幂等：同一 match_num + day 不重复写入。
+    """
+    import pandas as pd
+
+    path = data_dir("raw") / "market_odds_history.csv"
+    rows = []
+    for m in matches:
+        rows.append({
+            "day": day,
+            "match_num": m.get("match_num", ""),
+            "match_id": m.get("match_id", ""),
+            "league": m.get("league", ""),
+            "home": m.get("home", ""),
+            "away": m.get("away", ""),
+            "kickoff": m.get("kickoff", ""),
+            "had_win": m.get("had_win"),
+            "had_draw": m.get("had_draw"),
+            "had_lose": m.get("had_lose"),
+            "hhad_goal_line": m.get("hhad_goal_line"),
+            "hhad_win": m.get("hhad_win"),
+            "hhad_draw": m.get("hhad_draw"),
+            "hhad_lose": m.get("hhad_lose"),
+        })
+    if not rows:
+        return
+    new_df = pd.DataFrame(rows)
+    try:
+        if path.exists():
+            old_df = pd.read_csv(path, dtype=str)
+            # 幂等：按 (day, match_num) 去重
+            old_key = set(zip(old_df["day"], old_df["match_num"]))
+            new_df = new_df[~new_df.apply(lambda r: (r["day"], r["match_num"]) in old_key, axis=1)]
+            if new_df.empty:
+                return
+            combined = pd.concat([old_df, new_df], ignore_index=True)
+        else:
+            combined = new_df
+        combined.to_csv(path, index=False, encoding="utf-8")
+    except Exception:  # noqa: BLE001
+        # 归档失败不影响主流程
+        pass
 
 
 def _fetch_results(day: str, page_no: int = 1, page_size: int = 100) -> dict:

@@ -10,9 +10,11 @@ from src.strategy.de_vig import de_vig_probabilities
 
 
 def model_market_divergence(pred: dict) -> dict | None:
-    """计算单场模型概率与市场隐含概率的分歧。
+    """计算单场「DC 模型概率」与「市场隐含概率」的分歧。
 
-    pred 需含 p_home/p_draw/p_away 和 had_win/had_draw/had_lose。
+    pred 需含 model_p_home/model_p_draw/model_p_away（DC/Elo 模型概率）和
+    had_win/had_draw/had_lose（官方赔率）。主力 p_* 已改为市场去水概率，
+    故分歧必须用 model_p_* 去比市场，否则恒为 0 无意义。
     返回分歧度量或 None（无赔率时）。
     """
     market = de_vig_probabilities(
@@ -21,12 +23,21 @@ def model_market_divergence(pred: dict) -> dict | None:
     if market is None:
         return None
 
+    # 模型概率优先用 model_p_*，缺失时回退到 p_*（旧格式兼容）
+    model = {
+        "p_home": pred.get("model_p_home", pred.get("p_home")),
+        "p_draw": pred.get("model_p_draw", pred.get("p_draw")),
+        "p_away": pred.get("model_p_away", pred.get("p_away")),
+    }
+    if any(v is None for v in model.values()):
+        return None
+
     keys = ["p_home", "p_draw", "p_away"]
     # 平均绝对差（L1 距离的一半）
-    divergence = sum(abs(pred[k] - market[k]) for k in keys) / 2.0
+    divergence = sum(abs(model[k] - market[k]) for k in keys) / 2.0
 
     # 找出模型与市场分歧最大的方向
-    diffs = {k: pred[k] - market[k] for k in keys}
+    diffs = {k: model[k] - market[k] for k in keys}
     max_key = max(diffs, key=lambda k: abs(diffs[k]))
     direction_map = {"p_home": "主胜", "p_draw": "平局", "p_away": "客胜"}
 

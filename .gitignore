@@ -13,3 +13,6 @@ venv/
 
 # WorkBuddy 项目记忆目录（本地工作区数据，不提交）
 .workbuddy/
+
+# 本地启动项（macOS .app，不提交）
+*.app/

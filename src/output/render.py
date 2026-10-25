@@ -28,151 +28,156 @@ DISCLAIMER_HTML = (
 
 CSS = """
 :root {
-  --bg: #f4f5f9;
-  --card: #ffffff;
-  --text: #1e293b;
-  --muted: #64748b;
-  --border: #e8ebf1;
-  --accent: #4f46e5;
-  --accent-2: #7c3aed;
+  --bg: #0a0e1a;
+  --bg-grad: radial-gradient(1200px 600px at 20% -10%, rgba(99,102,241,.18), transparent 60%),
+             radial-gradient(1000px 500px at 100% 0%, rgba(168,85,247,.14), transparent 55%),
+             #0a0e1a;
+  --card: #1b2236;
+  --card-2: #232c46;
+  --text: #e8ecf6;
+  --muted: #8b94ad;
+  --border: #2a334d;
+  --accent: #6366f1;
+  --accent-2: #a855f7;
   --gold: #f59e0b;
-  --shadow: 0 1px 3px rgba(15,23,42,.06), 0 1px 2px rgba(15,23,42,.04);
-  --shadow-lg: 0 10px 30px rgba(15,23,42,.10);
+  --cyan: #22d3ee;
+  --shadow: 0 4px 16px rgba(0,0,0,.35);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,.5);
+  --glow: 0 0 0 1px rgba(99,102,241,.35), 0 8px 30px rgba(99,102,241,.15);
 }
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; background:var(--bg-grad); background-attachment:fixed; color:var(--text); line-height:1.6; }
 
 /* 顶部菜单栏 */
 .navbar {
   position: sticky; top:0; z-index:100;
-  background:linear-gradient(135deg,#1e1b4b,#312e81);
-  box-shadow:0 2px 10px rgba(0,0,0,.15);
+  background:rgba(13,17,30,.82);
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(99,102,241,.25);
+  box-shadow:0 2px 20px rgba(0,0,0,.4);
 }
-.navbar-inner { max-width:960px; margin:0 auto; padding:0 16px; display:flex; align-items:center; justify-content:space-between; height:60px; }
-.brand { color:#fff; font-size:17px; font-weight:700; letter-spacing:.5px; text-decoration:none; display:flex; align-items:center; gap:8px; }
-.brand .logo { width:28px; height:28px; background:linear-gradient(135deg,#6366f1,#a855f7); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:15px; }
-.nav-links { display:flex; gap:4px; }
-.nav-links a { color:#c7d2fe; text-decoration:none; font-size:14px; padding:8px 14px; border-radius:8px; transition:all .2s; white-space:nowrap; }
-.nav-links a:hover { background:rgba(255,255,255,.1); color:#fff; }
-.nav-links a.active { background:rgba(255,255,255,.16); color:#fff; font-weight:600; }
+.navbar-inner { max-width:1080px; margin:0 auto; padding:0 16px; display:flex; align-items:center; justify-content:space-between; height:60px; gap:12px; }
+.brand { color:#fff; font-size:17px; font-weight:800; letter-spacing:.5px; text-decoration:none; display:flex; align-items:center; gap:9px; white-space:nowrap; }
+.brand .logo { width:30px; height:30px; background:linear-gradient(135deg,#6366f1,#a855f7); border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:16px; box-shadow:0 0 16px rgba(124,58,237,.5); }
+.nav-links { display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; }
+.nav-links::-webkit-scrollbar { display:none; }
+.nav-links a { color:#a7b0c8; text-decoration:none; font-size:13px; padding:8px 12px; border-radius:9px; transition:all .2s; white-space:nowrap; }
+.nav-links a:hover { background:rgba(99,102,241,.16); color:#fff; }
+.nav-links a.active { background:linear-gradient(135deg,rgba(99,102,241,.9),rgba(168,85,247,.85)); color:#fff; font-weight:600; box-shadow:0 2px 12px rgba(99,102,241,.4); }
 
-.banner { background:linear-gradient(90deg,#fff7ed,#fef3c7); border-bottom:1px solid #fde68a; padding:10px 16px; font-size:12px; line-height:1.6; text-align:center; color:#92400e; }
+.banner { background:linear-gradient(90deg,rgba(245,158,11,.12),rgba(245,158,11,.06)); border-bottom:1px solid rgba(245,158,11,.25); padding:10px 16px; font-size:12px; line-height:1.6; text-align:center; color:#fcd34d; }
 
-.container { max-width:960px; margin:0 auto; padding:24px 16px 48px; }
+.container { max-width:1080px; margin:0 auto; padding:28px 16px 56px; }
 
 /* 页头 */
-.page-hero { text-align:center; padding:28px 0 20px; }
-.page-hero h1 { font-size:26px; font-weight:800; letter-spacing:.5px; background:linear-gradient(135deg,#312e81,#7c3aed); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
-.page-hero .sub { color:var(--muted); font-size:13px; margin-top:6px; }
+.page-hero { text-align:center; padding:30px 0 22px; }
+.page-hero h1 { font-size:28px; font-weight:800; letter-spacing:.5px; background:linear-gradient(135deg,#a5b4fc,#c4b5fd,#22d3ee); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.page-hero .sub { color:var(--muted); font-size:13px; margin-top:8px; }
 
 /* 概览统计 */
 .overview { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:6px; }
-.stat { background:var(--card); border-radius:14px; padding:18px 10px; text-align:center; box-shadow:var(--shadow); border:1px solid var(--border); }
-.stat-num { font-size:24px; font-weight:800; color:var(--accent); }
+.stat { background:linear-gradient(180deg,var(--card-2),var(--card)); border-radius:14px; padding:18px 10px; text-align:center; box-shadow:var(--shadow); border:1px solid var(--border); }
+.stat-num { font-size:26px; font-weight:800; color:var(--accent); text-shadow:0 0 20px rgba(99,102,241,.4); }
 .stat-label { font-size:11px; color:var(--muted); margin-top:4px; }
-.stat-note { font-size:11px; color:#94a3b8; text-align:center; margin-bottom:18px; }
+.stat-note { font-size:11px; color:#6b748c; text-align:center; margin-bottom:18px; }
 
 /* 分区标题 */
-.section-title { display:flex; align-items:center; gap:10px; font-size:17px; font-weight:700; margin:26px 0 14px; }
-.section-title .bar { width:4px; height:20px; background:linear-gradient(180deg,#6366f1,#a855f7); border-radius:2px; }
+.section-title { display:flex; align-items:center; gap:10px; font-size:17px; font-weight:700; margin:28px 0 14px; color:var(--text); }
+.section-title .bar { width:4px; height:20px; background:linear-gradient(180deg,#6366f1,#a855f7); border-radius:2px; box-shadow:0 0 12px rgba(99,102,241,.6); }
 .section-sub { font-size:12px; font-weight:400; color:var(--muted); }
 
 /* 卡片 */
-.card { background:var(--card); border-radius:16px; padding:18px; margin-bottom:14px; box-shadow:var(--shadow); border:1px solid var(--border); transition:transform .15s, box-shadow .15s; }
-.card:hover { transform:translateY(-2px); box-shadow:var(--shadow-lg); }
-.card-top { border:2px solid var(--gold); background:linear-gradient(180deg,#fffbeb,#fff); }
+.card { background:linear-gradient(180deg,var(--card-2),var(--card)); border-radius:16px; padding:18px; margin-bottom:14px; box-shadow:var(--shadow); border:1px solid var(--border); transition:transform .18s, box-shadow .18s, border-color .18s; }
+.card:hover { transform:translateY(-3px); box-shadow:var(--glow); border-color:rgba(99,102,241,.5); }
+.card-top { border:1px solid rgba(245,158,11,.55); background:linear-gradient(180deg,rgba(245,158,11,.12),var(--card)); box-shadow:0 0 20px rgba(245,158,11,.15); }
 .top-badge { display:inline-flex; align-items:center; gap:4px; background:linear-gradient(135deg,#f59e0b,#f97316); color:#fff; font-size:11px; padding:3px 10px; border-radius:20px; margin-right:6px; font-weight:600; }
 .league { color:var(--muted); font-size:12px; margin-bottom:10px; display:flex; align-items:center; flex-wrap:wrap; gap:6px; }
-.time { color:#94a3b8; }
+.time { color:#6b748c; }
 .teams { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
 .team { flex:1; text-align:center; }
-.team-name { font-size:17px; font-weight:700; }
-.vs { color:#cbd5e1; font-size:12px; font-weight:700; }
+.team-name { font-size:17px; font-weight:700; color:var(--text); }
+.vs { color:#3d4763; font-size:12px; font-weight:700; }
 .probs { margin-bottom:8px; }
 .prob { display:flex; align-items:center; margin:7px 0; font-size:12px; }
 .prob-label { width:38px; color:var(--muted); flex-shrink:0; }
-.prob-bar-wrap { flex:1; background:#f1f5f9; border-radius:6px; height:14px; overflow:hidden; margin:0 10px; }
+.prob-bar-wrap { flex:1; background:#121828; border-radius:6px; height:14px; overflow:hidden; margin:0 10px; }
 .prob-bar { height:100%; border-radius:6px; transition:width .5s ease; }
-.prob-val { width:50px; text-align:right; font-weight:700; flex-shrink:0; }
+.prob-val { width:50px; text-align:right; font-weight:700; flex-shrink:0; color:var(--text); }
 .score { color:var(--muted); font-size:12px; margin:8px 0; }
 .score b { color:var(--text); }
 .odds { color:var(--muted); font-size:12px; }
 .odds b { color:var(--accent-2); }
 .divergence { font-size:12px; color:var(--muted); margin-top:8px; padding-top:8px; border-top:1px dashed var(--border); }
-.disclaimer-sm { color:#dc2626; font-size:11px; margin-top:10px; }
+.disclaimer-sm { color:#f87171; font-size:11px; margin-top:10px; }
 .tag { font-size:11px; padding:2px 8px; border-radius:10px; }
-.tag-dc { background:#eef2ff; color:#4338ca; }
-.tag-odds { background:#fef3c7; color:#92400e; }
-.tag-prior { background:#fee2e2; color:#991b1b; }
-.conf { font-size:11px; padding:2px 8px; border-radius:10px; background:#f0fdf4; color:#15803d; }
+.tag-dc { background:rgba(99,102,241,.18); color:#a5b4fc; }
+.tag-odds { background:rgba(245,158,11,.16); color:#fcd34d; }
+.tag-prior { background:rgba(239,68,68,.16); color:#fca5a5; }
+.conf { font-size:11px; padding:2px 8px; border-radius:10px; background:rgba(34,197,94,.16); color:#4ade80; }
 
 /* 比分置信度 */
-.score-conf { display:inline-flex; align-items:center; gap:4px; font-size:11px; padding:2px 8px; border-radius:10px; background:#eef2ff; color:#4338ca; }
-.card-score { border:2px solid #6366f1; background:linear-gradient(180deg,#eef2ff,#fff); }
+.score-conf { display:inline-flex; align-items:center; gap:4px; font-size:11px; padding:2px 8px; border-radius:10px; background:rgba(99,102,241,.18); color:#a5b4fc; }
+.card-score { border:1px solid rgba(99,102,241,.55); background:linear-gradient(180deg,rgba(99,102,241,.14),var(--card)); box-shadow:0 0 20px rgba(99,102,241,.18); }
 .score-badge { display:inline-flex; align-items:center; gap:4px; background:linear-gradient(135deg,#6366f1,#8b5cf6); color:#fff; font-size:11px; padding:3px 10px; border-radius:20px; margin-right:6px; font-weight:600; }
 .score-hero { display:flex; align-items:baseline; justify-content:center; gap:12px; margin:12px 0; }
-.score-hero .s { font-size:40px; font-weight:800; background:linear-gradient(135deg,#312e81,#7c3aed); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
-.score-hero .p { font-size:18px; font-weight:700; color:#4338ca; }
+.score-hero .s { font-size:40px; font-weight:800; background:linear-gradient(135deg,#a5b4fc,#c4b5fd); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.score-hero .p { font-size:18px; font-weight:700; color:#a5b4fc; }
 .score-detail { text-align:center; color:var(--muted); font-size:12px; }
 
-/* 已完赛结果 */
-.finished-score { display:flex; align-items:center; justify-content:center; gap:14px; margin:12px 0; }
-.finished-score .team-label { font-size:15px; font-weight:700; flex:1; text-align:right; }
-.finished-score .team-label.away { text-align:left; }
-.finished-score .score-num { font-size:42px; font-weight:800; letter-spacing:2px; background:linear-gradient(135deg,#0f172a,#334155); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
-.finished-score .score-colon { font-size:24px; color:#94a3b8; font-weight:700; }
+/* 赛果比分展示 */
+.finished-score, .live-score { display:flex; align-items:center; justify-content:center; gap:14px; margin:12px 0; }
+.finished-score .team-label, .live-score .team-label { font-size:15px; font-weight:700; flex:1; text-align:right; color:var(--text); }
+.finished-score .team-label.away, .live-score .team-label.away { text-align:left; }
+.finished-score .score-num, .live-score .score-num { font-size:42px; font-weight:800; letter-spacing:2px; background:linear-gradient(135deg,#e8ecf6,#a5b4fc); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.finished-score .score-colon, .live-score .score-colon { font-size:24px; color:#3d4763; font-weight:700; }
+.live-score .score-num { font-size:40px; }
+.live-score .score-num.live-num { background:linear-gradient(135deg,#f87171,#ef4444); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
 .result-badge { display:inline-flex; align-items:center; gap:4px; font-size:11px; padding:3px 10px; border-radius:20px; margin-right:6px; font-weight:600; }
-.result-badge.home { background:#fee2e2; color:#b91c1c; }
-.result-badge.draw { background:#f1f5f9; color:#475569; }
-.result-badge.away { background:#dcfce7; color:#15803d; }
-.result-badge.pending { background:#fef9c3; color:#a16207; }
-.finished-score .score-num.pending-score { background:linear-gradient(135deg,#94a3b8,#cbd5e1); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.result-badge.home { background:rgba(239,68,68,.18); color:#fca5a5; }
+.result-badge.draw { background:rgba(148,163,184,.16); color:#cbd5e1; }
+.result-badge.away { background:rgba(34,197,94,.18); color:#4ade80; }
+.result-badge.pending { background:rgba(245,158,11,.16); color:#fcd34d; }
+.finished-score .score-num.pending-score { background:linear-gradient(135deg,#6b748c,#3d4763); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
 
 /* 结算标记 */
 .result-hit { display:inline-flex; align-items:center; gap:4px; font-size:11px; padding:2px 8px; border-radius:10px; }
-.result-hit.hit { background:#dcfce7; color:#15803d; }
-.result-hit.miss { background:#fee2e2; color:#b91c1c; }
+.result-hit.hit { background:rgba(34,197,94,.18); color:#4ade80; }
+.result-hit.miss { background:rgba(239,68,68,.18); color:#fca5a5; }
 
-/* 已完赛命中标注（命中=红，未命中=绿） */
+/* 命中标注（命中=红，未命中=绿） */
 .finish-verdict { display:inline-flex; align-items:center; gap:4px; font-size:12px; padding:3px 12px; border-radius:20px; font-weight:700; }
-.finish-verdict.hit { background:#fee2e2; color:#b91c1c; border:1px solid #fecaca; }
-.finish-verdict.miss { background:#dcfce7; color:#15803d; border:1px solid #bbf7d0; }
+.finish-verdict.hit { background:rgba(239,68,68,.18); color:#f87171; border:1px solid rgba(239,68,68,.35); }
+.finish-verdict.miss { background:rgba(34,197,94,.18); color:#4ade80; border:1px solid rgba(34,197,94,.35); }
 .finish-meta { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:8px; margin:10px 0 4px; font-size:12px; color:var(--muted); }
-.finish-meta .conf-chip { display:inline-flex; align-items:center; gap:4px; padding:2px 10px; border-radius:12px; background:#eef2ff; color:#4338ca; font-weight:600; }
-.finish-meta .truth-chip { display:inline-flex; align-items:center; gap:4px; padding:2px 10px; border-radius:12px; background:#f1f5f9; color:#475569; }
+.finish-meta .conf-chip { display:inline-flex; align-items:center; gap:4px; padding:2px 10px; border-radius:12px; background:rgba(99,102,241,.18); color:#a5b4fc; font-weight:600; }
+.finish-meta .truth-chip { display:inline-flex; align-items:center; gap:4px; padding:2px 10px; border-radius:12px; background:#121828; color:#cbd5e1; }
 
 /* 今日赛果（实时看板） */
 .live-state { display:inline-flex; align-items:center; gap:5px; font-size:11px; padding:3px 10px; border-radius:20px; font-weight:700; margin-right:6px; }
-.live-state.live { background:#fee2e2; color:#b91c1c; }
+.live-state.live { background:rgba(239,68,68,.18); color:#f87171; }
 .live-state.live::before { content:""; width:7px; height:7px; border-radius:50%; background:#ef4444; animation:live-pulse 1.2s infinite; }
 @keyframes live-pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
-.live-state.finished { background:#e0e7ff; color:#3730a3; }
-.live-state.not_started { background:#f1f5f9; color:#64748b; }
-.live-score { display:flex; align-items:center; justify-content:center; gap:14px; margin:12px 0; }
-.live-score .team-label { font-size:15px; font-weight:700; flex:1; text-align:right; }
-.live-score .team-label.away { text-align:left; }
-.live-score .score-num { font-size:40px; font-weight:800; letter-spacing:2px; background:linear-gradient(135deg,#0f172a,#334155); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
-.live-score .score-colon { font-size:22px; color:#94a3b8; font-weight:700; }
-.live-score .score-num.live-num { background:linear-gradient(135deg,#dc2626,#ef4444); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.live-state.finished { background:rgba(99,102,241,.18); color:#a5b4fc; }
+.live-state.not_started { background:#121828; color:#6b748c; }
 .live-half { text-align:center; color:var(--muted); font-size:11px; }
-.live-note { text-align:center; color:#94a3b8; font-size:11px; margin-top:8px; }
+.live-note { text-align:center; color:#6b748c; font-size:11px; margin-top:8px; }
 .live-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
 .live-grid .card { margin-bottom:0; }
 @media (max-width:640px) { .live-grid { grid-template-columns:1fr; } }
 
 /* 图表容器 */
-.chart-wrap { background:var(--card); border-radius:16px; padding:20px; box-shadow:var(--shadow); border:1px solid var(--border); margin-bottom:16px; }
-.chart-title { font-size:15px; font-weight:700; margin-bottom:12px; }
+.chart-wrap { background:linear-gradient(180deg,var(--card-2),var(--card)); border-radius:16px; padding:20px; box-shadow:var(--shadow); border:1px solid var(--border); margin-bottom:16px; }
+.chart-title { font-size:15px; font-weight:700; margin-bottom:12px; color:var(--text); }
 
 /* 空状态 */
 .empty { text-align:center; color:var(--muted); padding:60px 20px; }
 .empty .icon { font-size:40px; margin-bottom:12px; }
 
-.footer { text-align:center; color:#94a3b8; font-size:12px; padding:24px 16px 40px; line-height:1.8; }
+.footer { text-align:center; color:#6b748c; font-size:12px; padding:24px 16px 40px; line-height:1.8; }
 
 @media (max-width:640px) {
   .overview { grid-template-columns:repeat(2,1fr); }
-  .nav-links a { font-size:13px; padding:7px 10px; }
+  .nav-links a { font-size:12px; padding:7px 9px; }
   .team-name { font-size:15px; }
   .navbar-inner { height:56px; }
 }
@@ -183,11 +188,10 @@ def _nav(active: str) -> str:
     """渲染顶部菜单栏。items 为 (href, label, 是否外链新窗口)。"""
     items = [
         ("index.html", "首页", False),
-        ("live.html", "今日赛果", False),
         ("matches.html", "今日场次", False),
-        ("scores.html", "比分", False),
-        ("finished.html", "已完赛", False),
-        ("settled.html", "已结算场次", False),
+        ("scores.html", "比分推荐", False),
+        ("live.html", "今日赛果", False),
+        ("settled.html", "结算场次", False),
         ("accuracy.html", "累计命中率", False),
         ("feedback.html", "数据回馈", False),
         ("calculator.html", "官方计算器", False),
@@ -215,7 +219,9 @@ def _nav(active: str) -> str:
 
 def _tag(m: dict) -> str:
     src = m.get("source", "dixon_coles")
-    if src == "dixon_coles":
+    if src in ("market_implied", "market_implied+dc"):
+        return '<span class="tag tag-odds">市场概率</span>'
+    if src in ("dixon_coles", "dixon_coles+elo"):
         return '<span class="tag tag-dc">Dixon-Coles</span>'
     if src == "odds_implied":
         return '<span class="tag tag-odds">市场隐含概率</span>'
@@ -308,7 +314,7 @@ def _match_card(m: dict, top: bool = False, settled_meta: dict | None = None, da
         label = "✓ 命中" if hit else "✗ 未命中"
         settle_html = (
             f'<span class="result-hit {cls}">{label}</span>'
-            f'<span class="tag" style="background:#f1f5f9;color:#475569">实际：{truth_cn}</span>'
+            f'<span class="tag" style="background:#121828;color:#cbd5e1">实际：{truth_cn}</span>'
         )
 
     # 分歧
@@ -316,7 +322,7 @@ def _match_card(m: dict, top: bool = False, settled_meta: dict | None = None, da
     if m.get("divergence") is not None:
         gap = m["model_market_gap"]
         arrow = "↑" if gap > 0 else "↓"
-        color = "#e11d48" if abs(gap) > 0.08 else "#64748b"
+        color = "#f87171" if abs(gap) > 0.08 else "#8b94ad"
         divergence_html = (
             f'<div class="divergence">模型 vs 市场分歧 {m["divergence"]*100:.1f}%　'
             f'<span style="color:{color}">模型对「{m["model_higher_on"]}」更乐观 {arrow}{abs(gap)*100:.1f}%</span></div>'
@@ -382,99 +388,6 @@ def _score_card(m: dict, top: bool = False, day: str = "") -> str:
   </div>
   <div class="score-detail">高频比分分布：{detail}</div>
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
-</div>"""
-
-
-def _finished_card(s: dict) -> str:
-    """渲染已完赛场次的结果卡片（实际比分 + 命中标注 + 开赛前置信度）。"""
-    hg = s.get("home_goals")
-    ag = s.get("away_goals")
-
-    date_str = str(s.get("date", ""))
-
-    def _int(v):
-        """把 float 比分（如 2.0）转为整数显示。"""
-        try:
-            return int(v)
-        except (TypeError, ValueError):
-            return v
-
-    if hg is None or ag is None or (
-        isinstance(hg, float) and hg != hg
-    ) or (isinstance(ag, float) and ag != ag):
-        # 无比分：进行中 / 待结算占位
-        return f"""
-<div class="card">
-  <div class="league"><span class="result-badge pending">待更新</span>{s.get('league','')} <span class="time">{date_str}</span></div>
-  <div class="finished-score">
-    <div class="team-label">{s['home']}</div>
-    <div class="score-num pending-score">-</div>
-    <div class="score-colon">:</div>
-    <div class="score-num pending-score">-</div>
-    <div class="team-label away">{s['away']}</div>
-  </div>
-  <div class="disclaimer-sm">比分尚未获取，赛后自动更新</div>
-</div>"""
-
-    hg, ag = _int(hg), _int(ag)
-
-    if hg > ag:
-        badge = '<span class="result-badge home">主胜</span>'
-        truth_cn = "主胜"
-    elif hg < ag:
-        badge = '<span class="result-badge away">客胜</span>'
-        truth_cn = "客胜"
-    else:
-        badge = '<span class="result-badge draw">平局</span>'
-        truth_cn = "平局"
-
-    # 命中标注：命中=红，未命中=绿
-    verdict_html = ""
-    hit = s.get("pred_hit")
-    if hit is not None:
-        if hit:
-            verdict_html = '<span class="finish-verdict hit">✓ 命中</span>'
-        else:
-            verdict_html = '<span class="finish-verdict miss">✗ 未命中</span>'
-
-    # 开赛前置信度
-    conf_html = ""
-    conf = s.get("confidence_score")
-    if conf is not None:
-        conf_html = f'<span class="conf-chip">开赛前置信度 {conf*100:.0f}%</span>'
-
-    # 预测的最高概率选项（用于辅助说明）
-    pred_label = ""
-    ph = s.get("p_home")
-    pd = s.get("p_draw")
-    pa = s.get("p_away")
-    if ph is not None and pd is not None and pa is not None:
-        mx = max(ph, pd, pa)
-        if mx == ph:
-            pred_label = "模型预测：主胜"
-        elif mx == pa:
-            pred_label = "模型预测：客胜"
-        else:
-            pred_label = "模型预测：平局"
-
-    meta_html = ""
-    if conf_html or pred_label:
-        meta_html = f'<div class="finish-meta">{verdict_html}{conf_html}<span class="truth-chip">实际：{truth_cn}</span><span class="truth-chip">{pred_label}</span></div>'
-    elif verdict_html:
-        meta_html = f'<div class="finish-meta">{verdict_html}<span class="truth-chip">实际：{truth_cn}</span></div>'
-
-    return f"""
-<div class="card">
-  <div class="league">{badge}{s.get('league','')} <span class="time">{date_str}</span></div>
-  <div class="finished-score">
-    <div class="team-label">{s['home']}</div>
-    <div class="score-num">{hg}</div>
-    <div class="score-colon">:</div>
-    <div class="score-num">{ag}</div>
-    <div class="team-label away">{s['away']}</div>
-  </div>
-  {meta_html}
-  <div class="disclaimer-sm">以上为实际赛果，不构成投注建议</div>
 </div>"""
 
 
@@ -576,7 +489,11 @@ def render_index(results: list[dict], day: str) -> Path:
 def render_matches(results: list[dict], day: str) -> Path:
     """今日场次子页：全部未开赛场次详情（剔除已完赛）。"""
     results = _filter_upcoming(results)
-    n_dc = sum(1 for m in results if m.get("source") == "dixon_coles")
+    # 「模型覆盖」= 有 DC 比分分布/期望进球的场次（source 含 dc 或 model_p_* 存在）
+    n_dc = sum(
+        1 for m in results
+        if "dc" in m.get("source", "") or m.get("model_p_home") is not None
+    )
     overview = f"""
 <div class="page-hero">
   <h1>今日场次</h1>
@@ -597,7 +514,7 @@ def render_matches(results: list[dict], day: str) -> Path:
 
 
 def render_scores(results: list[dict], day: str) -> Path:
-    """比分子页：全部可算比分分布的未开赛场次，按比分置信度降序。"""
+    """比分推荐子页：全部可算比分分布的未开赛场次，按比分置信度降序。"""
     results = _filter_upcoming(results)
     scored = [
         m for m in results
@@ -607,7 +524,7 @@ def render_scores(results: list[dict], day: str) -> Path:
 
     overview = f"""
 <div class="page-hero">
-  <h1>比分分析</h1>
+  <h1>比分推荐</h1>
   <div class="sub">数据日期 {day} · 可算比分分布 {len(scored)} 场 · 按比分置信度降序</div>
 </div>"""
 
@@ -620,7 +537,7 @@ def render_scores(results: list[dict], day: str) -> Path:
         body = overview + '<div class="empty"><div class="icon">⚽</div>暂无比分分布数据<br><span style="font-size:12px">仅有历史数据覆盖的联赛可计算比分分布</span></div>'
 
     out = Path("docs") / "scores.html"
-    out.write_text(_page("比分", "scores.html", body, day), encoding="utf-8")
+    out.write_text(_page("比分推荐", "scores.html", body, day), encoding="utf-8")
     return out
 
 
@@ -667,181 +584,6 @@ def render_calculator(day: str) -> Path:
     return out
 
 
-def render_finished(day: str) -> Path:
-    """已完赛子页：显示「当前比赛日已完赛」+「上一比赛日」的实际比分结果。
-
-    上一比赛日 = date == day-1 的结算记录（结算的 date 即按 11:00 切分的比赛日）。
-    今日已完赛 = predict_{day}.json 中 kickoff <= 当前时间 的场次，比分来自结算记录
-    或赛果数据源（本地 CSV + football-data 兜底），未取得时显示「待更新」。
-    """
-    from datetime import timedelta
-
-    try:
-        anchor = datetime.strptime(day, "%Y%m%d")
-        prev_day = (anchor - timedelta(days=1)).strftime("%Y%m%d")
-    except ValueError:
-        prev_day = ""
-
-    settled = _load_settlement()
-
-    def _has_score(s: dict) -> bool:
-        """判断结算记录是否含有效比分（排除 NaN / None）。"""
-        hg, ag = s.get("home_goals"), s.get("away_goals")
-        try:
-            return hg is not None and ag is not None and not (
-                float(hg) != float(hg) or float(ag) != float(ag)
-            )
-        except (TypeError, ValueError):
-            return False
-
-    # ---------- 1. 上一自然日（昨日）结果 ----------
-    prev_finished = [
-        s for s in settled
-        if str(s.get("date", "")) == prev_day and _has_score(s)
-    ]
-    prev_finished = sorted(prev_finished, key=lambda s: str(s.get("match_num", "")), reverse=False)
-
-    # ---------- 2. 今日已完赛（已开球）场次 ----------
-    today_finished = _today_finished(day, settled)
-
-    prev_disp = f"{prev_day[:4]}-{prev_day[4:6]}-{prev_day[6:]}" if len(prev_day) == 8 else prev_day
-    today_disp = f"{day[:4]}-{day[4:6]}-{day[6:]}" if len(day) == 8 else day
-
-    sections = []
-
-    # 今日已完赛区块
-    if today_finished:
-        cards = "".join(_finished_card(s) for s in today_finished)
-        sections.append(f"""
-<div class="page-hero">
-  <h1>已完赛</h1>
-  <div class="sub">今日 {today_disp} 已完赛 {len(today_finished)} 场 · 实际比分结果</div>
-</div>
-<div class="section-title"><span class="bar"></span>今日已完赛 <span class="section-sub">（{len(today_finished)} 场）</span></div>
-{cards}""")
-    else:
-        sections.append(f"""
-<div class="page-hero">
-  <h1>已完赛</h1>
-  <div class="sub">今日 {today_disp} 暂无已完赛场次</div>
-</div>""")
-
-    # 上一自然日区块
-    if prev_finished:
-        cards = "".join(_finished_card(s) for s in prev_finished)
-        sections.append(f"""
-<div class="section-title"><span class="bar"></span>上一比赛日 {prev_disp} <span class="section-sub">（{len(prev_finished)} 场）</span></div>
-{cards}""")
-
-    if not today_finished and not prev_finished:
-        sections.append(f"""
-<div class="empty"><div class="icon">🏁</div>暂无比分结果<br><span style="font-size:12px">赛后结算完成后显示</span></div>""")
-
-    body = "".join(sections)
-
-    out = Path("docs") / "finished.html"
-    out.write_text(_page("已完赛", "finished.html", body, day), encoding="utf-8")
-    return out
-
-
-def _today_finished(day: str, settled: list[dict]) -> list[dict]:
-    """获取「当前比赛日」已完赛场次（含比分、命中标记、开赛前置信度）。
-
-    数据来源优先级：
-      1. settlement.csv 中 date == day 且含有效比分的记录（已结算，字段最全）
-      2. predict_{day}.json 中 kickoff <= 当前时间、但尚未结算的场次（显示「待更新」）
-
-    返回格式与结算记录一致（home_goals/away_goals 可能为 None）。
-    """
-    from src.backtest.settle import load_results
-
-    def _has_score(s: dict) -> bool:
-        hg, ag = s.get("home_goals"), s.get("away_goals")
-        try:
-            return hg is not None and ag is not None and not (
-                float(hg) != float(hg) or float(ag) != float(ag)
-            )
-        except (TypeError, ValueError):
-            return False
-
-    out: list[dict] = []
-    seen_nums: set[str] = set()
-
-    # 1. 今日已结算记录（字段最全：pred_hit / confidence_score / 比分）
-    for s in settled:
-        if str(s.get("date", "")) != day:
-            continue
-        if not _has_score(s):
-            continue
-        num = str(s.get("match_num", ""))
-        seen_nums.add(num)
-        out.append(s)
-
-    # 2. predict 里已开球但未结算的场次（待更新占位）
-    predictions = _load_predict(day)
-    now = datetime.now().astimezone()
-    finished_preds = [m for m in predictions if _is_finished(m, now=now)]
-    for m in finished_preds:
-        num = str(m.get("match_num", ""))
-        if num in seen_nums:
-            continue
-        # 尝试从赛果兜底（本地 CSV / 官方接口 / football-data）
-        extra = None
-        try:
-            for r in load_results(day):
-                if str(r.get("match_num", "")) == num:
-                    extra = r
-                    break
-        except Exception:  # noqa: BLE001
-            extra = None
-
-        if extra is not None and _has_score(extra):
-            hg, ag = int(extra["home_goals"]), int(extra["away_goals"])
-            p_home, p_draw, p_away = m.get("p_home"), m.get("p_draw"), m.get("p_away")
-            if hg > ag:
-                truth = "home"
-                hit = p_home is not None and p_home >= (p_draw or -1) and p_home >= (p_away or -1)
-            elif hg < ag:
-                truth = "away"
-                hit = p_away is not None and p_away >= (p_home or -1) and p_away >= (p_draw or -1)
-            else:
-                truth = "draw"
-                hit = p_draw is not None and p_draw >= (p_home or -1) and p_draw >= (p_away or -1)
-            out.append(
-                {
-                    "date": day,
-                    "match_num": num,
-                    "league": m.get("league", ""),
-                    "home": m["home"],
-                    "away": m["away"],
-                    "home_goals": hg,
-                    "away_goals": ag,
-                    "truth": truth,
-                    "pred_hit": hit,
-                    "p_home": p_home,
-                    "p_draw": p_draw,
-                    "p_away": p_away,
-                    "confidence_score": m.get("confidence_score"),
-                    "source": m.get("source", ""),
-                }
-            )
-        else:
-            # 无比分：占位展示
-            out.append(
-                {
-                    "date": day,
-                    "match_num": num,
-                    "league": m.get("league", ""),
-                    "home": m["home"],
-                    "away": m["away"],
-                    "home_goals": None,
-                    "away_goals": None,
-                }
-            )
-
-    # 按 match_num 排序（中文编号"周日019"按字符串排序可能乱，但数量少可接受）
-    return out
-
 
 def render_settled(day: str) -> Path:
     """已结算场次子页：场次详情（含命中标记），仅显示近 7 日。"""
@@ -849,12 +591,12 @@ def render_settled(day: str) -> Path:
     if not settled:
         body = f"""
 <div class="page-hero">
-  <h1>已结算场次</h1>
+  <h1>结算场次</h1>
   <div class="sub">赛后自动对账，记录模型表现 · 近 7 日</div>
 </div>
 <div class="empty"><div class="icon">📊</div>暂无结算数据<br><span style="font-size:12px">每日赛后自动结算后显示</span></div>"""
         out = Path("docs") / "settled.html"
-        out.write_text(_page("已结算场次", "settled.html", body, day), encoding="utf-8")
+        out.write_text(_page("结算场次", "settled.html", body, day), encoding="utf-8")
         return out
 
     # 近 7 日过滤：结算日期在 [day-6, day] 之间
@@ -875,13 +617,13 @@ def render_settled(day: str) -> Path:
     rate = hits / total if total else 0
     overview = f"""
 <div class="page-hero">
-  <h1>已结算场次</h1>
+  <h1>结算场次</h1>
   <div class="sub">近 7 日 · 共 {total} 场 · 命中 {hits} 场 · 命中率 {rate*100:.1f}%</div>
 </div>
 <div class="overview">
   <div class="stat"><div class="stat-num">{total}</div><div class="stat-label">近7日场次</div></div>
   <div class="stat"><div class="stat-num">{hits}</div><div class="stat-label">命中场次</div></div>
-  <div class="stat"><div class="stat-num" style="color:#15803d">{rate*100:.1f}%</div><div class="stat-label">近7日命中率</div></div>
+  <div class="stat"><div class="stat-num" style="color:#4ade80">{rate*100:.1f}%</div><div class="stat-label">近7日命中率</div></div>
   <div class="stat"><div class="stat-num">{len(settled)}</div><div class="stat-label">累计场次</div></div>
 </div>
 <div class="stat-note">* 命中率是模型表现统计，不代表未来结果、不构成投注建议。</div>"""
@@ -909,7 +651,7 @@ def render_settled(day: str) -> Path:
         body = overview + '<div class="empty"><div class="icon">📊</div>近 7 日暂无结算数据</div>'
 
     out = Path("docs") / "settled.html"
-    out.write_text(_page("已结算场次", "settled.html", body, day), encoding="utf-8")
+    out.write_text(_page("结算场次", "settled.html", body, day), encoding="utf-8")
     return out
 
 
@@ -961,7 +703,7 @@ def render_accuracy(day: str) -> Path:
 <div class="overview">
   <div class="stat"><div class="stat-num">{total}</div><div class="stat-label">已结算场次</div></div>
   <div class="stat"><div class="stat-num">{hits}</div><div class="stat-label">命中场次</div></div>
-  <div class="stat"><div class="stat-num" style="color:#15803d">{overall*100:.1f}%</div><div class="stat-label">累计命中率</div></div>
+  <div class="stat"><div class="stat-num" style="color:#4ade80">{overall*100:.1f}%</div><div class="stat-label">累计命中率</div></div>
   <div class="stat"><div class="stat-num">{len(buckets)}</div><div class="stat-label">置信度分档</div></div>
 </div>
 <div class="stat-note">* 命中率是模型表现统计，不代表未来结果、不构成投注建议。</div>"""
@@ -973,7 +715,7 @@ def render_accuracy(day: str) -> Path:
   <div class="prob">
     <div class="prob-label">置信度<br>{b['bin']}</div>
     <div class="prob-bar-wrap"><div class="prob-bar" style="width:{b['hit_rate']:.0f}%;background:linear-gradient(90deg,#22c55e,#16a34a)"></div></div>
-    <div class="prob-val">{b['hit_rate']:.1f}% <span style="color:#94a3b8;font-weight:400">({b['n']}场)</span></div>
+    <div class="prob-val">{b['hit_rate']:.1f}% <span style="color:#8b94ad;font-weight:400">({b['n']}场)</span></div>
   </div>"""
 
     chart = f"""
@@ -989,9 +731,9 @@ def render_accuracy(day: str) -> Path:
         # 简单判断单调性
         rates = [b["hit_rate"] for b in buckets]
         if rates == sorted(rates):
-            conclusion = '<div class="chart-wrap" style="border-left:4px solid #22c55e"><div class="chart-title" style="color:#15803d">✓ 置信度与命中率呈正相关</div><div style="font-size:13px;color:var(--muted)">模型置信度越高，命中率越高，说明置信度评分有效。</div></div>'
+            conclusion = '<div class="chart-wrap" style="border-left:4px solid #22c55e"><div class="chart-title" style="color:#4ade80">✓ 置信度与命中率呈正相关</div><div style="font-size:13px;color:var(--muted)">模型置信度越高，命中率越高，说明置信度评分有效。</div></div>'
         else:
-            conclusion = '<div class="chart-wrap" style="border-left:4px solid #f59e0b"><div class="chart-title" style="color:#92400e">△ 置信度与命中率关系不稳定</div><div style="font-size:13px;color:var(--muted)">样本较少或置信度评分需进一步校准。</div></div>'
+            conclusion = '<div class="chart-wrap" style="border-left:4px solid #f59e0b"><div class="chart-title" style="color:#fcd34d">△ 置信度与命中率关系不稳定</div><div style="font-size:13px;color:var(--muted)">样本较少或置信度评分需进一步校准。</div></div>'
 
     body = overview + chart + conclusion
 
@@ -1167,7 +909,6 @@ def render(results: list[dict], day: str) -> list[Path]:
     outs.append(render_matches(results, day))
     outs.append(render_scores(results, day))
     outs.append(render_calculator(day))
-    outs.append(render_finished(day))
     outs.append(render_settled(day))
     outs.append(render_accuracy(day))
     return outs

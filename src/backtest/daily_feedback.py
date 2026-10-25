@@ -25,8 +25,11 @@ def _yesterday(day: str | None = None) -> str:
     return (anchor - timedelta(days=1)).strftime("%Y%m%d")
 
 
-def archive_previous_day(day: str | None = None, sync_history: bool = False) -> dict:
-    """归档前一比赛日的赛果（每天 11:00 调用）。"""
+def archive_previous_day(day: str | None = None, sync_history: bool = True) -> dict:
+    """归档前一比赛日的赛果（每天 11:00 调用）。
+
+    sync_history 默认 True：把中文赛果（亚洲联赛）回写历史库，扩展训练数据。
+    """
     prev = _yesterday(day)
     from src.backtest.results_db import archive_day
 
@@ -43,6 +46,54 @@ def refit_and_backtest() -> dict:
     hist = pd.read_csv(hist_path, parse_dates=["date"])
     metrics = walk_forward_backtest(hist, verbose=False)
     return metrics
+
+
+def check_unmapped_teams(day: str | None = None) -> list[dict]:
+    """扫描今日预测，列出「有历史数据联赛但队名映射失败」的场次。
+
+    队名映射失败会导致 Dixon-Coles 模型用中文名查英文参数而静默失效，
+    这些场次会退化为 market_implied（无 DC 比分分布）。列出后便于批量补映射。
+
+    返回 [{"league", "home", "away", "home_mapped", "away_mapped"}] 列表。
+    """
+    import json
+
+    from src.common import ROOT
+
+    day = day or datetime.now().strftime("%Y%m%d")
+    team_map = json.loads(
+        (ROOT / "config" / "team_name_map.json").read_text(encoding="utf-8")
+    )
+
+    # 读取今日预测（若无则跳过）
+    pred_path = data_dir("results") / f"predict_{day}.json"
+    if not pred_path.exists():
+        return []
+    preds = json.loads(pred_path.read_text(encoding="utf-8")).get("matches", [])
+
+    # 有历史数据覆盖的联赛（这些联赛才需要英文名映射）
+    cfg = load_config()
+    covered_codes = set(cfg["collect"].get("league_name_map", {}).values())
+
+    unmapped = []
+    for p in preds:
+        league_cn = p.get("league", "")
+        code = cfg["collect"].get("league_name_map", {}).get(league_cn)
+        # 只关注有历史数据覆盖的联赛（无覆盖的联赛本来就走去水，无需映射）
+        if not code or code not in covered_codes:
+            continue
+        league_team_map = team_map.get(league_cn, {})
+        home_mapped = p.get("home", "") in league_team_map
+        away_mapped = p.get("away", "") in league_team_map
+        if not (home_mapped and away_mapped):
+            unmapped.append({
+                "league": league_cn,
+                "home": p.get("home", ""),
+                "away": p.get("away", ""),
+                "home_mapped": home_mapped,
+                "away_mapped": away_mapped,
+            })
+    return unmapped
 
 
 def _load_baseline() -> dict | None:
@@ -66,6 +117,17 @@ def _save_baseline(metrics: dict) -> None:
 def run_daily_feedback(day: str | None = None) -> dict:
     """执行完整每日闭环，返回报告摘要。"""
     print("===== 每日数据回馈闭环启动 =====")
+
+    # 0. 先结算（生成 settlement.csv 开赛前预测快照），确保归档时能匹配到预测记录。
+    #    否则 match_results.csv 的 pred_hit 会因缺预测记录而全为 nan。
+    print("[0/5] 结算昨日与今日已完赛场次（生成对账快照）...")
+    try:
+        from src.backtest.settle import settle_recent
+
+        settled = settle_recent()
+        print(f"      结算 {len(settled)} 场")
+    except Exception as e:  # noqa: BLE001
+        print(f"      ⚠️ 结算失败：{e}")
 
     # 1. 归档前一比赛日赛果
     print("[1/5] 归档前一比赛日赛果...")
@@ -111,6 +173,18 @@ def run_daily_feedback(day: str | None = None) -> dict:
     else:
         print("      无基线，本次作为初始基线")
 
+    # 4.5 队名映射告警（列出 DC 模型静默失效的场次）
+    unmapped = check_unmapped_teams(day)
+    if unmapped:
+        print(f"      ⚠️ 队名映射缺失 {len(unmapped)} 场（DC 模型会静默失效）：")
+        for u in unmapped:
+            miss = []
+            if not u["home_mapped"]:
+                miss.append(u["home"])
+            if not u["away_mapped"]:
+                miss.append(u["away"])
+            print(f"        {u['league']} {u['home']} vs {u['away']} — 缺映射：{'、'.join(miss)}")
+
     # 5. 保存基线 + 报告
     _save_baseline(metrics)
     report = {
@@ -121,6 +195,7 @@ def run_daily_feedback(day: str | None = None) -> dict:
         "calibration_directions": list(calib.keys()),
         "calibration_gain": calib_gain,
         "delta_vs_baseline": delta,
+        "unmapped_teams": unmapped,
     }
     rp = data_dir("results") / "feedback_report.json"
     rp.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -138,11 +213,10 @@ def _nav_feedback() -> str:
     """渲染与主站一致的顶部菜单栏（含官方计算器外链）。"""
     items = [
         ("index.html", "首页", False),
-        ("live.html", "今日赛果", False),
         ("matches.html", "今日场次", False),
-        ("scores.html", "比分", False),
-        ("finished.html", "已完赛", False),
-        ("settled.html", "已结算场次", False),
+        ("scores.html", "比分推荐", False),
+        ("live.html", "今日赛果", False),
+        ("settled.html", "结算场次", False),
         ("accuracy.html", "累计命中率", False),
         ("feedback.html", "数据回馈", False),
         ("calculator.html", "官方计算器", False),
@@ -217,6 +291,25 @@ def _render_feedback_html(report: dict):
     else:
         calib_block = '<div class="prob" style="color:#64748b">样本不足，暂未计算校准增益。</div>'
 
+    # 队名映射告警区块
+    unmapped = report.get("unmapped_teams", [])
+    if unmapped:
+        items = "".join(
+            f'<div class="prob"><div class="prob-label">'
+            f'{u["league"]} · {u["home"]} vs {u["away"]}</div>'
+            f'<div class="prob-val" style="color:#b91c1c">缺映射</div></div>'
+            for u in unmapped
+        )
+        unmapped_block = (
+            f'<div class="card"><h2>⚠️ 队名映射告警（{len(unmapped)} 场）</h2>'
+            f'{items}'
+            f'<div class="sub" style="font-size:12px;color:#64748b;margin-top:8px">'
+            f'这些场次 DC 模型会静默失效、退化为市场去水概率（无比分分布）。'
+            f'建议补充 config/team_name_map.json。</div></div>'
+        )
+    else:
+        unmapped_block = ""
+
     html = f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -224,30 +317,30 @@ def _render_feedback_html(report: dict):
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>每日数据回馈报告 - 竞彩概率分析</title>
 <style>
-body {{ font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; background:#f4f5f9; color:#1e293b; line-height:1.6; margin:0; }}
-.navbar {{ position:sticky; top:0; z-index:100; background:linear-gradient(135deg,#1e1b4b,#312e81); box-shadow:0 2px 10px rgba(0,0,0,.15); }}
-.navbar-inner {{ max-width:960px; margin:0 auto; padding:0 16px; display:flex; align-items:center; justify-content:space-between; height:60px; }}
-.brand {{ color:#fff; font-size:17px; font-weight:700; letter-spacing:.5px; text-decoration:none; display:flex; align-items:center; gap:8px; }}
-.brand .logo {{ width:28px; height:28px; background:linear-gradient(135deg,#6366f1,#a855f7); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:15px; }}
-.nav-links {{ display:flex; gap:4px; }}
-.nav-links a {{ color:#c7d2fe; text-decoration:none; font-size:14px; padding:8px 14px; border-radius:8px; transition:all .2s; white-space:nowrap; }}
-.nav-links a:hover {{ background:rgba(255,255,255,.1); color:#fff; }}
-.nav-links a.active {{ background:rgba(255,255,255,.16); color:#fff; font-weight:600; }}
+body {{ font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; background:radial-gradient(1200px 600px at 20% -10%,rgba(99,102,241,.18),transparent 60%),radial-gradient(1000px 500px at 100% 0%,rgba(168,85,247,.14),transparent 55%),#0a0e1a; background-attachment:fixed; color:#e8ecf6; line-height:1.6; margin:0; }}
+.navbar {{ position:sticky; top:0; z-index:100; background:rgba(13,17,30,.82); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-bottom:1px solid rgba(99,102,241,.25); box-shadow:0 2px 20px rgba(0,0,0,.4); }}
+.navbar-inner {{ max-width:1080px; margin:0 auto; padding:0 16px; display:flex; align-items:center; justify-content:space-between; height:60px; }}
+.brand {{ color:#fff; font-size:17px; font-weight:800; letter-spacing:.5px; text-decoration:none; display:flex; align-items:center; gap:9px; }}
+.brand .logo {{ width:30px; height:30px; background:linear-gradient(135deg,#6366f1,#a855f7); border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:16px; box-shadow:0 0 16px rgba(124,58,237,.5); }}
+.nav-links {{ display:flex; gap:2px; }}
+.nav-links a {{ color:#a7b0c8; text-decoration:none; font-size:13px; padding:8px 12px; border-radius:9px; transition:all .2s; white-space:nowrap; }}
+.nav-links a:hover {{ background:rgba(99,102,241,.16); color:#fff; }}
+.nav-links a.active {{ background:linear-gradient(135deg,rgba(99,102,241,.9),rgba(168,85,247,.85)); color:#fff; font-weight:600; box-shadow:0 2px 12px rgba(99,102,241,.4); }}
 .container {{ max-width:720px; margin:0 auto; padding:32px 16px 48px; }}
-h1 {{ font-size:24px; font-weight:800; }}
-.sub {{ color:#64748b; font-size:13px; margin-bottom:24px; }}
-.card {{ background:#fff; border-radius:14px; padding:20px; margin-bottom:16px; box-shadow:0 1px 3px rgba(15,23,42,.06); border:1px solid #e8ebf1; }}
-.card h2 {{ font-size:16px; margin:0 0 14px; }}
+h1 {{ font-size:24px; font-weight:800; background:linear-gradient(135deg,#a5b4fc,#c4b5fd,#22d3ee); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }}
+.sub {{ color:#8b94ad; font-size:13px; margin-bottom:24px; }}
+.card {{ background:linear-gradient(180deg,#232c46,#1b2236); border-radius:14px; padding:20px; margin-bottom:16px; box-shadow:0 4px 16px rgba(0,0,0,.35); border:1px solid #2a334d; }}
+.card h2 {{ font-size:16px; margin:0 0 14px; color:#e8ecf6; }}
 .stat-grid {{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }}
-.stat {{ background:#f8fafc; border-radius:10px; padding:14px; text-align:center; }}
-.stat .num {{ font-size:22px; font-weight:800; color:#4f46e5; }}
-.stat .lbl {{ font-size:11px; color:#64748b; margin-top:4px; }}
+.stat {{ background:#121828; border-radius:10px; padding:14px; text-align:center; border:1px solid #2a334d; }}
+.stat .num {{ font-size:22px; font-weight:800; color:#a5b4fc; }}
+.stat .lbl {{ font-size:11px; color:#8b94ad; margin-top:4px; }}
 .prob {{ display:flex; align-items:center; justify-content:space-between; margin:8px 0; font-size:14px; }}
-.prob-label {{ color:#334155; }}
-.prob-val {{ font-weight:600; }}
-.banner {{ background:#fff7ed; border:1px solid #fde68a; border-radius:10px; padding:12px 16px; font-size:12px; color:#92400e; }}
-.footer {{ text-align:center; color:#94a3b8; font-size:12px; margin-top:24px; }}
-@media (max-width:640px) {{ .nav-links a {{ font-size:13px; padding:7px 10px; }} .navbar-inner {{ height:56px; }} }}
+.prob-label {{ color:#cbd5e1; }}
+.prob-val {{ font-weight:600; color:#e8ecf6; }}
+.banner {{ background:rgba(245,158,11,.12); border:1px solid rgba(245,158,11,.25); border-radius:10px; padding:12px 16px; font-size:12px; color:#fcd34d; }}
+.footer {{ text-align:center; color:#6b748c; font-size:12px; margin-top:24px; }}
+@media (max-width:640px) {{ .nav-links a {{ font-size:12px; padding:7px 9px; }} .navbar-inner {{ height:56px; }} }}
 </style>
 </head>
 <body>
@@ -288,6 +381,8 @@ h1 {{ font-size:24px; font-weight:800; }}
     <h2>概率校准效果（out-of-sample）</h2>
     {calib_block}
   </div>
+
+  {unmapped_block}
 
   <div class="banner">⚠️ 本报告为模型统计评估，命中率变化不构成任何投注建议，不代表未来结果。</div>
   <div class="footer">竞彩概率分析工具 · 数据回馈闭环</div>
