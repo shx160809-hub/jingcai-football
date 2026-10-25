@@ -1,6 +1,6 @@
 {
   "date": "20261025",
-  "generated_at": "2026-10-25T22:09:40.601641",
+  "generated_at": "2026-10-26T00:38:41.455868",
   "archive": {
     "date": "20261024",
     "n_archived": 0,
@@ -10,10 +10,10 @@
   },
   "metrics": {
     "n_matches": 8317,
-    "log_loss": 1.0178722183217068,
-    "brier_score": 0.2028371375796561,
-    "rps": 0.13884279584545708,
-    "top1_accuracy": 0.4958518696645425
+    "log_loss": 1.0159353854564679,
+    "brier_score": 0.2024513715001403,
+    "rps": 0.13861638387679853,
+    "top1_accuracy": 0.49669351929782374
   },
   "calibration_directions": [
     "p_home",
@@ -21,31 +21,40 @@
     "p_away"
   ],
   "calibration_gain": {
-    "before": 0.4976,
-    "after": 0.5162,
+    "before": 0.494,
+    "after": 0.5126,
     "delta": 0.0186,
-    "n_test": 1664
+    "n_test": 1670
   },
   "delta_vs_baseline": {
     "log_loss": {
       "baseline": 1.0179,
-      "current": 1.0179,
-      "change": 0.0
+      "current": 1.0159,
+      "change": -0.0019
     },
     "rps": {
       "baseline": 0.1388,
-      "current": 0.1388,
-      "change": 0.0
+      "current": 0.1386,
+      "change": -0.0002
     },
     "brier_score": {
       "baseline": 0.2028,
-      "current": 0.2028,
-      "change": 0.0
+      "current": 0.2025,
+      "change": -0.0004
     },
     "top1_accuracy": {
       "baseline": 0.4959,
-      "current": 0.4959,
-      "change": 0.0
+      "current": 0.4967,
+      "change": 0.0008
     }
-  }
+  },
+  "unmapped_teams": [
+    {
+      "league": "葡超",
+      "home": "里斯本",
+      "away": "维塞乌",
+      "home_mapped": true,
+      "away_mapped": false
+    }
+  ]
 }

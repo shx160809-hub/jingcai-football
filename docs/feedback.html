@@ -41,7 +41,7 @@ h1 { font-size:24px; font-weight:800; background:linear-gradient(135deg,#a5b4fc,
 </nav>
 <div class="container">
   <h1>每日数据回馈报告</h1>
-  <div class="sub">日期 20261025 · 生成于 2026-10-25T22:09:40.601641</div>
+  <div class="sub">日期 20261025 · 生成于 2026-10-26T00:38:41.455868</div>
 
   <div class="card">
     <h2>赛果归档</h2>
@@ -54,16 +54,16 @@ h1 { font-size:24px; font-weight:800; background:linear-gradient(135deg,#a5b4fc,
   <div class="card">
     <h2>回测指标（重拟合后）</h2>
     <div class="stat-grid">
-      <div class="stat"><div class="num">49.6%</div><div class="lbl">Top-1 命中率</div></div>
-      <div class="stat"><div class="num">1.0179</div><div class="lbl">Log Loss</div></div>
-      <div class="stat"><div class="num">0.1388</div><div class="lbl">RPS</div></div>
+      <div class="stat"><div class="num">49.7%</div><div class="lbl">Top-1 命中率</div></div>
+      <div class="stat"><div class="num">1.0159</div><div class="lbl">Log Loss</div></div>
+      <div class="stat"><div class="num">0.1386</div><div class="lbl">RPS</div></div>
       <div class="stat"><div class="num">8317</div><div class="lbl">回测场次</div></div>
     </div>
   </div>
 
   <div class="card">
     <h2>与基线对比</h2>
-    <div class="prob"><div class="prob-label">Log Loss（越低越好）</div><div class="prob-val" style="color:#b91c1c">1.0179 → 1.0179 (↑+0.0000)</div></div><div class="prob"><div class="prob-label">RPS（越低越好）</div><div class="prob-val" style="color:#b91c1c">0.1388 → 0.1388 (↑+0.0000)</div></div><div class="prob"><div class="prob-label">Brier（越低越好）</div><div class="prob-val" style="color:#b91c1c">0.2028 → 0.2028 (↑+0.0000)</div></div><div class="prob"><div class="prob-label">Top-1 命中率（越高越好）</div><div class="prob-val" style="color:#b91c1c">0.4959 → 0.4959 (↑+0.0000)</div></div>
+    <div class="prob"><div class="prob-label">Log Loss（越低越好）</div><div class="prob-val" style="color:#15803d">1.0179 → 1.0159 (↓-0.0019)</div></div><div class="prob"><div class="prob-label">RPS（越低越好）</div><div class="prob-val" style="color:#15803d">0.1388 → 0.1386 (↓-0.0002)</div></div><div class="prob"><div class="prob-label">Brier（越低越好）</div><div class="prob-val" style="color:#15803d">0.2028 → 0.2025 (↓-0.0004)</div></div><div class="prob"><div class="prob-label">Top-1 命中率（越高越好）</div><div class="prob-val" style="color:#15803d">0.4959 → 0.4967 (↓+0.0008)</div></div>
   </div>
 
   <div class="card">
@@ -73,10 +73,10 @@ h1 { font-size:24px; font-weight:800; background:linear-gradient(135deg,#a5b4fc,
 
   <div class="card">
     <h2>概率校准效果（out-of-sample）</h2>
-    <div class="stat-grid"><div class="stat"><div class="num">49.76%</div><div class="lbl">校准前 Top-1</div></div><div class="stat"><div class="num" style="color:#15803d">51.62%</div><div class="lbl">校准后 Top-1</div></div></div><div class="prob"><div class="prob-label">命中率变化</div><div class="prob-val" style="color:#15803d">↑+1.86%</div></div><div class="sub" style="font-size:12px;color:#64748b;margin-top:8px">基于 1664 场 out-of-sample 样本验证</div>
+    <div class="stat-grid"><div class="stat"><div class="num">49.40%</div><div class="lbl">校准前 Top-1</div></div><div class="stat"><div class="num" style="color:#15803d">51.26%</div><div class="lbl">校准后 Top-1</div></div></div><div class="prob"><div class="prob-label">命中率变化</div><div class="prob-val" style="color:#15803d">↑+1.86%</div></div><div class="sub" style="font-size:12px;color:#64748b;margin-top:8px">基于 1670 场 out-of-sample 样本验证</div>
   </div>
 
-  
+  <div class="card"><h2>⚠️ 队名映射告警（1 场）</h2><div class="prob"><div class="prob-label">葡超 · 里斯本 vs 维塞乌</div><div class="prob-val" style="color:#b91c1c">缺映射</div></div><div class="sub" style="font-size:12px;color:#64748b;margin-top:8px">这些场次 DC 模型会静默失效、退化为市场去水概率（无比分分布）。建议补充 config/team_name_map.json。</div></div>
 
   <div class="banner">⚠️ 本报告为模型统计评估，命中率变化不构成任何投注建议，不代表未来结果。</div>
   <div class="footer">竞彩概率分析工具 · 数据回馈闭环</div>

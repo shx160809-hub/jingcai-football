@@ -158,9 +158,24 @@ def archive_day(day: str, sync_history: bool = False) -> dict:
         truth = _truth_from_score(hg, ag)
         p = pred_by_num.get(num, {})
         p_home, p_draw, p_away = p.get("p_home"), p.get("p_draw"), p.get("p_away")
-        hit = _pred_hit(truth, p_home, p_draw, p_away) if p else None
+        source = p.get("source", "")
 
-        if p:
+        # P0 修复：预测文件丢失/对账失败时，用赛果库里的官方赔率去水反推概率回填，
+        # 保证 pred_hit 可计算，命中率闭环不因「预测快照缺失」而断裂。
+        # 主力预测本就是市场赔率去水概率，此回填与主力口径一致。
+        if p_home is None or p_draw is None or p_away is None:
+            from src.strategy.de_vig import de_vig_probabilities
+
+            dv = de_vig_probabilities(
+                r.get("had_win"), r.get("had_draw"), r.get("had_lose")
+            )
+            if dv is not None:
+                p_home, p_draw, p_away = dv["p_home"], dv["p_draw"], dv["p_away"]
+                source = "market_implied_fallback"
+
+        hit = _pred_hit(truth, p_home, p_draw, p_away) if p_home is not None else None
+
+        if p_home is not None:
             if hit:
                 n_hit += 1
             else:
@@ -183,7 +198,7 @@ def archive_day(day: str, sync_history: bool = False) -> dict:
             "p_away": p_away,
             "pred_hit": hit,
             "confidence_score": p.get("confidence_score"),
-            "source": p.get("source", ""),
+            "source": source,
             "had_win": r.get("had_win"),
             "had_draw": r.get("had_draw"),
             "had_lose": r.get("had_lose"),
