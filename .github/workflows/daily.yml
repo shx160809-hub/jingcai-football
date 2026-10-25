@@ -1,6 +1,14 @@
 name: 竞彩概率分析（分时段更新 + 每日数据回馈）
 
 on:
+  # push 触发：代码/UI 改动 push 到 main 后立即重新部署（保证线上与本地同步）
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "config/**"
+      - "docs/**"
+      - "data/**"
   schedule:
     # 分时段频率（均为 UTC，需 -8 换算北京时间）：
     #   比赛时段（北京时间 12:00 ~ 次日 02:00 = UTC 04:00 ~ 18:00）：每 10 分钟
@@ -97,12 +105,24 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: 拉取 analyze 刚推送的最新数据与页面
+        run: |
+          # analyze job 会重新生成 docs/ 并 push 回 main，这里拉取最新，
+          # 避免 deploy 部署到「触发时的旧 commit」导致线上与本地不同步。
+          git pull --ff-only origin main || echo "无新提交，使用当前 checkout"
+
       - name: Deploy to GitHub Pages
         uses: actions/configure-pages@v5
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: docs/
+
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
