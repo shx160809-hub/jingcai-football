@@ -1,0 +1,1393 @@
+{
+  "date": "20261018",
+  "generated_at": "",
+  "disclaimer": "",
+  "matches": [
+    {
+      "home": "Kalamata",
+      "away": "OFI Crete",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "1",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Panetolikos",
+      "away": "Olympiakos",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "2",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Panathinaikos",
+      "away": "Asteras Tripolis",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "3",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Nijmegen",
+      "away": "For Sittard",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "4",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Brighton",
+      "away": "Crystal Palace",
+      "p_home": 0.7372,
+      "p_draw": 0.1628,
+      "p_away": 0.1,
+      "expected_home_goals": 2.643,
+      "expected_away_goals": 0.909,
+      "most_likely_score": "2-0",
+      "top_scores": [
+        {
+          "score": "2-0",
+          "prob": 0.1003
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0912
+        },
+        {
+          "score": "3-0",
+          "prob": 0.0884
+        },
+        {
+          "score": "3-1",
+          "prob": 0.0803
+        },
+        {
+          "score": "1-1",
+          "prob": 0.0744
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "5",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.3168
+    },
+    {
+      "home": "Groningen",
+      "away": "Ajax",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "6",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Cambuur",
+      "away": "AZ Alkmaar",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "7",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Zwolle",
+      "away": "Go Ahead Eagles",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "8",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Lyon",
+      "away": "Nice",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "9",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Paris FC",
+      "away": "Rennes",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "10",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Lorient",
+      "away": "Monaco",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "11",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Le Havre",
+      "away": "Auxerre",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "12",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Angers",
+      "away": "Marseille",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "13",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Kifisia",
+      "away": "Aris",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "14",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Juventus",
+      "away": "Lazio",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "15",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Milan",
+      "away": "Atalanta",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "16",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Fiorentina",
+      "away": "Como",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "17",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Udinese",
+      "away": "Lecce",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "18",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Bournemouth",
+      "away": "Sunderland",
+      "p_home": 0.4753,
+      "p_draw": 0.2638,
+      "p_away": 0.2608,
+      "expected_home_goals": 1.629,
+      "expected_away_goals": 1.153,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1254
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0947
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0918
+        },
+        {
+          "score": "2-0",
+          "prob": 0.0822
+        },
+        {
+          "score": "0-0",
+          "prob": 0.071
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "19",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0392
+    },
+    {
+      "home": "Leverkusen",
+      "away": "Freiburg",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "20",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "M'gladbach",
+      "away": "Hoffenheim",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "21",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Kocaelispor",
+      "away": "Goztep",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "22",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Leeds",
+      "away": "Man United",
+      "p_home": 0.4092,
+      "p_draw": 0.2813,
+      "p_away": 0.3095,
+      "expected_home_goals": 1.409,
+      "expected_away_goals": 1.196,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0944
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0877
+        },
+        {
+          "score": "0-0",
+          "prob": 0.0837
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0787
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "23",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.012
+    },
+    {
+      "home": "Nott'm Forest",
+      "away": "Arsenal",
+      "p_home": 0.172,
+      "p_draw": 0.2815,
+      "p_away": 0.5465,
+      "expected_home_goals": 0.723,
+      "expected_away_goals": 1.489,
+      "most_likely_score": "0-1",
+      "top_scores": [
+        {
+          "score": "0-1",
+          "prob": 0.1538
+        },
+        {
+          "score": "1-1",
+          "prob": 0.1271
+        },
+        {
+          "score": "0-2",
+          "prob": 0.1214
+        },
+        {
+          "score": "0-0",
+          "prob": 0.1187
+        },
+        {
+          "score": "1-2",
+          "prob": 0.0877
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "24",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.099
+    },
+    {
+      "home": "Celtic",
+      "away": "Hearts",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "25",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Buyuksehyr",
+      "away": "Gaziantep",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "26",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Kasimpasa",
+      "away": "Samsunspor",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "27",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "PAOK",
+      "away": "Iraklis",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "28",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Twente",
+      "away": "Utrecht",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "29",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Osasuna",
+      "away": "Santander",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "30",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Celta",
+      "away": "Alaves",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "31",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Malaga",
+      "away": "Sociedad",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "32",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    },
+    {
+      "home": "Real Madrid",
+      "away": "Sevilla",
+      "p_home": 0.4131,
+      "p_draw": 0.2813,
+      "p_away": 0.3056,
+      "expected_home_goals": 1.415,
+      "expected_away_goals": 1.185,
+      "most_likely_score": "1-1",
+      "top_scores": [
+        {
+          "score": "1-1",
+          "prob": 0.1343
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0953
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0881
+        },
+        {
+          "score": "0-0",
+          "prob": 0.084
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0783
+        }
+      ],
+      "source": "dixon_coles",
+      "confidence": "high",
+      "match_id": null,
+      "match_num": "33",
+      "league": "英超",
+      "match_time": "2026-10-18",
+      "had_win": null,
+      "had_draw": null,
+      "had_lose": null,
+      "confidence_score": 0.0131
+    }
+  ]
+}

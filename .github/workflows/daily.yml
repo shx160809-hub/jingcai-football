@@ -1,0 +1,102 @@
+name: 竞彩概率分析（每十分钟 + 每日数据回馈）
+
+on:
+  schedule:
+    # 每 10 分钟运行一次（cron 最小粒度为 5 分钟；实际触发时间由 GitHub 调度，可能延迟）
+    - cron: "*/10 * * * *"
+    # 每日数据回馈闭环：北京时间 11:00（UTC 03:00），前一比赛日赛果归档 + 回测
+    - cron: "0 3 * * *"
+  workflow_dispatch:  # 手动触发（也会执行完整更新）
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: 运行每日流水线
+        run: |
+          python -m src.pipeline
+
+      - name: 结算昨日与今日已完赛场次
+        run: |
+          python -m src.backtest.settle || echo "结算跳过（可能无赛果数据）"
+
+      - name: 重新渲染页面（含命中率统计）
+        run: |
+          python -m src.output.render || echo "渲染跳过"
+
+      - name: Commit 结果
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/ docs/
+          git commit -m "chore: 更新 $(date +%Y%m%d) 预测与结算数据" || echo "无变更"
+          git push
+
+  daily-feedback:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: 每日数据回馈闭环（仅北京时间 11:00 前后执行）
+        run: |
+          # 仅在北京时间 11:00 这一档（UTC 03:00，含调度延迟 ±30 分钟缓冲）执行每日回馈，
+          # 其余档位跳过，避免每 10 分钟重复归档/回测。
+          HOUR_UTC=$(date -u +%H)
+          MIN_UTC=$(date -u +%M)
+          if [ "$HOUR_UTC" = "03" ] && [ "$MIN_UTC" -lt "30" ]; then
+            echo "→ 北京时间 11:00 档，执行每日数据回馈闭环"
+            python -m src.backtest.daily_feedback
+          else
+            echo "→ 非 11:00 档（UTC ${HOUR_UTC}:${MIN_UTC}），跳过每日回馈"
+          fi
+
+      - name: Commit 回馈结果
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/ docs/feedback.html
+          git commit -m "chore: 每日数据回馈 $(date +%Y%m%d)（赛果归档+回测）" || echo "无变更"
+          git push
+
+  deploy:
+    needs: analyze
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Deploy to GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

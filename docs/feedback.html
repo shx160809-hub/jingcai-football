@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日数据回馈报告 - 竞彩概率分析</title>
+<style>
+body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; background:#f4f5f9; color:#1e293b; line-height:1.6; margin:0; }
+.navbar { position:sticky; top:0; z-index:100; background:linear-gradient(135deg,#1e1b4b,#312e81); box-shadow:0 2px 10px rgba(0,0,0,.15); }
+.navbar-inner { max-width:960px; margin:0 auto; padding:0 16px; display:flex; align-items:center; justify-content:space-between; height:60px; }
+.brand { color:#fff; font-size:17px; font-weight:700; letter-spacing:.5px; text-decoration:none; display:flex; align-items:center; gap:8px; }
+.brand .logo { width:28px; height:28px; background:linear-gradient(135deg,#6366f1,#a855f7); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:15px; }
+.nav-links { display:flex; gap:4px; }
+.nav-links a { color:#c7d2fe; text-decoration:none; font-size:14px; padding:8px 14px; border-radius:8px; transition:all .2s; white-space:nowrap; }
+.nav-links a:hover { background:rgba(255,255,255,.1); color:#fff; }
+.nav-links a.active { background:rgba(255,255,255,.16); color:#fff; font-weight:600; }
+.container { max-width:720px; margin:0 auto; padding:32px 16px 48px; }
+h1 { font-size:24px; font-weight:800; }
+.sub { color:#64748b; font-size:13px; margin-bottom:24px; }
+.card { background:#fff; border-radius:14px; padding:20px; margin-bottom:16px; box-shadow:0 1px 3px rgba(15,23,42,.06); border:1px solid #e8ebf1; }
+.card h2 { font-size:16px; margin:0 0 14px; }
+.stat-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+.stat { background:#f8fafc; border-radius:10px; padding:14px; text-align:center; }
+.stat .num { font-size:22px; font-weight:800; color:#4f46e5; }
+.stat .lbl { font-size:11px; color:#64748b; margin-top:4px; }
+.prob { display:flex; align-items:center; justify-content:space-between; margin:8px 0; font-size:14px; }
+.prob-label { color:#334155; }
+.prob-val { font-weight:600; }
+.banner { background:#fff7ed; border:1px solid #fde68a; border-radius:10px; padding:12px 16px; font-size:12px; color:#92400e; }
+.footer { text-align:center; color:#94a3b8; font-size:12px; margin-top:24px; }
+@media (max-width:640px) { .nav-links a { font-size:13px; padding:7px 10px; } .navbar-inner { height:56px; } }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="brand"><span class="logo">⚽</span>竞彩概率分析</a>
+    <div class="nav-links"><a href="index.html" class="">首页</a><a href="live.html" class="">今日赛果</a><a href="matches.html" class="">今日场次</a><a href="scores.html" class="">比分</a><a href="finished.html" class="">已完赛</a><a href="settled.html" class="">已结算场次</a><a href="accuracy.html" class="">累计命中率</a><a href="feedback.html" class="active">数据回馈</a><a href="calculator.html" class="">官方计算器</a></div>
+  </div>
+</nav>
+<div class="container">
+  <h1>每日数据回馈报告</h1>
+  <div class="sub">日期 20261025 · 生成于 2026-10-25T22:09:40.601641</div>
+
+  <div class="card">
+    <h2>赛果归档</h2>
+    <div class="stat-grid">
+      <div class="stat"><div class="num">0</div><div class="lbl">本日归档场次</div></div>
+      <div class="stat"><div class="num">0</div><div class="lbl">归档中命中</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>回测指标（重拟合后）</h2>
+    <div class="stat-grid">
+      <div class="stat"><div class="num">49.6%</div><div class="lbl">Top-1 命中率</div></div>
+      <div class="stat"><div class="num">1.0179</div><div class="lbl">Log Loss</div></div>
+      <div class="stat"><div class="num">0.1388</div><div class="lbl">RPS</div></div>
+      <div class="stat"><div class="num">8317</div><div class="lbl">回测场次</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>与基线对比</h2>
+    <div class="prob"><div class="prob-label">Log Loss（越低越好）</div><div class="prob-val" style="color:#b91c1c">1.0179 → 1.0179 (↑+0.0000)</div></div><div class="prob"><div class="prob-label">RPS（越低越好）</div><div class="prob-val" style="color:#b91c1c">0.1388 → 0.1388 (↑+0.0000)</div></div><div class="prob"><div class="prob-label">Brier（越低越好）</div><div class="prob-val" style="color:#b91c1c">0.2028 → 0.2028 (↑+0.0000)</div></div><div class="prob"><div class="prob-label">Top-1 命中率（越高越好）</div><div class="prob-val" style="color:#b91c1c">0.4959 → 0.4959 (↑+0.0000)</div></div>
+  </div>
+
+  <div class="card">
+    <h2>概率校准</h2>
+    <div class="prob"><div class="prob-label">已校准方向</div><div class="prob-val">p_home、p_draw、p_away</div></div>
+  </div>
+
+  <div class="card">
+    <h2>概率校准效果（out-of-sample）</h2>
+    <div class="stat-grid"><div class="stat"><div class="num">49.76%</div><div class="lbl">校准前 Top-1</div></div><div class="stat"><div class="num" style="color:#15803d">51.62%</div><div class="lbl">校准后 Top-1</div></div></div><div class="prob"><div class="prob-label">命中率变化</div><div class="prob-val" style="color:#15803d">↑+1.86%</div></div><div class="sub" style="font-size:12px;color:#64748b;margin-top:8px">基于 1664 场 out-of-sample 样本验证</div>
+  </div>
+
+  <div class="banner">⚠️ 本报告为模型统计评估，命中率变化不构成任何投注建议，不代表未来结果。</div>
+  <div class="footer">竞彩概率分析工具 · 数据回馈闭环</div>
+</div>
+</body>
+</html>

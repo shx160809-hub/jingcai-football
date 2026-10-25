@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>比分 - 竞彩概率分析</title>
+<style>
+:root {
+  --bg: #f4f5f9;
+  --card: #ffffff;
+  --text: #1e293b;
+  --muted: #64748b;
+  --border: #e8ebf1;
+  --accent: #4f46e5;
+  --accent-2: #7c3aed;
+  --gold: #f59e0b;
+  --shadow: 0 1px 3px rgba(15,23,42,.06), 0 1px 2px rgba(15,23,42,.04);
+  --shadow-lg: 0 10px 30px rgba(15,23,42,.10);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+
+/* 顶部菜单栏 */
+.navbar {
+  position: sticky; top:0; z-index:100;
+  background:linear-gradient(135deg,#1e1b4b,#312e81);
+  box-shadow:0 2px 10px rgba(0,0,0,.15);
+}
+.navbar-inner { max-width:960px; margin:0 auto; padding:0 16px; display:flex; align-items:center; justify-content:space-between; height:60px; }
+.brand { color:#fff; font-size:17px; font-weight:700; letter-spacing:.5px; text-decoration:none; display:flex; align-items:center; gap:8px; }
+.brand .logo { width:28px; height:28px; background:linear-gradient(135deg,#6366f1,#a855f7); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:15px; }
+.nav-links { display:flex; gap:4px; }
+.nav-links a { color:#c7d2fe; text-decoration:none; font-size:14px; padding:8px 14px; border-radius:8px; transition:all .2s; white-space:nowrap; }
+.nav-links a:hover { background:rgba(255,255,255,.1); color:#fff; }
+.nav-links a.active { background:rgba(255,255,255,.16); color:#fff; font-weight:600; }
+
+.banner { background:linear-gradient(90deg,#fff7ed,#fef3c7); border-bottom:1px solid #fde68a; padding:10px 16px; font-size:12px; line-height:1.6; text-align:center; color:#92400e; }
+
+.container { max-width:960px; margin:0 auto; padding:24px 16px 48px; }
+
+/* 页头 */
+.page-hero { text-align:center; padding:28px 0 20px; }
+.page-hero h1 { font-size:26px; font-weight:800; letter-spacing:.5px; background:linear-gradient(135deg,#312e81,#7c3aed); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.page-hero .sub { color:var(--muted); font-size:13px; margin-top:6px; }
+
+/* 概览统计 */
+.overview { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:6px; }
+.stat { background:var(--card); border-radius:14px; padding:18px 10px; text-align:center; box-shadow:var(--shadow); border:1px solid var(--border); }
+.stat-num { font-size:24px; font-weight:800; color:var(--accent); }
+.stat-label { font-size:11px; color:var(--muted); margin-top:4px; }
+.stat-note { font-size:11px; color:#94a3b8; text-align:center; margin-bottom:18px; }
+
+/* 分区标题 */
+.section-title { display:flex; align-items:center; gap:10px; font-size:17px; font-weight:700; margin:26px 0 14px; }
+.section-title .bar { width:4px; height:20px; background:linear-gradient(180deg,#6366f1,#a855f7); border-radius:2px; }
+.section-sub { font-size:12px; font-weight:400; color:var(--muted); }
+
+/* 卡片 */
+.card { background:var(--card); border-radius:16px; padding:18px; margin-bottom:14px; box-shadow:var(--shadow); border:1px solid var(--border); transition:transform .15s, box-shadow .15s; }
+.card:hover { transform:translateY(-2px); box-shadow:var(--shadow-lg); }
+.card-top { border:2px solid var(--gold); background:linear-gradient(180deg,#fffbeb,#fff); }
+.top-badge { display:inline-flex; align-items:center; gap:4px; background:linear-gradient(135deg,#f59e0b,#f97316); color:#fff; font-size:11px; padding:3px 10px; border-radius:20px; margin-right:6px; font-weight:600; }
+.league { color:var(--muted); font-size:12px; margin-bottom:10px; display:flex; align-items:center; flex-wrap:wrap; gap:6px; }
+.time { color:#94a3b8; }
+.teams { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.team { flex:1; text-align:center; }
+.team-name { font-size:17px; font-weight:700; }
+.vs { color:#cbd5e1; font-size:12px; font-weight:700; }
+.probs { margin-bottom:8px; }
+.prob { display:flex; align-items:center; margin:7px 0; font-size:12px; }
+.prob-label { width:38px; color:var(--muted); flex-shrink:0; }
+.prob-bar-wrap { flex:1; background:#f1f5f9; border-radius:6px; height:14px; overflow:hidden; margin:0 10px; }
+.prob-bar { height:100%; border-radius:6px; transition:width .5s ease; }
+.prob-val { width:50px; text-align:right; font-weight:700; flex-shrink:0; }
+.score { color:var(--muted); font-size:12px; margin:8px 0; }
+.score b { color:var(--text); }
+.odds { color:var(--muted); font-size:12px; }
+.odds b { color:var(--accent-2); }
+.divergence { font-size:12px; color:var(--muted); margin-top:8px; padding-top:8px; border-top:1px dashed var(--border); }
+.disclaimer-sm { color:#dc2626; font-size:11px; margin-top:10px; }
+.tag { font-size:11px; padding:2px 8px; border-radius:10px; }
+.tag-dc { background:#eef2ff; color:#4338ca; }
+.tag-odds { background:#fef3c7; color:#92400e; }
+.tag-prior { background:#fee2e2; color:#991b1b; }
+.conf { font-size:11px; padding:2px 8px; border-radius:10px; background:#f0fdf4; color:#15803d; }
+
+/* 比分置信度 */
+.score-conf { display:inline-flex; align-items:center; gap:4px; font-size:11px; padding:2px 8px; border-radius:10px; background:#eef2ff; color:#4338ca; }
+.card-score { border:2px solid #6366f1; background:linear-gradient(180deg,#eef2ff,#fff); }
+.score-badge { display:inline-flex; align-items:center; gap:4px; background:linear-gradient(135deg,#6366f1,#8b5cf6); color:#fff; font-size:11px; padding:3px 10px; border-radius:20px; margin-right:6px; font-weight:600; }
+.score-hero { display:flex; align-items:baseline; justify-content:center; gap:12px; margin:12px 0; }
+.score-hero .s { font-size:40px; font-weight:800; background:linear-gradient(135deg,#312e81,#7c3aed); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.score-hero .p { font-size:18px; font-weight:700; color:#4338ca; }
+.score-detail { text-align:center; color:var(--muted); font-size:12px; }
+
+/* 已完赛结果 */
+.finished-score { display:flex; align-items:center; justify-content:center; gap:14px; margin:12px 0; }
+.finished-score .team-label { font-size:15px; font-weight:700; flex:1; text-align:right; }
+.finished-score .team-label.away { text-align:left; }
+.finished-score .score-num { font-size:42px; font-weight:800; letter-spacing:2px; background:linear-gradient(135deg,#0f172a,#334155); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.finished-score .score-colon { font-size:24px; color:#94a3b8; font-weight:700; }
+.result-badge { display:inline-flex; align-items:center; gap:4px; font-size:11px; padding:3px 10px; border-radius:20px; margin-right:6px; font-weight:600; }
+.result-badge.home { background:#fee2e2; color:#b91c1c; }
+.result-badge.draw { background:#f1f5f9; color:#475569; }
+.result-badge.away { background:#dcfce7; color:#15803d; }
+.result-badge.pending { background:#fef9c3; color:#a16207; }
+.finished-score .score-num.pending-score { background:linear-gradient(135deg,#94a3b8,#cbd5e1); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+
+/* 结算标记 */
+.result-hit { display:inline-flex; align-items:center; gap:4px; font-size:11px; padding:2px 8px; border-radius:10px; }
+.result-hit.hit { background:#dcfce7; color:#15803d; }
+.result-hit.miss { background:#fee2e2; color:#b91c1c; }
+
+/* 已完赛命中标注（命中=红，未命中=绿） */
+.finish-verdict { display:inline-flex; align-items:center; gap:4px; font-size:12px; padding:3px 12px; border-radius:20px; font-weight:700; }
+.finish-verdict.hit { background:#fee2e2; color:#b91c1c; border:1px solid #fecaca; }
+.finish-verdict.miss { background:#dcfce7; color:#15803d; border:1px solid #bbf7d0; }
+.finish-meta { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:8px; margin:10px 0 4px; font-size:12px; color:var(--muted); }
+.finish-meta .conf-chip { display:inline-flex; align-items:center; gap:4px; padding:2px 10px; border-radius:12px; background:#eef2ff; color:#4338ca; font-weight:600; }
+.finish-meta .truth-chip { display:inline-flex; align-items:center; gap:4px; padding:2px 10px; border-radius:12px; background:#f1f5f9; color:#475569; }
+
+/* 今日赛果（实时看板） */
+.live-state { display:inline-flex; align-items:center; gap:5px; font-size:11px; padding:3px 10px; border-radius:20px; font-weight:700; margin-right:6px; }
+.live-state.live { background:#fee2e2; color:#b91c1c; }
+.live-state.live::before { content:""; width:7px; height:7px; border-radius:50%; background:#ef4444; animation:live-pulse 1.2s infinite; }
+@keyframes live-pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+.live-state.finished { background:#e0e7ff; color:#3730a3; }
+.live-state.not_started { background:#f1f5f9; color:#64748b; }
+.live-score { display:flex; align-items:center; justify-content:center; gap:14px; margin:12px 0; }
+.live-score .team-label { font-size:15px; font-weight:700; flex:1; text-align:right; }
+.live-score .team-label.away { text-align:left; }
+.live-score .score-num { font-size:40px; font-weight:800; letter-spacing:2px; background:linear-gradient(135deg,#0f172a,#334155); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.live-score .score-colon { font-size:22px; color:#94a3b8; font-weight:700; }
+.live-score .score-num.live-num { background:linear-gradient(135deg,#dc2626,#ef4444); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.live-half { text-align:center; color:var(--muted); font-size:11px; }
+.live-note { text-align:center; color:#94a3b8; font-size:11px; margin-top:8px; }
+.live-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+.live-grid .card { margin-bottom:0; }
+@media (max-width:640px) { .live-grid { grid-template-columns:1fr; } }
+
+/* 图表容器 */
+.chart-wrap { background:var(--card); border-radius:16px; padding:20px; box-shadow:var(--shadow); border:1px solid var(--border); margin-bottom:16px; }
+.chart-title { font-size:15px; font-weight:700; margin-bottom:12px; }
+
+/* 空状态 */
+.empty { text-align:center; color:var(--muted); padding:60px 20px; }
+.empty .icon { font-size:40px; margin-bottom:12px; }
+
+.footer { text-align:center; color:#94a3b8; font-size:12px; padding:24px 16px 40px; line-height:1.8; }
+
+@media (max-width:640px) {
+  .overview { grid-template-columns:repeat(2,1fr); }
+  .nav-links a { font-size:13px; padding:7px 10px; }
+  .team-name { font-size:15px; }
+  .navbar-inner { height:56px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="brand"><span class="logo">⚽</span>竞彩概率分析</a>
+    <div class="nav-links"><a href="index.html" class="">首页</a><a href="live.html" class="">今日赛果</a><a href="matches.html" class="">今日场次</a><a href="scores.html" class="active">比分</a><a href="finished.html" class="">已完赛</a><a href="settled.html" class="">已结算场次</a><a href="accuracy.html" class="">累计命中率</a><a href="feedback.html" class="">数据回馈</a><a href="calculator.html" class="">官方计算器</a></div>
+  </div>
+</nav>
+<div class="banner">⚠️ 本工具为<b>体育数据分析工具</b>，所有输出（胜/平/负概率、预期比分分布、模型参考值）仅用于<u>统计分析</u>，<b>不构成任何投注建议或中奖预测</b>。不保证任何结果，不展示胜率，不接入投注/支付/资金通道。请理性看待数据，遵守中国法律法规，远离非法博彩。</div>
+<div class="container">
+
+<div class="page-hero">
+  <h1>比分分析</h1>
+  <div class="sub">数据日期 20261025 · 可算比分分布 10 场 · 按比分置信度降序</div>
+</div>
+<div class="section-title"><span class="bar"></span>全部比分分析 <span class="section-sub">（10 场）</span></div>
+
+<div class="card card-score">
+  <div class="league"><span class="score-badge">比分置信度 Top3</span>荷甲 <span class="time">10-26 03:00 次日</span> <span class="tag tag-dc">Dixon-Coles</span> <span class="score-conf">比分置信度 14.8%</span></div>
+  <div class="teams">
+    <div class="team"><div class="team-name">阿尔克马</div></div>
+    <div class="vs">VS</div>
+    <div class="team"><div class="team-name">特温特</div></div>
+  </div>
+  <div class="score-hero">
+    <span class="s">1-1</span>
+    <span class="p">14.8%</span>
+  </div>
+  <div class="score-detail">高频比分分布：1-1 14.8%　0-0 9.8%　1-2 8.1%</div>
+  <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
+</div>
+<div class="card card-score">
+  <div class="league"><span class="score-badge">比分置信度 Top3</span>意甲 <span class="time">10-26 01:00 次日</span> <span class="tag tag-dc">Dixon-Coles</span> <span class="score-conf">比分置信度 14.5%</span></div>
+  <div class="teams">
+    <div class="team"><div class="team-name">莱切</div></div>
+    <div class="vs">VS</div>
+    <div class="team"><div class="team-name">尤文图斯</div></div>
+  </div>
+  <div class="score-hero">
+    <span class="s">0-1</span>
+    <span class="p">14.5%</span>
+  </div>
+  <div class="score-detail">高频比分分布：0-1 14.5%　1-1 11.9%　0-2 10.5%</div>
+  <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
+</div>
+<div class="card card-score">
+  <div class="league"><span class="score-badge">比分置信度 Top3</span>西甲 <span class="time">10-25 23:15</span> <span class="tag tag-dc">Dixon-Coles</span> <span class="score-conf">比分置信度 14.1%</span></div>
+  <div class="teams">
+    <div class="team"><div class="team-name">塞尔塔</div></div>
+    <div class="vs">VS</div>
+    <div class="team"><div class="team-name">贝蒂斯</div></div>
+  </div>
+  <div class="score-hero">
+    <span class="s">1-1</span>
+    <span class="p">14.1%</span>
+  </div>
+  <div class="score-detail">高频比分分布：1-1 14.1%　0-0 9.4%　1-0 9.2%</div>
+  <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
+</div>
+<div class="card card-score">
+  <div class="league"><span class="score-badge">比分置信度 Top3</span>英超 <span class="time">10-26 00:30 次日</span> <span class="tag tag-dc">Dixon-Coles</span> <span class="score-conf">比分置信度 14.1%</span></div>
+  <div class="teams">
+    <div class="team"><div class="team-name">桑德兰</div></div>
+    <div class="vs">VS</div>
+    <div class="team"><div class="team-name">利兹联</div></div>
+  </div>
+  <div class="score-hero">
+    <span class="s">1-1</span>
+    <span class="p">14.1%</span>
+  </div>
+  <div class="score-detail">高频比分分布：1-1 14.1%　0-1 13.2%　0-0 12.1%</div>
+  <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
+</div>
+<div class="card card-score">
+  <div class="league"><span class="score-badge">比分置信度 Top3</span>葡超 <span class="time">10-26 04:30 次日</span> <span class="tag tag-dc">Dixon-Coles</span> <span class="score-conf">比分置信度 12.3%</span></div>
+  <div class="teams">
+    <div class="team"><div class="team-name">里斯本</div></div>
+    <div class="vs">VS</div>
+    <div class="team"><div class="team-name">维塞乌</div></div>
+  </div>
+  <div class="score-hero">
+    <span class="s">1-1</span>
+    <span class="p">12.3%</span>
+  </div>
+  <div class="score-detail">高频比分分布：1-1 12.3%　1-0 12.2%　0-1 11.2%</div>
+  <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
+</div>
+<div class="card card-score">
+  <div class="league"><span class="score-badge">比分置信度 Top3</span>意甲 <span class="time">10-26 03:45 次日</span> <span class="tag tag-dc">Dixon-Coles</span> <span class="score-conf">比分置信度 10.8%</span></div>
+  <div class="teams">
+    <div class="team"><div class="team-name">乌迪内斯</div></div>
+    <div class="vs">VS</div>
+    <div class="team"><div class="team-name">AC米兰</div></div>
+  </div>
+  <div class="score-hero">
+    <span class="s">1-1</span>
+    <span class="p">10.8%</span>
+  </div>
+  <div class="score-detail">高频比分分布：1-1 10.8%　0-1 10.7%　1-2 9.8%</div>
+  <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
+</div>
+<div class="card card-score">
+  <div class="league"><span class="score-badge">比分置信度 Top3</span>西甲 <span class="time">10-26 04:00 次日</span> <span class="tag tag-dc">Dixon-Coles</span> <span class="score-conf">比分置信度 9.0%</span></div>
+  <div class="teams">
+    <div class="team"><div class="team-name">巴萨</div></div>
+    <div class="vs">VS</div>
+    <div class="team"><div class="team-name">皇马</div></div>
+  </div>
+  <div class="score-hero">
+    <span class="s">2-1</span>
+    <span class="p">9.0%</span>
+  </div>
+  <div class="score-detail">高频比分分布：2-1 9.0%　1-1 7.9%　3-1 7.6%</div>
+  <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
+</div>
+<div class="card card-score">
+  <div class="league"><span class="score-badge">比分置信度 Top3</span>德甲 <span class="time">10-26 00:30 次日</span> <span class="tag tag-dc">Dixon-Coles</span> <span class="score-conf">比分置信度 8.4%</span></div>
+  <div class="teams">
+    <div class="team"><div class="team-name">弗赖堡</div></div>
+    <div class="vs">VS</div>
+    <div class="team"><div class="team-name">拜仁</div></div>
+  </div>
+  <div class="score-hero">
+    <span class="s">1-2</span>
+    <span class="p">8.4%</span>
+  </div>
+  <div class="score-detail">高频比分分布：1-2 8.4%　1-3 7.5%　2-2 6.1%</div>
+  <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
+</div>
+<div class="card card-score">
+  <div class="league"><span class="score-badge">比分置信度 Top3</span>西甲 <span class="time">10-26 01:30 次日</span> <span class="tag tag-dc">Dixon-Coles</span> <span class="score-conf">比分置信度 7.6%</span></div>
+  <div class="teams">
+    <div class="team"><div class="team-name">皇家社会</div></div>
+    <div class="vs">VS</div>
+    <div class="team"><div class="team-name">莱万特</div></div>
+  </div>
+  <div class="score-hero">
+    <span class="s">2-1</span>
+    <span class="p">7.6%</span>
+  </div>
+  <div class="score-detail">高频比分分布：2-1 7.6%　3-1 6.7%　2-2 6.6%</div>
+  <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
+</div>
+<div class="card card-score">
+  <div class="league"><span class="score-badge">比分置信度 Top3</span>法甲 <span class="time">10-26 00:15 次日</span> <span class="tag tag-dc">Dixon-Coles</span> <span class="score-conf">比分置信度 7.0%</span></div>
+  <div class="teams">
+    <div class="team"><div class="team-name">雷恩</div></div>
+    <div class="vs">VS</div>
+    <div class="team"><div class="team-name">斯特拉斯</div></div>
+  </div>
+  <div class="score-hero">
+    <span class="s">2-1</span>
+    <span class="p">7.0%</span>
+  </div>
+  <div class="score-detail">高频比分分布：2-1 7.0%　2-2 6.7%　3-1 6.2%</div>
+  <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
+</div>
+</div>
+<div class="footer">
+  本工具为<b>体育数据分析工具</b>，所有输出（胜/平/负概率、预期比分分布、模型参考值）仅用于<u>统计分析</u>，<b>不构成任何投注建议或中奖预测</b>。不保证任何结果，不展示胜率，不接入投注/支付/资金通道。请理性看待数据，遵守中国法律法规，远离非法博彩。<br>
+  历史回测表现不代表未来结果 · 本工具不构成任何形式的投注建议
+</div>
+</body>
+</html>

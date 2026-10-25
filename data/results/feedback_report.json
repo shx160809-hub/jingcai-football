@@ -1,0 +1,51 @@
+{
+  "date": "20261025",
+  "generated_at": "2026-10-25T22:09:40.601641",
+  "archive": {
+    "date": "20261024",
+    "n_archived": 0,
+    "n_hit": 0,
+    "n_miss": 0,
+    "n_no_pred": 0
+  },
+  "metrics": {
+    "n_matches": 8317,
+    "log_loss": 1.0178722183217068,
+    "brier_score": 0.2028371375796561,
+    "rps": 0.13884279584545708,
+    "top1_accuracy": 0.4958518696645425
+  },
+  "calibration_directions": [
+    "p_home",
+    "p_draw",
+    "p_away"
+  ],
+  "calibration_gain": {
+    "before": 0.4976,
+    "after": 0.5162,
+    "delta": 0.0186,
+    "n_test": 1664
+  },
+  "delta_vs_baseline": {
+    "log_loss": {
+      "baseline": 1.0179,
+      "current": 1.0179,
+      "change": 0.0
+    },
+    "rps": {
+      "baseline": 0.1388,
+      "current": 0.1388,
+      "change": 0.0
+    },
+    "brier_score": {
+      "baseline": 0.2028,
+      "current": 0.2028,
+      "change": 0.0
+    },
+    "top1_accuracy": {
+      "baseline": 0.4959,
+      "current": 0.4959,
+      "change": 0.0
+    }
+  }
+}

@@ -1,0 +1,69 @@
+# 竞彩足球胜平负概率分析工具 — 模型与流水线配置
+# 注意：本项目为数据分析工具，不构成任何投注建议。
+
+# ===== Dixon-Coles 模型超参数 =====
+dixon_coles:
+  xi: 0.0065          # 时间衰减系数（107 天半衰期）
+  min_sample: 10      # 球队历史样本低于此阈值时回退到联赛均值先验
+  max_goals: 8        # 单队最大进球数（比分分布截断，覆盖~100%概率质量）
+  rho_init: -0.08     # 低比分依赖参数初值
+
+# ===== 回测配置 =====
+backtest:
+  refit_freq_days: 7  # walk-forward 重拟合频率（每周）
+  lookback_days: 730  # 训练窗口最大回看天数（约2年）
+  min_matches_to_train: 50  # 单联赛训练集最少场次
+
+# ===== 概率校准配置 =====
+calibration:
+  enabled: true          # 是否对预测概率应用校准
+  method: binning        # 校准方法：binning（分桶，稳健）
+  bins: 10               # 分桶数（等频）
+  min_samples: 20        # 单方向最少样本数，低于则不校准
+
+# ===== 数据采集配置 =====
+collect:
+  sporttery_url: "https://webapi.sporttery.cn/gateway/uniform/football/getMatchCalculatorV1.qry"
+  result_url: "https://webapi.sporttery.cn/gateway/uniform/football/getUniformMatchResultV1.qry"
+  pool_codes: "had,hhad"   # 胜平负 + 让球胜平负
+  channel: "c"
+  timeout: 15
+  retry: 3
+  day_cutoff_hour: 11  # 比赛日切分点（北京时间小时）：当日 11:00 ~ 次日 11:00 归为同一比赛日
+  # football-data.co.uk 各联赛代码（用于历史数据兜底）
+  # 主目录 mmz4281/<season>/<code>.csv
+  leagues:
+    E0: "英格兰超级联赛"
+    E1: "英格兰冠军联赛"
+    SP1: "西班牙甲级联赛"
+    D1: "德国甲级联赛"
+    I1: "意大利甲级联赛"
+    F1: "法国甲级联赛"
+    N1: "荷兰甲级联赛"
+    P1: "葡萄牙超级联赛"
+    B1: "比利时甲级联赛"
+    T1: "土耳其超级联赛"
+    SC0: "苏格兰超级联赛"
+    G1: "希腊超级联赛"
+  # 竞彩中文联赛名 -> 历史数据联赛代码（用于预测时匹配）
+  league_name_map:
+    "英超": "E0"
+    "英冠": "E1"
+    "西甲": "SP1"
+    "德甲": "D1"
+    "意甲": "I1"
+    "法甲": "F1"
+    "荷甲": "N1"
+    "葡超": "P1"
+    "比甲": "B1"
+    "土超": "T1"
+    "苏超": "SC0"
+    "希超": "G1"
+  # 无历史数据覆盖的联赛，用官方赔率反推概率（降级方案）
+  fallback_leagues: ["日职", "日乙", "澳超", "美职", "巴甲", "瑞超", "芬超", "挪超", "法乙"]
+
+# ===== 输出配置 =====
+output:
+  html_dir: "docs"           # GitHub Pages 根目录
+  results_dir: "data/results"
+  disclaimer: "本工具为体育数据分析工具，所有输出（概率、预期比分分布、模型参考值）仅用于统计分析，不构成任何投注建议或中奖预测。不保证任何结果，不展示胜率，不接入投注/支付/资金通道。请理性看待数据，遵守中国法律法规，远离非法博彩。"
