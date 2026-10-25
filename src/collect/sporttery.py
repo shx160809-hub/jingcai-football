@@ -410,13 +410,14 @@ def fetch_live_board(day: str | None = None) -> dict:
     cfg = load_config()
     cutoff_hour = int(cfg["collect"].get("day_cutoff_hour", 11))
 
-    # 当前比赛日的星期前缀（用于过滤赛果接口里混入的上一比赛日场次）
-    today_week, _anchor_day = _current_matchday_week(cutoff_hour=cutoff_hour)
+    # 当前比赛日的星期前缀与锚定日（用于过滤赛果接口里混入的上一比赛日场次，
+    # 以及 11:00 前仍处于「上一比赛日」时，用锚定日而非自然日期查询接口）
+    today_week, anchor_day = _current_matchday_week(cutoff_hour=cutoff_hour)
 
     # 1. 赛果接口：已开球（进行中 + 已完赛）
     live: list[dict] = []
     try:
-        result_payload = fetch_results(day)
+        result_payload = fetch_results(anchor_day)
         for r in result_payload.get("results", []):
             num = r.get("match_num", "")
             # 仅保留「当前比赛日」的场次（按编号星期前缀过滤）
@@ -454,7 +455,7 @@ def fetch_live_board(day: str | None = None) -> dict:
     # 2. 在售接口：尚未开球的场次（补全赛果接口没有的 match_num）
     covered = {m["match_num"] for m in live if m.get("match_num")}
     try:
-        odds_payload = fetch_today(day)
+        odds_payload = fetch_today(anchor_day)
         for m in odds_payload.get("matches", []):
             num = m.get("match_num", "")
             if num and num in covered:
