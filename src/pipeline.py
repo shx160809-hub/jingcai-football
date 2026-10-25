@@ -28,7 +28,7 @@ def run(day: str | None = None) -> dict:
     print(f"===== 流水线启动，目标日期 {day} =====")
 
     # Step 1: 采集官方赔率
-    print("[1/5] 采集当日竞彩场次与赔率...")
+    print("[1/6] 采集当日竞彩场次与赔率...")
     try:
         odds = fetch_today(day)
         fixtures = odds["matches"]
@@ -38,7 +38,7 @@ def run(day: str | None = None) -> dict:
         fixtures = []
 
     # Step 2: 更新历史数据
-    print("[2/5] 更新历史比分数据...")
+    print("[2/6] 更新历史比分数据...")
     try:
         update_history()
         print("      历史数据已更新")
@@ -55,7 +55,7 @@ def run(day: str | None = None) -> dict:
 
     # Step 4: 预测（若无可预测场次则跳过）
     if fixtures:
-        print(f"[3/5] Dixon-Coles 预测 {len(fixtures)} 场...")
+        print(f"[3/6] Dixon-Coles 预测 {len(fixtures)} 场...")
         results = train_and_predict(history, fixtures)
         # 附加置信度评分 + 比分置信度 + 模型-市场分歧
         from src.output.confidence import annotate_confidence, annotate_score_confidence
@@ -65,7 +65,7 @@ def run(day: str | None = None) -> dict:
         results = annotate_score_confidence(results)
         results = annotate_divergence(results)
     else:
-        print("[3/5] 无场次可预测，跳过")
+        print("[3/6] 无场次可预测，跳过")
         results = []
 
     # Step 5: 采集今日赛果看板（实时比分 + 完赛 + 未开球，独立于模型预测）

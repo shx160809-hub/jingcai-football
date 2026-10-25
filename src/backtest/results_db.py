@@ -106,13 +106,29 @@ def _truth_from_score(hg, ag) -> str:
 
 
 def _pred_hit(truth: str, p_home, p_draw, p_away) -> bool:
-    """判断模型最高概率选项是否与实际结果一致。"""
+    """判断模型最高概率选项是否与实际结果一致。
+
+    注意：不能用 `p_draw or -1` 这种短路写法——当概率为 0 时（合法值），
+    `0 or -1` 会错误地变成 -1。改用显式的 None 检查。
+    """
     if truth == "home":
-        return p_home is not None and p_home >= (p_draw or -1) and p_home >= (p_away or -1)
+        return (
+            p_home is not None
+            and p_home >= (p_draw if p_draw is not None else -1)
+            and p_home >= (p_away if p_away is not None else -1)
+        )
     if truth == "away":
-        return p_away is not None and p_away >= (p_home or -1) and p_away >= (p_draw or -1)
+        return (
+            p_away is not None
+            and p_away >= (p_home if p_home is not None else -1)
+            and p_away >= (p_draw if p_draw is not None else -1)
+        )
     if truth == "draw":
-        return p_draw is not None and p_draw >= (p_home or -1) and p_draw >= (p_away or -1)
+        return (
+            p_draw is not None
+            and p_draw >= (p_home if p_home is not None else -1)
+            and p_draw >= (p_away if p_away is not None else -1)
+        )
     return False
 
 
@@ -285,7 +301,9 @@ def _sync_to_history(day: str) -> None:
     else:
         hist = ndf
     hist = hist.drop_duplicates(subset=["date", "home", "away"], keep="last")
-    hist = hist.sort_values("date")
+    # 用 stable 排序，保持同日期已有行的原始顺序不变，
+    # 只把新增的中文赛果按日期插入正确位置，避免全文件行序重排产生巨大 diff。
+    hist = hist.sort_values("date", kind="stable")
     hist.to_csv(hist_path, index=False)
     print(f"[赛果库] 回写 {len(new_frames)} 场中文赛果到历史库（扩展训练数据）")
 

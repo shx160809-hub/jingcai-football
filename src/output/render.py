@@ -144,6 +144,16 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
 .result-hit.hit { background:rgba(34,197,94,.18); color:#4ade80; }
 .result-hit.miss { background:rgba(239,68,68,.18); color:#fca5a5; }
 
+/* 结算卡片命中/未命中整卡着色 */
+.card-hit { border:1px solid rgba(34,197,94,.5); background:linear-gradient(180deg,rgba(34,197,94,.10),var(--card)); box-shadow:0 0 18px rgba(34,197,94,.12); }
+.card-hit:hover { border-color:rgba(34,197,94,.7); }
+.card-miss { border:1px solid rgba(239,68,68,.5); background:linear-gradient(180deg,rgba(239,68,68,.10),var(--card)); box-shadow:0 0 18px rgba(239,68,68,.12); }
+.card-miss:hover { border-color:rgba(239,68,68,.7); }
+
+/* 未命中原因说明 */
+.miss-reason { margin-top:10px; padding:10px 12px; border-radius:10px; font-size:12px; line-height:1.6; background:rgba(239,68,68,.08); border:1px dashed rgba(239,68,68,.35); color:#fca5a5; }
+.miss-reason b { color:#f87171; }
+
 /* 命中标注（命中=红，未命中=绿） */
 .finish-verdict { display:inline-flex; align-items:center; gap:4px; font-size:12px; padding:3px 12px; border-radius:20px; font-weight:700; }
 .finish-verdict.hit { background:rgba(239,68,68,.18); color:#f87171; border:1px solid rgba(239,68,68,.35); }
@@ -301,6 +311,70 @@ def _filter_upcoming(results: list[dict]) -> list[dict]:
     return [m for m in results if not _is_finished(m)]
 
 
+def _miss_reason(s: dict) -> str:
+    """根据结算数据生成未命中原因的简短总结。"""
+    truth = s.get("truth", "")
+    p_home = s.get("p_home")
+    p_draw = s.get("p_draw")
+    p_away = s.get("p_away")
+
+    # 无预测场次（概率缺失）
+    if p_home is None and p_draw is None and p_away is None:
+        return "该场次赛前无有效预测概率（模型未覆盖该联赛/数据缺失），无法参与命中判定。"
+
+    try:
+        p_h = float(p_home or 0)
+        p_d = float(p_draw or 0)
+        p_a = float(p_away or 0)
+    except (TypeError, ValueError):
+        return "预测概率数据异常，无法还原预测方向。"
+
+    # 预测方向 = 最高概率项
+    pred = {"home": "主胜", "draw": "平局", "away": "客胜"}
+    prob_map = {"home": p_h, "draw": p_d, "away": p_a}
+    pred_key = max(prob_map, key=prob_map.get)
+    pred_prob = prob_map[pred_key]
+
+    truth_cn = pred.get(truth, "")
+    home = s.get("home", "")
+    away = s.get("away", "")
+    hg = s.get("home_goals", "")
+    ag = s.get("away_goals", "")
+
+    # 实际比分字符串
+    score_str = ""
+    if hg != "" and ag != "":
+        score_str = f"（{hg}:{ag}）"
+
+    parts = []
+    parts.append(f"预测{home} vs {away}「{pred[pred_key]}」")
+
+    # 按未命中类型归因
+    if pred_prob >= 0.6:
+        reason = "高置信度预测落空"
+        detail = f"模型对「{pred[pred_key]}」给出 {pred_prob*100:.0f}% 高概率，但实际结果为「{truth_cn}」，属典型的爆冷/强队未兑现。"
+    elif pred_prob >= 0.4:
+        reason = "中等置信度预测偏差"
+        detail = f"预测方向「{pred[pred_key]}」概率仅 {pred_prob*100:.0f}%，与另外两选项差距不大，属正常波动范围内的方向性偏差。"
+    else:
+        reason = "低置信度预测偏冷"
+        detail = f"最高概率项「{pred[pred_key]}」仅 {pred_prob*100:.0f}%，三选项接近均势，赛果落在次选「{truth_cn}」上，属典型胶着局面。"
+    parts.append(detail)
+
+    # 市场赔率佐证（若为大热门未中，强调）
+    try:
+        had_w = float(s.get("had_win") or 0)
+        had_l = float(s.get("had_lose") or 0)
+        if pred_key == "home" and had_w > 0 and had_w < 1.5:
+            parts.append("市场同样高度看好主队（低赔），属一致看好的冷门。")
+        elif pred_key == "away" and had_l > 0 and had_l < 1.5:
+            parts.append("市场同样高度看好客队（低赔），属一致看好的冷门。")
+    except (TypeError, ValueError):
+        pass
+
+    return " ".join(parts)
+
+
 def _match_card(m: dict, top: bool = False, settled_meta: dict | None = None, day: str = "") -> str:
     """渲染单场比赛卡片。settled_meta 用于已结算页（含命中标记）。"""
     # p_home 等可能为 None（无预测场次），做安全兜底避免 NaN/None 计算报错
@@ -310,15 +384,30 @@ def _match_card(m: dict, top: bool = False, settled_meta: dict | None = None, da
     scores = m.get("top_scores", [])
     top_str = "　".join(f"{s['score']} {s['prob']*100:.1f}%" for s in scores[:3])
 
-    # 结算标记
+    # 结算标记（命中/未命中整卡着色 + 原因说明）
     settle_html = ""
+    card_settle_cls = ""
+    miss_reason_html = ""
     if settled_meta is not None:
         hit = settled_meta.get("pred_hit")
         truth_cn = {"home": "主胜", "draw": "平局", "away": "客胜"}.get(
             settled_meta.get("truth", ""), ""
         )
-        cls = "hit" if hit else "miss"
-        label = "✓ 命中" if hit else "✗ 未命中"
+        if hit is True:
+            cls = "hit"
+            label = "✓ 命中"
+            card_settle_cls = " card-hit"
+        elif hit is False:
+            cls = "miss"
+            label = "✗ 未命中"
+            card_settle_cls = " card-miss"
+            miss_reason_html = f'<div class="miss-reason"><b>未命中原因：</b>{_miss_reason(settled_meta)}</div>'
+        else:
+            # pred_hit 为 None（无预测场次）
+            cls = "miss"
+            label = "— 无预测"
+            card_settle_cls = " card-miss"
+            miss_reason_html = f'<div class="miss-reason"><b>未命中原因：</b>{_miss_reason(settled_meta)}</div>'
         settle_html = (
             f'<span class="result-hit {cls}">{label}</span>'
             f'<span class="tag" style="background:#121828;color:#cbd5e1">实际：{truth_cn}</span>'
@@ -353,7 +442,7 @@ def _match_card(m: dict, top: bool = False, settled_meta: dict | None = None, da
     top_badge = '<span class="top-badge">★ 置信度 Top5</span>' if top else ""
 
     return f"""
-<div class="card{' card-top' if top else ''}">
+<div class="card{card_settle_cls}{' card-top' if top else ''}">
   <div class="league">{top_badge}{m.get('league','')} <span class="time">{_fmt_time(m, day)}</span> {_tag(m)} {_conf_tag(m)} {settle_html}</div>
   <div class="teams">
     <div class="team"><div class="team-name">{m['home']}</div></div>
@@ -368,6 +457,7 @@ def _match_card(m: dict, top: bool = False, settled_meta: dict | None = None, da
   {score_line}
   {odds}
   {divergence_html}
+  {miss_reason_html}
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>"""
 
