@@ -122,6 +122,16 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
 .result-hit.hit { background:rgba(34,197,94,.18); color:#4ade80; }
 .result-hit.miss { background:rgba(239,68,68,.18); color:#fca5a5; }
 
+/* 结算卡片命中/未命中整卡着色 */
+.card-hit { border:1px solid rgba(34,197,94,.5); background:linear-gradient(180deg,rgba(34,197,94,.10),var(--card)); box-shadow:0 0 18px rgba(34,197,94,.12); }
+.card-hit:hover { border-color:rgba(34,197,94,.7); }
+.card-miss { border:1px solid rgba(239,68,68,.5); background:linear-gradient(180deg,rgba(239,68,68,.10),var(--card)); box-shadow:0 0 18px rgba(239,68,68,.12); }
+.card-miss:hover { border-color:rgba(239,68,68,.7); }
+
+/* 未命中原因说明 */
+.miss-reason { margin-top:10px; padding:10px 12px; border-radius:10px; font-size:12px; line-height:1.6; background:rgba(239,68,68,.08); border:1px dashed rgba(239,68,68,.35); color:#fca5a5; }
+.miss-reason b { color:#f87171; }
+
 /* 命中标注（命中=红，未命中=绿） */
 .finish-verdict { display:inline-flex; align-items:center; gap:4px; font-size:12px; padding:3px 12px; border-radius:20px; font-weight:700; }
 .finish-verdict.hit { background:rgba(239,68,68,.18); color:#f87171; border:1px solid rgba(239,68,68,.35); }
@@ -185,7 +195,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
 <div class="stat-note">* 命中率是模型表现统计，不代表未来结果、不构成投注建议。</div>
 <div class="section-title"><span class="bar"></span>近 7 日场次 <span class="section-sub">（35 场，按日期倒序）</span></div>
 
-<div class="card">
+<div class="card card-miss">
   <div class="league">日乙 <span class="time">20261025</span> <span class="tag tag-odds">市场隐含概率</span> <span class="conf">置信度 6%</span> <span class="result-hit miss">✗ 未命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：主胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">新潟天鹅</div></div>
@@ -200,9 +210,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  <div class="miss-reason"><b>未命中原因：</b>预测新潟天鹅 vs 仙台七夕「客胜」 预测方向「客胜」概率仅 51%，与另外两选项差距不大，属正常波动范围内的方向性偏差。</div>
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-hit">
   <div class="league">日职 <span class="time">20261025</span> <span class="tag tag-odds">市场隐含概率</span> <span class="conf">置信度 32%</span> <span class="result-hit hit">✓ 命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：主胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">东京FC</div></div>
@@ -217,9 +228,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-hit">
   <div class="league">日职 <span class="time">20261025</span> <span class="tag tag-odds">市场隐含概率</span> <span class="conf">置信度 4%</span> <span class="result-hit hit">✓ 命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：主胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">川崎前锋</div></div>
@@ -234,9 +246,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-miss">
   <div class="league">德国乙级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit miss">✗ 未命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：平局</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">波鸿</div></div>
@@ -251,9 +264,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  <div class="miss-reason"><b>未命中原因：</b>预测波鸿 vs 沃尔夫斯堡「客胜」 预测方向「客胜」概率仅 52%，与另外两选项差距不大，属正常波动范围内的方向性偏差。</div>
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-miss">
   <div class="league">瑞典超级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit miss">✗ 未命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：平局</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">埃尔夫斯堡</div></div>
@@ -268,9 +282,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  <div class="miss-reason"><b>未命中原因：</b>预测埃尔夫斯堡 vs 马尔默「主胜」 预测方向「主胜」概率仅 49%，与另外两选项差距不大，属正常波动范围内的方向性偏差。</div>
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-hit">
   <div class="league">荷兰甲级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit hit">✓ 命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：主胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">前进之鹰</div></div>
@@ -285,9 +300,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-miss">
   <div class="league">荷兰乙级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit miss">✗ 未命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：平局</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">布雷达</div></div>
@@ -302,9 +318,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  <div class="miss-reason"><b>未命中原因：</b>预测布雷达 vs 赫拉克勒斯「客胜」 预测方向「客胜」概率仅 43%，与另外两选项差距不大，属正常波动范围内的方向性偏差。</div>
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-miss">
   <div class="league">德国甲级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit miss">✗ 未命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：客胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">斯图加特</div></div>
@@ -319,9 +336,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  <div class="miss-reason"><b>未命中原因：</b>预测斯图加特 vs 门兴格拉德巴赫「主胜」 模型对「主胜」给出 75% 高概率，但实际结果为「客胜」，属典型的爆冷/强队未兑现。 市场同样高度看好主队（低赔），属一致看好的冷门。</div>
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-hit">
   <div class="league">意大利甲级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit hit">✓ 命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：主胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">都灵</div></div>
@@ -336,9 +354,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-miss">
   <div class="league">法国甲级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit miss">✗ 未命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：客胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">布雷斯特</div></div>
@@ -353,9 +372,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  <div class="miss-reason"><b>未命中原因：</b>预测布雷斯特 vs 尼斯「主胜」 预测方向「主胜」概率仅 44%，与另外两选项差距不大，属正常波动范围内的方向性偏差。</div>
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-miss">
   <div class="league">英格兰超级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit miss">✗ 未命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：平局</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">伊普斯维奇</div></div>
@@ -370,9 +390,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  <div class="miss-reason"><b>未命中原因：</b>预测伊普斯维奇 vs 诺丁汉森林「客胜」 预测方向「客胜」概率仅 42%，与另外两选项差距不大，属正常波动范围内的方向性偏差。</div>
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-hit">
   <div class="league">英格兰冠军联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit hit">✓ 命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：客胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">博尔顿</div></div>
@@ -387,9 +408,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-miss">
   <div class="league">西班牙甲级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit miss">✗ 未命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：平局</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">阿拉维斯</div></div>
@@ -404,9 +426,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  <div class="miss-reason"><b>未命中原因：</b>预测阿拉维斯 vs 马拉加「主胜」 模型对「主胜」给出 62% 高概率，但实际结果为「平局」，属典型的爆冷/强队未兑现。 市场同样高度看好主队（低赔），属一致看好的冷门。</div>
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-hit">
   <div class="league">葡萄牙超级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit hit">✓ 命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：主胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">吉马良斯</div></div>
@@ -421,9 +444,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-miss">
   <div class="league">韩国职业联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit miss">✗ 未命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：平局</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">首尔FC</div></div>
@@ -438,9 +462,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  <div class="miss-reason"><b>未命中原因：</b>预测首尔FC vs 江原FC「主胜」 预测方向「主胜」概率仅 53%，与另外两选项差距不大，属正常波动范围内的方向性偏差。</div>
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-hit">
   <div class="league">韩国职业联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit hit">✓ 命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：主胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">仁川联</div></div>
@@ -455,9 +480,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-miss">
   <div class="league">日本职业联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit miss">✗ 未命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：平局</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">神户胜利船</div></div>
@@ -472,9 +498,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  <div class="miss-reason"><b>未命中原因：</b>预测神户胜利船 vs 町田泽维亚「客胜」 最高概率项「客胜」仅 36%，三选项接近均势，赛果落在次选「平局」上，属典型胶着局面。</div>
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-miss">
   <div class="league">日本职业联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit miss">✗ 未命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：客胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">鹿岛鹿角</div></div>
@@ -489,9 +516,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  <div class="miss-reason"><b>未命中原因：</b>预测鹿岛鹿角 vs 柏太阳神「主胜」 预测方向「主胜」概率仅 47%，与另外两选项差距不大，属正常波动范围内的方向性偏差。</div>
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-miss">
   <div class="league">澳大利亚超级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit miss">✗ 未命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：平局</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">墨尔本胜利</div></div>
@@ -506,9 +534,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  <div class="miss-reason"><b>未命中原因：</b>预测墨尔本胜利 vs 墨尔本城「主胜」 预测方向「主胜」概率仅 43%，与另外两选项差距不大，属正常波动范围内的方向性偏差。</div>
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-miss">
   <div class="league">英格兰超级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit miss">✗ 未命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：主胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">阿斯顿维拉</div></div>
@@ -523,9 +552,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  <div class="miss-reason"><b>未命中原因：</b>预测阿斯顿维拉 vs 曼彻斯特城「客胜」 预测方向「客胜」概率仅 60%，与另外两选项差距不大，属正常波动范围内的方向性偏差。 市场同样高度看好客队（低赔），属一致看好的冷门。</div>
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-hit">
   <div class="league">英格兰冠军联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit hit">✓ 命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：客胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">查尔顿</div></div>
@@ -540,9 +570,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-miss">
   <div class="league">西班牙甲级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit miss">✗ 未命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：客胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">巴列卡诺</div></div>
@@ -557,9 +588,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  <div class="miss-reason"><b>未命中原因：</b>预测巴列卡诺 vs 埃尔切「主胜」 预测方向「主胜」概率仅 57%，与另外两选项差距不大，属正常波动范围内的方向性偏差。</div>
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-hit">
   <div class="league">意大利甲级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit hit">✓ 命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：主胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">科莫</div></div>
@@ -574,9 +606,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-hit">
   <div class="league">意大利甲级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit hit">✓ 命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：客胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">卡利亚里</div></div>
@@ -591,9 +624,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-hit">
   <div class="league">德国甲级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit hit">✓ 命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：主胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">莱比锡红牛</div></div>
@@ -608,9 +642,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-miss">
   <div class="league">德国甲级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit miss">✗ 未命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：客胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">美因茨</div></div>
@@ -625,9 +660,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  <div class="miss-reason"><b>未命中原因：</b>预测美因茨 vs 云达不来梅「主胜」 预测方向「主胜」概率仅 52%，与另外两选项差距不大，属正常波动范围内的方向性偏差。</div>
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-hit">
   <div class="league">德国甲级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit hit">✓ 命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：主胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">帕德博恩</div></div>
@@ -642,9 +678,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-miss">
   <div class="league">德国甲级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit miss">✗ 未命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：平局</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">科隆</div></div>
@@ -659,9 +696,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  <div class="miss-reason"><b>未命中原因：</b>预测科隆 vs 沙尔克04「主胜」 预测方向「主胜」概率仅 47%，与另外两选项差距不大，属正常波动范围内的方向性偏差。</div>
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-miss">
   <div class="league">德国甲级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit miss">✗ 未命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：平局</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">奥格斯堡</div></div>
@@ -676,9 +714,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  <div class="miss-reason"><b>未命中原因：</b>预测奥格斯堡 vs 柏林联合「主胜」 预测方向「主胜」概率仅 59%，与另外两选项差距不大，属正常波动范围内的方向性偏差。</div>
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-hit">
   <div class="league">英格兰超级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit hit">✓ 命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：主胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">阿森纳</div></div>
@@ -693,9 +732,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-hit">
   <div class="league">英格兰超级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit hit">✓ 命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：客胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">考文垂</div></div>
@@ -710,10 +750,11 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
-  <div class="league">挪威超级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit miss">✗ 未命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：客胜</span></div>
+<div class="card card-miss">
+  <div class="league">挪威超级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit miss">— 无预测</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：客胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">博德闪耀</div></div>
     <div class="vs">VS</div>
@@ -727,9 +768,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  <div class="miss-reason"><b>未命中原因：</b>该场次赛前无有效预测概率（模型未覆盖该联赛/数据缺失），无法参与命中判定。</div>
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-hit">
   <div class="league">西班牙甲级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit hit">✓ 命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：主胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">桑坦德竞技</div></div>
@@ -744,9 +786,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-miss">
   <div class="league">荷兰甲级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit miss">✗ 未命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：平局</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">乌德勒支</div></div>
@@ -761,9 +804,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  <div class="miss-reason"><b>未命中原因：</b>预测乌德勒支 vs 兹沃勒「主胜」 模型对「主胜」给出 63% 高概率，但实际结果为「平局」，属典型的爆冷/强队未兑现。 市场同样高度看好主队（低赔），属一致看好的冷门。</div>
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
-<div class="card">
+<div class="card card-miss">
   <div class="league">葡萄牙超级联赛 <span class="time">20261024</span> <span class="tag tag-prior">均匀先验</span>  <span class="result-hit miss">✗ 未命中</span><span class="tag" style="background:#121828;color:#cbd5e1">实际：客胜</span></div>
   <div class="teams">
     <div class="team"><div class="team-name">阿马多拉</div></div>
@@ -778,6 +822,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
   
   
+  <div class="miss-reason"><b>未命中原因：</b>预测阿马多拉 vs 卡萨皮亚「主胜」 预测方向「主胜」概率仅 56%，与另外两选项差距不大，属正常波动范围内的方向性偏差。</div>
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
 </div>
