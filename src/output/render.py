@@ -232,7 +232,13 @@ def _conf_tag(m: dict) -> str:
     conf = m.get("confidence_score")
     if conf is None:
         return ""
-    return f'<span class="conf">置信度 {conf*100:.0f}%</span>'
+    try:
+        # 防御 NaN（float('nan') 不是 None，但乘 100 会显示成 nan%）
+        if conf != conf:  # NaN 自比较为 False
+            return ""
+        return f'<span class="conf">置信度 {conf*100:.0f}%</span>'
+    except (TypeError, ValueError):
+        return ""
 
 
 def _fmt_time(m: dict, day: str = "") -> str:
@@ -297,9 +303,10 @@ def _filter_upcoming(results: list[dict]) -> list[dict]:
 
 def _match_card(m: dict, top: bool = False, settled_meta: dict | None = None, day: str = "") -> str:
     """渲染单场比赛卡片。settled_meta 用于已结算页（含命中标记）。"""
-    p_h = m["p_home"] * 100
-    p_d = m["p_draw"] * 100
-    p_a = m["p_away"] * 100
+    # p_home 等可能为 None（无预测场次），做安全兜底避免 NaN/None 计算报错
+    p_h = (m["p_home"] or 0) * 100
+    p_d = (m["p_draw"] or 0) * 100
+    p_a = (m["p_away"] or 0) * 100
     scores = m.get("top_scores", [])
     top_str = "　".join(f"{s['score']} {s['prob']*100:.1f}%" for s in scores[:3])
 
@@ -483,7 +490,18 @@ def _load_settlement() -> list[dict]:
     if "pred_hit" in df.columns:
         df["pred_hit"] = df["pred_hit"].map(lambda v: bool(v) if pd.notna(v) else None)
 
-    return df.to_dict("records")
+    # 先转成 records，再在 Python 层面把 NaN 转 None。
+    # 直接在 DataFrame 上赋值会被 pandas 反复做 dtype 推断，None 又被转回 NaN。
+    records = df.to_dict("records")
+    for r in records:
+        for col in ("confidence_score", "p_home", "p_draw", "p_away"):
+            if col in r:
+                try:
+                    if pd.isna(r[col]):
+                        r[col] = None
+                except (TypeError, ValueError):
+                    pass
+    return records
 
 
 # ============================================================
@@ -664,7 +682,9 @@ def render_settled(day: str) -> Path:
     # 近 7 日概览
     total = len(recent)
     hits = sum(1 for s in recent if s.get("pred_hit"))
-    rate = hits / total if total else 0
+    # 命中率分母排除"无预测"场次（pred_hit 为 None）
+    scored = [s for s in recent if s.get("pred_hit") is not None]
+    rate = hits / len(scored) if scored else 0
     overview = f"""
 <div class="page-hero">
   <h1>结算场次</h1>
@@ -722,7 +742,9 @@ def render_accuracy(day: str) -> Path:
 
     total = len(settled)
     hits = sum(1 for s in settled if s.get("pred_hit"))
-    overall = hits / total if total else 0
+    # 命中率分母应排除"无预测"场次（pred_hit 为 None，无法判定命中与否）
+    scored = [s for s in settled if s.get("pred_hit") is not None]
+    overall = hits / len(scored) if scored else 0
 
     # 按置信度分桶，计算各桶命中率
     import math
