@@ -67,7 +67,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/ docs/
           git commit -m "chore: 更新 $(date +%Y%m%d) 预测与结算数据" || echo "无变更"
-          git push
+          git pull origin main --rebase && git push
 
   daily-feedback:
     needs: analyze
@@ -104,7 +104,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/ docs/feedback.html
           git commit -m "chore: 每日数据回馈 $(date +%Y%m%d)（赛果归档+回测）" || echo "无变更"
-          git push
+          git pull origin main --rebase && git push
 
   deploy:
     needs: [analyze, daily-feedback]
