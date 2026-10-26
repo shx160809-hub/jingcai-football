@@ -384,18 +384,33 @@ def _current_matchday_week(cutoff_hour: int = 11) -> tuple[str, str]:
     return _weekday_cn(anchor), anchor.strftime("%Y%m%d")
 
 
+def _prev_matchday_week(cutoff_hour: int = 11) -> tuple[str, str]:
+    """返回「上一个比赛日」的星期前缀与锚定日期（YYYYMMDD）。
+
+    上一个比赛日 = 当前比赛日锚定日前一天（自然日 -1）。
+    用于「完赛结果保留展示」：上一个比赛日的完赛结果，保留显示到
+    当前比赛日当天 result_keep_until_hour（默认 18:00）。
+    """
+    from datetime import timedelta
+
+    today_week, anchor_day = _current_matchday_week(cutoff_hour=cutoff_hour)
+    anchor_dt = datetime.strptime(anchor_day, "%Y%m%d")
+    prev_dt = anchor_dt - timedelta(days=1)
+    return _weekday_cn(prev_dt), prev_dt.strftime("%Y%m%d")
+
+
 def fetch_live_board(day: str | None = None) -> dict:
-    """抓取「今日赛果」实时看板：仅覆盖「当前比赛日」的竞彩赛事。
+    """抓取「今日赛果」实时看板：覆盖「当前比赛日」+「上一比赛日完赛结果」。
 
-    数据来源合并两路（体彩官方，权威且实时）：
-      1. 赛果接口（getUniformMatchResultV1）：已开球场次，含实时/完赛比分、状态、胜负方向
-      2. 在售接口（getMatchCalculatorV1）：尚未开球的场次
+    三路数据合并（体彩官方，权威且实时）：
+      1. 当前比赛日赛果接口（getUniformMatchResultV1）：已开球场次，含实时/完赛比分
+      2. 当前比赛日在售接口（getMatchCalculatorV1）：尚未开球的场次
+      3. 上一比赛日赛果接口：完赛结果，保留展示到当天 result_keep_until_hour（18:00）
 
-    两路按 match_num 互补（已开球只出现在赛果接口、未开球只出现在在售接口）。
-
-    「当前比赛日」界定：按竞彩编号的星期前缀（如「周日001」）与当前比赛日星期对齐。
-    比赛日按北京时间 11:00 切分（day_cutoff_hour）：11:00 前编号为「昨天」星期，
-    11:00 后编号为「今天」星期——做到「每天 11:00 自动切换到当日比赛」。
+    展示语义（用户需求）：
+      - 开赛前 → 未开赛
+      - 开赛中 → 实时比分
+      - 完赛后 → 比赛结果，且在下一个比赛日晚 18:00 前持续显示上一个比赛日的结果
 
     每条记录字段：
       match_num / league / home / away / kickoff / match_date
@@ -403,56 +418,64 @@ def fetch_live_board(day: str | None = None) -> dict:
       status（1=进行中/未开球, 2=已完赛）
       state（not_started / live / finished）
       win_flag（H/A/D，仅完赛）
+      matchday（today / prev，用于区分比赛日）
 
     落盘 data/raw/live_board_{day}.json。
     """
     day = day or datetime.now().strftime("%Y%m%d")
     cfg = load_config()
     cutoff_hour = int(cfg["collect"].get("day_cutoff_hour", 11))
+    keep_until_hour = int(cfg["collect"].get("result_keep_until_hour", 18))
 
-    # 当前比赛日的星期前缀与锚定日（用于过滤赛果接口里混入的上一比赛日场次，
-    # 以及 11:00 前仍处于「上一比赛日」时，用锚定日而非自然日期查询接口）
+    # 当前比赛日 + 上一比赛日的星期前缀与锚定日
     today_week, anchor_day = _current_matchday_week(cutoff_hour=cutoff_hour)
+    prev_week, prev_day = _prev_matchday_week(cutoff_hour=cutoff_hour)
 
-    # 1. 赛果接口：已开球（进行中 + 已完赛）
     live: list[dict] = []
+
+    def _norm_result(r: dict, matchday: str) -> dict:
+        """把赛果接口记录标准化为看板条目。"""
+        num = r.get("match_num", "")
+        hg = r.get("home_goals")
+        ag = r.get("away_goals")
+        has_score = hg is not None and ag is not None
+        st = str(r.get("status", ""))
+        if st == "2":
+            state = "finished"
+        elif has_score:
+            state = "live"  # 已开球且有比分，进行中
+        else:
+            state = "not_started"  # 已开球但比分未更新（刚开场）
+        return {
+            "match_num": num,
+            "match_id": r.get("match_id"),
+            "league": r.get("league", ""),
+            "home": r.get("home", ""),
+            "away": r.get("away", ""),
+            "match_date": r.get("match_date", ""),
+            "kickoff": r.get("match_date", ""),
+            "home_goals": hg,
+            "away_goals": ag,
+            "half_score": r.get("half_score", ""),
+            "status": st,
+            "state": state,
+            "win_flag": r.get("win_flag", ""),
+            "goal_line": r.get("goal_line", ""),
+            "matchday": matchday,
+        }
+
+    # 1. 当前比赛日赛果接口：已开球（进行中 + 已完赛）
     try:
         result_payload = fetch_results(anchor_day)
         for r in result_payload.get("results", []):
             num = r.get("match_num", "")
-            # 仅保留「当前比赛日」的场次（按编号星期前缀过滤）
             if num and not num.startswith(today_week):
                 continue
-            hg = r.get("home_goals")
-            ag = r.get("away_goals")
-            has_score = hg is not None and ag is not None
-            st = str(r.get("status", ""))
-            if st == "2":
-                state = "finished"
-            elif has_score:
-                state = "live"  # 已开球且有比分，进行中
-            else:
-                state = "not_started"  # 已开球但比分未更新（刚开场）
-            live.append({
-                "match_num": num,
-                "match_id": r.get("match_id"),
-                "league": r.get("league", ""),
-                "home": r.get("home", ""),
-                "away": r.get("away", ""),
-                "match_date": r.get("match_date", ""),
-                "kickoff": r.get("match_date", ""),
-                "home_goals": hg,
-                "away_goals": ag,
-                "half_score": r.get("half_score", ""),
-                "status": st,
-                "state": state,
-                "win_flag": r.get("win_flag", ""),
-                "goal_line": r.get("goal_line", ""),
-            })
+            live.append(_norm_result(r, "today"))
     except Exception as e:  # noqa: BLE001
-        print(f"[今日赛果] 赛果接口抓取失败: {e}")
+        print(f"[今日赛果] 当前比赛日赛果接口抓取失败: {e}")
 
-    # 2. 在售接口：尚未开球的场次（补全赛果接口没有的 match_num）
+    # 2. 当前比赛日在售接口：尚未开球的场次（补全赛果接口没有的 match_num）
     covered = {m["match_num"] for m in live if m.get("match_num")}
     try:
         odds_payload = fetch_today(anchor_day)
@@ -460,7 +483,6 @@ def fetch_live_board(day: str | None = None) -> dict:
             num = m.get("match_num", "")
             if num and num in covered:
                 continue
-            # 同样按星期前缀过滤（在售接口理论上已被 11:00 窗口过滤，双保险）
             if num and not num.startswith(today_week):
                 continue
             live.append({
@@ -478,14 +500,38 @@ def fetch_live_board(day: str | None = None) -> dict:
                 "state": "not_started",
                 "win_flag": "",
                 "goal_line": m.get("hhad_goal_line", ""),
+                "matchday": "today",
             })
     except Exception as e:  # noqa: BLE001
         print(f"[今日赛果] 在售接口抓取失败: {e}")
 
-    # 排序：进行中/已完赛在前，未开球按开球时间在后
+    # 3. 上一比赛日完赛结果：保留展示到当天 keep_until_hour 前
+    from zoneinfo import ZoneInfo
+
+    now_hour = datetime.now(ZoneInfo("Asia/Shanghai")).hour
+    if now_hour < keep_until_hour:
+        try:
+            prev_payload = fetch_results(prev_day)
+            for r in prev_payload.get("results", []):
+                num = r.get("match_num", "")
+                # 只保留「上一比赛日」且已完赛（status=2）的场次
+                if num and not num.startswith(prev_week):
+                    continue
+                if str(r.get("status", "")) != "2":
+                    continue
+                live.append(_norm_result(r, "prev"))
+        except Exception as e:  # noqa: BLE001
+            print(f"[今日赛果] 上一比赛日赛果接口抓取失败: {e}")
+
+    # 排序：进行中 > 当前比赛日完赛 > 上一比赛日完赛 > 未开球
     def _key(m: dict) -> tuple:
         order = {"live": 0, "finished": 1, "not_started": 2}
-        return (order.get(m.get("state", "not_started"), 2), str(m.get("kickoff", "")))
+        md_order = {"today": 0, "prev": 1}
+        return (
+            order.get(m.get("state", "not_started"), 2),
+            md_order.get(m.get("matchday", "today"), 0),
+            str(m.get("kickoff", "")),
+        )
 
     live.sort(key=_key)
 

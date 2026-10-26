@@ -39,6 +39,7 @@ collect:
   timeout: 15
   retry: 3
   day_cutoff_hour: 11  # 比赛日切分点（北京时间小时）：当日 11:00 ~ 次日 11:00 归为同一比赛日
+  result_keep_until_hour: 18  # 上一比赛日完赛结果保留展示到当天该小时（18:00）；之后不再显示昨日赛果
   # football-data.co.uk 各联赛代码（用于历史数据兜底）
   # 主目录 mmz4281/<season>/<code>.csv
   leagues:

@@ -1308,16 +1308,23 @@ def _live_card(m: dict) -> str:
 
 
 def render_live(day: str) -> Path:
-    """今日赛果子页：实时显示当日竞彩全部赛事（进行中/已完赛/未开球）。
+    """今日赛果子页：实时显示比赛（进行中/已完赛/未开球）+ 上一比赛日完赛结果。
 
-    数据来自 fetch_live_board 落盘的 live_board_{day}.json（体彩官方两路接口合并），
-    简洁实时：进行中红点闪烁 + 实时比分、已完赛显示比分+胜负、未开球显示开球时间。
+    数据来自 fetch_live_board 落盘的 live_board_{day}.json（体彩官方三路接口合并）。
+    展示语义（用户需求）：
+      - 开赛前 → 未开赛
+      - 开赛中 → 实时比分
+      - 完赛后 → 比赛结果，且在下一个比赛日晚 18:00 前持续显示上一比赛日结果
     """
     matches = _load_live_board(day)
 
     live = [m for m in matches if m.get("state") == "live"]
     finished = [m for m in matches if m.get("state") == "finished"]
     not_started = [m for m in matches if m.get("state") == "not_started"]
+
+    # 上一比赛日完赛结果（matchday == "prev"，均为 finished）
+    prev_finished = [m for m in finished if m.get("matchday") == "prev"]
+    today_finished = [m for m in finished if m.get("matchday") != "prev"]
 
     day_disp = f"{day[:4]}-{day[4:6]}-{day[6:]}" if len(day) == 8 else day
 
@@ -1336,11 +1343,18 @@ def render_live(day: str) -> Path:
 <div class="section-title"><span class="bar" style="background:linear-gradient(180deg,#ef4444,#dc2626)"></span>进行中 <span class="section-sub">（{len(live)} 场 · 实时比分）</span></div>
 {cards}""")
 
-    # 已完赛
-    if finished:
-        cards = "".join(_live_card(m) for m in finished)
+    # 已完赛（今日）
+    if today_finished:
+        cards = "".join(_live_card(m) for m in today_finished)
         sections.append(f"""
-<div class="section-title"><span class="bar"></span>已完赛 <span class="section-sub">（{len(finished)} 场）</span></div>
+<div class="section-title"><span class="bar"></span>已完赛 <span class="section-sub">（{len(today_finished)} 场）</span></div>
+<div class="live-grid">{cards}</div>""")
+
+    # 上一比赛日完赛结果（保留展示）
+    if prev_finished:
+        cards = "".join(_live_card(m) for m in prev_finished)
+        sections.append(f"""
+<div class="section-title"><span class="bar" style="background:linear-gradient(180deg,#6366f1,#8b5cf6)"></span>上一比赛日结果 <span class="section-sub">（{len(prev_finished)} 场 · 完赛）</span></div>
 <div class="live-grid">{cards}</div>""")
 
     # 未开球
