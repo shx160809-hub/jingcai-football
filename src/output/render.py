@@ -124,6 +124,22 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
 .score-hero .p { font-size:18px; font-weight:700; color:#a5b4fc; }
 .score-detail { text-align:center; color:var(--muted); font-size:12px; }
 
+/* 每日比分推荐卡片（每场 2 个结果） */
+.rec-card { border:1px solid rgba(34,197,94,.55); background:linear-gradient(180deg,rgba(34,197,94,.12),var(--card)); box-shadow:0 0 20px rgba(34,197,94,.16); }
+.rec-badge { display:inline-flex; align-items:center; gap:4px; background:linear-gradient(135deg,#22c55e,#16a34a); color:#fff; font-size:11px; padding:3px 10px; border-radius:20px; margin-right:6px; font-weight:600; }
+.rec-rank { display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; background:linear-gradient(135deg,#f59e0b,#f97316); color:#fff; font-size:12px; font-weight:700; border-radius:50%; margin-right:6px; }
+.rec-scores { display:flex; justify-content:center; gap:16px; margin:14px 0; }
+.rec-score { display:flex; flex-direction:column; align-items:center; gap:4px; min-width:90px; padding:10px 14px; background:#121828; border-radius:12px; border:1px solid rgba(34,197,94,.35); }
+.rec-score-num { font-size:30px; font-weight:800; color:#4ade80; letter-spacing:2px; }
+.rec-score-p { font-size:13px; font-weight:700; color:#86efac; }
+
+/* 推荐回顾卡片 */
+.rec-review-scores { display:flex; flex-wrap:wrap; gap:10px; margin:12px 0; justify-content:center; }
+.rec-review-score { padding:8px 14px; background:#121828; border-radius:10px; border:1px solid rgba(99,102,241,.35); font-size:13px; color:var(--muted); }
+.rec-review-score b { color:#a5b4fc; font-size:15px; }
+.rec-review-actual { text-align:center; color:var(--muted); font-size:13px; margin-top:4px; }
+.rec-review-actual b { color:#fca5a5; font-size:16px; }
+
 /* 赛果比分展示 */
 .finished-score, .live-score { display:flex; align-items:center; justify-content:center; gap:14px; margin:12px 0; }
 .finished-score .team-label, .live-score .team-label { font-size:15px; font-weight:700; flex:1; text-align:right; color:var(--text); }
@@ -144,15 +160,38 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
 .result-hit.hit { background:rgba(34,197,94,.18); color:#4ade80; }
 .result-hit.miss { background:rgba(239,68,68,.18); color:#fca5a5; }
 
-/* 结算卡片命中/未命中整卡着色 */
-.card-hit { border:1px solid rgba(34,197,94,.5); background:linear-gradient(180deg,rgba(34,197,94,.10),var(--card)); box-shadow:0 0 18px rgba(34,197,94,.12); }
-.card-hit:hover { border-color:rgba(34,197,94,.7); }
-.card-miss { border:1px solid rgba(239,68,68,.5); background:linear-gradient(180deg,rgba(239,68,68,.10),var(--card)); box-shadow:0 0 18px rgba(239,68,68,.12); }
-.card-miss:hover { border-color:rgba(239,68,68,.7); }
+/* 结算卡片命中/未命中整卡着色（左色条 + 强边框 + 底色） */
+.card-hit {
+  border:1px solid rgba(34,197,94,.65);
+  border-left:5px solid #22c55e;
+  background:linear-gradient(180deg,rgba(34,197,94,.16),rgba(34,197,94,.04) 45%,var(--card));
+  box-shadow:0 0 22px rgba(34,197,94,.22);
+}
+.card-hit:hover { border-color:rgba(34,197,94,.9); box-shadow:0 0 30px rgba(34,197,94,.3); }
+.card-miss {
+  border:1px solid rgba(239,68,68,.65);
+  border-left:5px solid #ef4444;
+  background:linear-gradient(180deg,rgba(239,68,68,.18),rgba(239,68,68,.05) 45%,var(--card));
+  box-shadow:0 0 22px rgba(239,68,68,.22);
+}
+.card-miss:hover { border-color:rgba(239,68,68,.9); box-shadow:0 0 30px rgba(239,68,68,.3); }
 
-/* 未命中原因说明 */
-.miss-reason { margin-top:10px; padding:10px 12px; border-radius:10px; font-size:12px; line-height:1.6; background:rgba(239,68,68,.08); border:1px dashed rgba(239,68,68,.35); color:#fca5a5; }
-.miss-reason b { color:#f87171; }
+/* 结算卡片置信度 chip */
+.settle-conf { display:inline-flex; align-items:center; gap:4px; font-size:11px; padding:2px 8px; border-radius:10px; background:rgba(99,102,241,.22); color:#c4b5fd; font-weight:600; }
+
+/* 未命中原因说明（彻底分析块） */
+.miss-reason {
+  margin-top:12px; padding:12px 14px; border-radius:12px;
+  font-size:12px; line-height:1.7;
+  background:rgba(239,68,68,.10);
+  border:1px solid rgba(239,68,68,.45);
+  border-left:4px solid #ef4444;
+  color:#fecaca;
+}
+.miss-reason-title { font-size:13px; font-weight:700; color:#f87171; margin-bottom:8px; }
+.miss-reason .mr-line { margin:4px 0; }
+.miss-reason .mr-line b { color:#fca5a5; font-weight:600; }
+.miss-reason .mr-line em { color:#fca5a5; font-style:normal; font-weight:600; }
 
 /* 命中标注（命中=红，未命中=绿） */
 .finish-verdict { display:inline-flex; align-items:center; gap:4px; font-size:12px; padding:3px 12px; border-radius:20px; font-weight:700; }
@@ -201,6 +240,7 @@ def _nav(active: str) -> str:
         ("matches.html", "今日场次", False),
         ("scores.html", "比分推荐", False),
         ("live.html", "今日赛果", False),
+        ("recommend.html", "推荐回顾", False),
         ("settled.html", "结算场次", False),
         ("accuracy.html", "累计命中率", False),
         ("feedback.html", "数据回馈", False),
@@ -312,7 +352,7 @@ def _filter_upcoming(results: list[dict]) -> list[dict]:
 
 
 def _miss_reason(s: dict) -> str:
-    """根据结算数据生成未命中原因的简短总结。"""
+    """根据结算数据生成未命中原因的彻底分析（含置信度、概率分布、爆冷程度、赔率佐证）。"""
     truth = s.get("truth", "")
     p_home = s.get("p_home")
     p_draw = s.get("p_draw")
@@ -320,16 +360,18 @@ def _miss_reason(s: dict) -> str:
 
     # 无预测场次（概率缺失）
     if p_home is None and p_draw is None and p_away is None:
-        return "该场次赛前无有效预测概率（模型未覆盖该联赛/数据缺失），无法参与命中判定。"
+        return (
+            '<div class="mr-line">该场次赛前无有效预测概率（模型未覆盖该联赛/数据缺失），'
+            "无法参与命中判定。</div>"
+        )
 
     try:
         p_h = float(p_home or 0)
         p_d = float(p_draw or 0)
         p_a = float(p_away or 0)
     except (TypeError, ValueError):
-        return "预测概率数据异常，无法还原预测方向。"
+        return '<div class="mr-line">预测概率数据异常，无法还原预测方向。</div>'
 
-    # 预测方向 = 最高概率项
     pred = {"home": "主胜", "draw": "平局", "away": "客胜"}
     prob_map = {"home": p_h, "draw": p_d, "away": p_a}
     pred_key = max(prob_map, key=prob_map.get)
@@ -338,41 +380,77 @@ def _miss_reason(s: dict) -> str:
     truth_cn = pred.get(truth, "")
     home = s.get("home", "")
     away = s.get("away", "")
+
+    # 实际比分
     hg = s.get("home_goals", "")
     ag = s.get("away_goals", "")
-
-    # 实际比分字符串
     score_str = ""
-    if hg != "" and ag != "":
-        score_str = f"（{hg}:{ag}）"
+    try:
+        if hg is not None and ag is not None and str(hg) != "" and str(ag) != "":
+            score_str = f"{int(float(hg))}:{int(float(ag))}"
+    except (TypeError, ValueError):
+        score_str = ""
 
-    parts = []
-    parts.append(f"预测{home} vs {away}「{pred[pred_key]}」")
-
-    # 按未命中类型归因
-    if pred_prob >= 0.6:
-        reason = "高置信度预测落空"
-        detail = f"模型对「{pred[pred_key]}」给出 {pred_prob*100:.0f}% 高概率，但实际结果为「{truth_cn}」，属典型的爆冷/强队未兑现。"
-    elif pred_prob >= 0.4:
-        reason = "中等置信度预测偏差"
-        detail = f"预测方向「{pred[pred_key]}」概率仅 {pred_prob*100:.0f}%，与另外两选项差距不大，属正常波动范围内的方向性偏差。"
+    # 实际结果在模型概率分布中的位置（爆冷程度）
+    actual_prob = prob_map.get(truth, 0.0)
+    if actual_prob >= 0.5:
+        upset = "实际结果本就属于概率前三的高频区间，属正常兑现，模型方向判断偏差。"
+    elif actual_prob >= 0.3:
+        upset = f"实际结果「{truth_cn}」在模型中仅占 {actual_prob*100:.0f}%，属中等冷门。"
+    elif actual_prob >= 0.15:
+        upset = f"实际结果「{truth_cn}」在模型中仅占 {actual_prob*100:.0f}%，属明显冷门。"
     else:
-        reason = "低置信度预测偏冷"
-        detail = f"最高概率项「{pred[pred_key]}」仅 {pred_prob*100:.0f}%，三选项接近均势，赛果落在次选「{truth_cn}」上，属典型胶着局面。"
-    parts.append(detail)
+        upset = f"实际结果「{truth_cn}」在模型中仅占 {actual_prob*100:.0f}%，属大幅爆冷，市场与模型均未料及。"
 
-    # 市场赔率佐证（若为大热门未中，强调）
+    # 按预测方向置信度归因
+    if pred_prob >= 0.6:
+        core = (
+            f'模型对「{pred[pred_key]}」给出 <b>{pred_prob*100:.0f}%</b> 的高置信度，'
+            f"但实际结果是「{truth_cn}」，属典型的<em>强队未兑现 / 爆冷</em>。"
+        )
+    elif pred_prob >= 0.4:
+        core = (
+            f'预测方向「{pred[pred_key]}」概率仅 <b>{pred_prob*100:.0f}%</b>，'
+            f"与其余选项差距有限，属<em>中等置信下的方向性偏差</em>。"
+        )
+    else:
+        core = (
+            f'最高概率项「{pred[pred_key]}」仅 <b>{pred_prob*100:.0f}%</b>，'
+            f"三选项接近均势，赛果落在次选，属<em>胶着局面的正常波动</em>。"
+        )
+
+    # 市场赔率佐证
+    mkt_note = ""
     try:
         had_w = float(s.get("had_win") or 0)
+        had_d = float(s.get("had_draw") or 0)
         had_l = float(s.get("had_lose") or 0)
-        if pred_key == "home" and had_w > 0 and had_w < 1.5:
-            parts.append("市场同样高度看好主队（低赔），属一致看好的冷门。")
-        elif pred_key == "away" and had_l > 0 and had_l < 1.5:
-            parts.append("市场同样高度看好客队（低赔），属一致看好的冷门。")
+        # 预测方向对应赔率
+        odd_map = {"home": had_w, "draw": had_d, "away": had_l}
+        pred_odd = odd_map.get(pred_key, 0)
+        if pred_odd > 0 and pred_odd < 1.5:
+            mkt_note = f"市场同样高度看好{pred[pred_key]}（低赔 {pred_odd:.2f}），属一致看好的冷门。"
+        elif pred_odd >= 2.0:
+            mkt_note = f"市场对{pred[pred_key]}并非一边倒（赔率 {pred_odd:.2f}），模型与市场判断分歧有限。"
     except (TypeError, ValueError):
         pass
 
-    return " ".join(parts)
+    # 组装 HTML（多行、分块，更彻底）
+    lines = []
+    lines.append(
+        f'<div class="mr-line"><b>预测方向：</b>{home} vs {away} 看好「{pred[pred_key]}」'
+        f'（{pred_prob*100:.0f}%）</div>'
+    )
+    lines.append(
+        f'<div class="mr-line"><b>概率分布：</b>主胜 {p_h*100:.0f}% / 平局 {p_d*100:.0f}% / 客胜 {p_a*100:.0f}%</div>'
+    )
+    lines.append(f'<div class="mr-line"><b>实际赛果：</b>「{truth_cn}」{("　比分 " + score_str) if score_str else ""}</div>')
+    lines.append(f'<div class="mr-line"><b>归因：</b>{core}</div>')
+    lines.append(f'<div class="mr-line"><b>爆冷程度：</b>{upset}</div>')
+    if mkt_note:
+        lines.append(f'<div class="mr-line"><b>赔率佐证：</b>{mkt_note}</div>')
+
+    return "".join(lines)
 
 
 def _match_card(m: dict, top: bool = False, settled_meta: dict | None = None, day: str = "") -> str:
@@ -384,7 +462,7 @@ def _match_card(m: dict, top: bool = False, settled_meta: dict | None = None, da
     scores = m.get("top_scores", [])
     top_str = "　".join(f"{s['score']} {s['prob']*100:.1f}%" for s in scores[:3])
 
-    # 结算标记（命中/未命中整卡着色 + 原因说明）
+    # 结算标记（命中/未命中整卡着色 + 原因说明 + 预测把握）
     settle_html = ""
     card_settle_cls = ""
     miss_reason_html = ""
@@ -401,17 +479,40 @@ def _match_card(m: dict, top: bool = False, settled_meta: dict | None = None, da
             cls = "miss"
             label = "✗ 未命中"
             card_settle_cls = " card-miss"
-            miss_reason_html = f'<div class="miss-reason"><b>未命中原因：</b>{_miss_reason(settled_meta)}</div>'
+            miss_reason_html = _miss_reason(settled_meta)
         else:
             # pred_hit 为 None（无预测场次）
             cls = "miss"
             label = "— 无预测"
             card_settle_cls = " card-miss"
-            miss_reason_html = f'<div class="miss-reason"><b>未命中原因：</b>{_miss_reason(settled_meta)}</div>'
+            miss_reason_html = _miss_reason(settled_meta)
+
+        # 预测把握 = 预测方向（最高概率项）的概率，直观表达"模型当时有多大把握"
+        conf_chip = ""
+        try:
+            _ph = float(settled_meta.get("p_home") or 0)
+            _pd = float(settled_meta.get("p_draw") or 0)
+            _pa = float(settled_meta.get("p_away") or 0)
+            _pk = {"home": "主胜", "draw": "平局", "away": "客胜"}
+            _pm = {"home": _ph, "draw": _pd, "away": _pa}
+            _top_key = max(_pm, key=_pm.get)
+            _top_prob = _pm[_top_key]
+            if (_ph + _pd + _pa) > 0:
+                conf_chip = (
+                    f'<span class="settle-conf">预测把握 {_pk[_top_key]} {_top_prob*100:.0f}%</span>'
+                )
+        except (TypeError, ValueError):
+            conf_chip = ""
+
         settle_html = (
             f'<span class="result-hit {cls}">{label}</span>'
             f'<span class="tag" style="background:#121828;color:#cbd5e1">实际：{truth_cn}</span>'
+            f"{conf_chip}"
         )
+
+    # 未命中原因块（含置信度行）
+    if miss_reason_html:
+        miss_reason_html = f'<div class="miss-reason"><div class="miss-reason-title">📉 未命中原因分析</div>{miss_reason_html}</div>'
 
     # 分歧
     divergence_html = ""
@@ -443,7 +544,7 @@ def _match_card(m: dict, top: bool = False, settled_meta: dict | None = None, da
 
     return f"""
 <div class="card{card_settle_cls}{' card-top' if top else ''}">
-  <div class="league">{top_badge}{m.get('league','')} <span class="time">{_fmt_time(m, day)}</span> {_tag(m)} {_conf_tag(m)} {settle_html}</div>
+  <div class="league">{top_badge}{m.get('league','')} <span class="time">{_fmt_time(m, day)}</span> {_tag(m)} {'' if settled_meta is not None else _conf_tag(m)} {settle_html}</div>
   <div class="teams">
     <div class="team"><div class="team-name">{m['home']}</div></div>
     <div class="vs">VS</div>
@@ -484,6 +585,40 @@ def _score_card(m: dict, top: bool = False, day: str = "") -> str:
     <span class="p">{most['prob']*100:.1f}%</span>
   </div>
   <div class="score-detail">高频比分分布：{detail}</div>
+  <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
+</div>"""
+
+
+def _score_rec_card(m: dict, rank: int = 0, day: str = "") -> str:
+    """渲染「每日比分推荐」卡片：每场突出 2 个推荐比分结果。
+
+    取 top_scores 前 2 个作为推荐比分，各自标注概率；额外给 3 个比分参考。
+    """
+    top = m.get("top_scores") or []
+    if len(top) < 2:
+        return ""
+    s1, s2 = top[0], top[1]
+    rank_badge = f'<span class="rec-rank">#{rank}</span>' if rank else ""
+    ref = "　".join(f"{s['score']} {s['prob']*100:.1f}%" for s in top[2:5])
+    return f"""
+<div class="card card-score rec-card">
+  <div class="league">{rank_badge}<span class="rec-badge">比分推荐</span>{m.get('league','')} <span class="time">{_fmt_time(m, day)}</span> {_tag(m)}</div>
+  <div class="teams">
+    <div class="team"><div class="team-name">{m['home']}</div></div>
+    <div class="vs">VS</div>
+    <div class="team"><div class="team-name">{m['away']}</div></div>
+  </div>
+  <div class="rec-scores">
+    <div class="rec-score">
+      <span class="rec-score-num">{s1['score']}</span>
+      <span class="rec-score-p">{s1['prob']*100:.1f}%</span>
+    </div>
+    <div class="rec-score">
+      <span class="rec-score-num">{s2['score']}</span>
+      <span class="rec-score-p">{s2['prob']*100:.1f}%</span>
+    </div>
+  </div>
+  <div class="score-detail">参考比分：{ref}</div>
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>"""
 
@@ -599,29 +734,39 @@ def _load_settlement() -> list[dict]:
 # ============================================================
 
 def render_index(results: list[dict], day: str) -> Path:
-    """主页：菜单栏 + 模型置信度 Top5 + 比分置信度 Top3（剔除已完赛场次）。"""
+    """主页：每日比分推荐（4-5 场 × 2 结果）+ 胜平负 Top5（剔除已完赛场次）。
+
+    推荐场数规则：当日竞彩比赛超过 5 场取 5 场，不足 5 场取当日全部。
+    （top_n_by_confidence / top_n_by_score_confidence 的切片天然满足 min(5, 全部)。）
+    """
     from src.output.confidence import top_n_by_confidence, top_n_by_score_confidence
 
     # 剔除已开球场次
     results = _filter_upcoming(results)
 
+    # 胜平负 Top5：置信度最高的 min(5, 当日未开赛场次数)
     top5 = top_n_by_confidence(results, 5)
-    top3_score = top_n_by_score_confidence(results, 3)
+    # 比分推荐候选：有比分分布场次中比分置信度最高的 min(5, 有分布场次数)
+    top_score = top_n_by_score_confidence(results, 5)
 
     sections = []
 
-    # 比分置信度 Top3（置顶）
-    if top3_score:
-        score_cards = "".join(_score_card(m, top=True, day=day) for m in top3_score)
+    # 每日比分推荐（置顶，每场 2 个结果；需至少 2 个比分）
+    score_candidates = [m for m in top_score if len(m.get("top_scores") or []) >= 2]
+    if score_candidates:
+        score_cards = "".join(
+            _score_rec_card(m, rank=i + 1, day=day)
+            for i, m in enumerate(score_candidates[:5])
+        )
         sections.append(f"""
-<div class="section-title"><span class="bar"></span>比分置信度 Top3 <span class="section-sub">（模型对比分预测最确定的 3 场）</span></div>
+<div class="section-title"><span class="bar"></span>每日比分推荐 <span class="section-sub">（{len(score_candidates[:5])} 场 · 每场 2 个比分结果）</span></div>
 {score_cards}""")
 
-    # 模型置信度 Top5
+    # 胜平负 Top5
     if top5:
         cards = "".join(_match_card(m, top=True, day=day) for m in top5)
         sections.append(f"""
-<div class="section-title"><span class="bar"></span>模型置信度 Top5 <span class="section-sub">（模型观点最明确的 5 场）</span></div>
+<div class="section-title"><span class="bar"></span>胜平负 Top5 <span class="section-sub">（模型观点最明确的 {len(top5)} 场）</span></div>
 {cards}""")
 
     if sections:
@@ -739,6 +884,176 @@ def render_calculator(day: str) -> Path:
 
     out = Path("docs") / "calculator.html"
     out.write_text(html, encoding="utf-8")
+    return out
+
+
+def _rec_score_hit(r: dict) -> bool | None:
+    """比分推荐命中判定：实际比分是否命中推荐的 2 个比分之一。"""
+    hg = r.get("home_goals")
+    ag = r.get("away_goals")
+    if hg is None or ag is None:
+        return None  # 无赛果
+    try:
+        actual = f"{int(hg)}-{int(ag)}"
+    except (TypeError, ValueError):
+        return None
+    s1 = str(r.get("score_1") or "")
+    s2 = str(r.get("score_2") or "")
+    return actual in (s1, s2)
+
+
+def _rec_top5_hit(r: dict) -> bool | None:
+    """胜平负 Top5 命中判定：实际方向是否等于预测最高概率方向。"""
+    truth = r.get("truth")
+    if not truth:
+        # 尝试从比分反推
+        hg = r.get("home_goals")
+        ag = r.get("away_goals")
+        if hg is None or ag is None:
+            return None
+        truth = "home" if hg > ag else ("away" if hg < ag else "draw")
+    ph = r.get("pred_home")
+    pd_ = r.get("pred_draw")
+    pa = r.get("pred_away")
+    if ph is None or pd_ is None or pa is None:
+        return None
+    probs = {"home": ph, "draw": pd_, "away": pa}
+    pred = max(probs, key=probs.get)
+    return pred == truth
+
+
+def _rec_card(r: dict) -> str:
+    """渲染单条推荐回顾卡片（含推荐内容 + 实际赛果 + 命中标记）。"""
+    rec_type = r.get("rec_type", "")
+    home = r.get("home", "")
+    away = r.get("away", "")
+    date = str(r.get("date", ""))
+
+    # 命中判定
+    if rec_type == "score":
+        hit = _rec_score_hit(r)
+    else:
+        hit = _rec_top5_hit(r)
+
+    # 命中标记
+    if hit is None:
+        verdict = '<span class="result-hit miss" style="background:rgba(148,163,184,.16);color:#cbd5e1">⏳ 待赛果</span>'
+        card_cls = ""
+    elif hit:
+        verdict = '<span class="result-hit hit">✓ 命中</span>'
+        card_cls = " card-hit"
+    else:
+        verdict = '<span class="result-hit miss">✗ 未命中</span>'
+        card_cls = " card-miss"
+
+    # 推荐内容
+    if rec_type == "score":
+        s1 = str(r.get("score_1") or "")
+        s2 = str(r.get("score_2") or "")
+        rec_content = (
+            f'<div class="rec-review-scores">'
+            f'<span class="rec-review-score">推荐 <b>{s1}</b>（{_pct(r.get("score_1_prob"))}）</span>'
+            f'<span class="rec-review-score">推荐 <b>{s2}</b>（{_pct(r.get("score_2_prob"))}）</span>'
+            f'</div>'
+        )
+        badge = '<span class="rec-badge">比分推荐</span>'
+    else:
+        probs = {"主胜": r.get("pred_home"), "平局": r.get("pred_draw"), "客胜": r.get("pred_away")}
+        # 排除 None/NaN 后取最高概率方向
+        valid = {k: v for k, v in probs.items() if v is not None and v == v}
+        if valid:
+            pred_key = max(valid, key=valid.get)
+            pred_prob = valid[pred_key]
+        else:
+            pred_key, pred_prob = "—", None
+        rec_content = f'<div class="rec-review-scores"><span class="rec-review-score">预测方向 <b>{pred_key}</b>（{_pct(pred_prob)}）</span></div>'
+        badge = '<span class="rec-badge" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">胜平负 Top5</span>'
+
+    # 实际赛果
+    hg = r.get("home_goals")
+    ag = r.get("away_goals")
+    if hg is None or ag is None:
+        actual = "—"
+    else:
+        actual = f"{int(hg)}:{int(ag)}"
+
+    return f"""
+<div class="card{card_cls}">
+  <div class="league">{badge}{r.get('league','')} <span class="time">{date}</span> {verdict}</div>
+  <div class="teams">
+    <div class="team"><div class="team-name">{home}</div></div>
+    <div class="vs">VS</div>
+    <div class="team"><div class="team-name">{away}</div></div>
+  </div>
+  {rec_content}
+  <div class="rec-review-actual">实际比分：<b>{actual}</b></div>
+</div>"""
+
+
+def _pct(v) -> str:
+    """安全格式化百分比（None/NaN 返回 '—'）。"""
+    try:
+        if v is None:
+            return "—"
+        f = float(v)
+        if f != f:  # NaN
+            return "—"
+        return f"{f*100:.0f}%"
+    except (TypeError, ValueError):
+        return "—"
+
+
+def render_recommend(day: str) -> Path:
+    """推荐回顾子页：近 7 日推荐的历史赛果 + 命中标记 + 累计命中统计。"""
+    from src.strategy.recommend import load_recent
+
+    recs = load_recent(day, days=7)
+
+    if not recs:
+        body = f"""
+<div class="page-hero">
+  <h1>推荐回顾</h1>
+  <div class="sub">近 7 日推荐赛果与命中情况</div>
+</div>
+<div class="empty"><div class="icon">🎯</div>暂无推荐记录<br><span style="font-size:12px">每日生成推荐后自动累积</span></div>"""
+        out = Path("docs") / "recommend.html"
+        out.write_text(_page("推荐回顾", "recommend.html", body, day), encoding="utf-8")
+        return out
+
+    # 统计（只统计已有赛果的推荐）
+    settled = [r for r in recs if r.get("home_goals") is not None and r.get("away_goals") is not None]
+    score_recs = [r for r in settled if r.get("rec_type") == "score"]
+    top5_recs = [r for r in settled if r.get("rec_type") == "top5"]
+
+    def _hit_rate(items, hit_fn):
+        if not items:
+            return None
+        hits = sum(1 for r in items if hit_fn(r) is True)
+        return hits / len(items)
+
+    score_rate = _hit_rate(score_recs, _rec_score_hit)
+    top5_rate = _hit_rate(top5_recs, _rec_top5_hit)
+
+    overview = f"""
+<div class="page-hero">
+  <h1>推荐回顾</h1>
+  <div class="sub">近 7 日 · 比分推荐 {len(score_recs)} 场 · 胜平负 Top5 {len(top5_recs)} 场</div>
+</div>
+<div class="overview">
+  <div class="stat"><div class="stat-num">{len(recs)}</div><div class="stat-label">近7日推荐</div></div>
+  <div class="stat"><div class="stat-num">{_pct(score_rate)}</div><div class="stat-label">比分命中率</div></div>
+  <div class="stat"><div class="stat-num">{_pct(top5_rate)}</div><div class="stat-label">胜平负命中率</div></div>
+  <div class="stat"><div class="stat-num">{len(settled)}</div><div class="stat-label">已出赛果</div></div>
+</div>
+<div class="stat-note">* 命中率是模型表现统计，不代表未来结果、不构成投注建议。</div>"""
+
+    cards = "".join(_rec_card(r) for r in recs)
+    body = overview + f"""
+<div class="section-title"><span class="bar"></span>近 7 日推荐 <span class="section-sub">（{len(recs)} 条，按日期倒序）</span></div>
+{cards}"""
+
+    out = Path("docs") / "recommend.html"
+    out.write_text(_page("推荐回顾", "recommend.html", body, day), encoding="utf-8")
     return out
 
 
@@ -1071,6 +1386,7 @@ def render(results: list[dict], day: str) -> list[Path]:
     outs.append(render_matches(results, day))
     outs.append(render_scores(results, day))
     outs.append(render_calculator(day))
+    outs.append(render_recommend(day))
     outs.append(render_settled(day))
     outs.append(render_accuracy(day))
     return outs

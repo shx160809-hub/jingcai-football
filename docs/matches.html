@@ -102,6 +102,22 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
 .score-hero .p { font-size:18px; font-weight:700; color:#a5b4fc; }
 .score-detail { text-align:center; color:var(--muted); font-size:12px; }
 
+/* 每日比分推荐卡片（每场 2 个结果） */
+.rec-card { border:1px solid rgba(34,197,94,.55); background:linear-gradient(180deg,rgba(34,197,94,.12),var(--card)); box-shadow:0 0 20px rgba(34,197,94,.16); }
+.rec-badge { display:inline-flex; align-items:center; gap:4px; background:linear-gradient(135deg,#22c55e,#16a34a); color:#fff; font-size:11px; padding:3px 10px; border-radius:20px; margin-right:6px; font-weight:600; }
+.rec-rank { display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; background:linear-gradient(135deg,#f59e0b,#f97316); color:#fff; font-size:12px; font-weight:700; border-radius:50%; margin-right:6px; }
+.rec-scores { display:flex; justify-content:center; gap:16px; margin:14px 0; }
+.rec-score { display:flex; flex-direction:column; align-items:center; gap:4px; min-width:90px; padding:10px 14px; background:#121828; border-radius:12px; border:1px solid rgba(34,197,94,.35); }
+.rec-score-num { font-size:30px; font-weight:800; color:#4ade80; letter-spacing:2px; }
+.rec-score-p { font-size:13px; font-weight:700; color:#86efac; }
+
+/* 推荐回顾卡片 */
+.rec-review-scores { display:flex; flex-wrap:wrap; gap:10px; margin:12px 0; justify-content:center; }
+.rec-review-score { padding:8px 14px; background:#121828; border-radius:10px; border:1px solid rgba(99,102,241,.35); font-size:13px; color:var(--muted); }
+.rec-review-score b { color:#a5b4fc; font-size:15px; }
+.rec-review-actual { text-align:center; color:var(--muted); font-size:13px; margin-top:4px; }
+.rec-review-actual b { color:#fca5a5; font-size:16px; }
+
 /* 赛果比分展示 */
 .finished-score, .live-score { display:flex; align-items:center; justify-content:center; gap:14px; margin:12px 0; }
 .finished-score .team-label, .live-score .team-label { font-size:15px; font-weight:700; flex:1; text-align:right; color:var(--text); }
@@ -121,6 +137,39 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
 .result-hit { display:inline-flex; align-items:center; gap:4px; font-size:11px; padding:2px 8px; border-radius:10px; }
 .result-hit.hit { background:rgba(34,197,94,.18); color:#4ade80; }
 .result-hit.miss { background:rgba(239,68,68,.18); color:#fca5a5; }
+
+/* 结算卡片命中/未命中整卡着色（左色条 + 强边框 + 底色） */
+.card-hit {
+  border:1px solid rgba(34,197,94,.65);
+  border-left:5px solid #22c55e;
+  background:linear-gradient(180deg,rgba(34,197,94,.16),rgba(34,197,94,.04) 45%,var(--card));
+  box-shadow:0 0 22px rgba(34,197,94,.22);
+}
+.card-hit:hover { border-color:rgba(34,197,94,.9); box-shadow:0 0 30px rgba(34,197,94,.3); }
+.card-miss {
+  border:1px solid rgba(239,68,68,.65);
+  border-left:5px solid #ef4444;
+  background:linear-gradient(180deg,rgba(239,68,68,.18),rgba(239,68,68,.05) 45%,var(--card));
+  box-shadow:0 0 22px rgba(239,68,68,.22);
+}
+.card-miss:hover { border-color:rgba(239,68,68,.9); box-shadow:0 0 30px rgba(239,68,68,.3); }
+
+/* 结算卡片置信度 chip */
+.settle-conf { display:inline-flex; align-items:center; gap:4px; font-size:11px; padding:2px 8px; border-radius:10px; background:rgba(99,102,241,.22); color:#c4b5fd; font-weight:600; }
+
+/* 未命中原因说明（彻底分析块） */
+.miss-reason {
+  margin-top:12px; padding:12px 14px; border-radius:12px;
+  font-size:12px; line-height:1.7;
+  background:rgba(239,68,68,.10);
+  border:1px solid rgba(239,68,68,.45);
+  border-left:4px solid #ef4444;
+  color:#fecaca;
+}
+.miss-reason-title { font-size:13px; font-weight:700; color:#f87171; margin-bottom:8px; }
+.miss-reason .mr-line { margin:4px 0; }
+.miss-reason .mr-line b { color:#fca5a5; font-weight:600; }
+.miss-reason .mr-line em { color:#fca5a5; font-style:normal; font-weight:600; }
 
 /* 命中标注（命中=红，未命中=绿） */
 .finish-verdict { display:inline-flex; align-items:center; gap:4px; font-size:12px; padding:3px 12px; border-radius:20px; font-weight:700; }
@@ -166,7 +215,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
 <nav class="navbar">
   <div class="navbar-inner">
     <a href="index.html" class="brand"><span class="logo">⚽</span>竞彩概率分析</a>
-    <div class="nav-links"><a href="index.html" class="">首页</a><a href="matches.html" class="active">今日场次</a><a href="scores.html" class="">比分推荐</a><a href="live.html" class="">今日赛果</a><a href="settled.html" class="">结算场次</a><a href="accuracy.html" class="">累计命中率</a><a href="feedback.html" class="">数据回馈</a><a href="calculator.html" class="">官方计算器</a></div>
+    <div class="nav-links"><a href="index.html" class="">首页</a><a href="matches.html" class="active">今日场次</a><a href="scores.html" class="">比分推荐</a><a href="live.html" class="">今日赛果</a><a href="recommend.html" class="">推荐回顾</a><a href="settled.html" class="">结算场次</a><a href="accuracy.html" class="">累计命中率</a><a href="feedback.html" class="">数据回馈</a><a href="calculator.html" class="">官方计算器</a></div>
   </div>
 </nav>
 <div class="banner">⚠️ 本工具为<b>体育数据分析工具</b>，所有输出（胜/平/负概率、预期比分分布、模型参考值）仅用于<u>统计分析</u>，<b>不构成任何投注建议或中奖预测</b>。不保证任何结果，不展示胜率，不接入投注/支付/资金通道。请理性看待数据，遵守中国法律法规，远离非法博彩。</div>
@@ -174,110 +223,80 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
 
 <div class="page-hero">
   <h1>今日场次</h1>
-  <div class="sub">数据日期 20261025 · 共 6 场 · 模型覆盖 6 场</div>
+  <div class="sub">数据日期 20261026 · 共 4 场 · 模型覆盖 4 场</div>
 </div>
-<div class="section-title"><span class="bar"></span>全部场次 <span class="section-sub">（6 场）</span></div>
+<div class="section-title"><span class="bar"></span>全部场次 <span class="section-sub">（4 场）</span></div>
 
 <div class="card">
-  <div class="league">西甲 <span class="time">10-26 01:30 次日</span> <span class="tag tag-odds">市场概率</span> <span class="conf">置信度 19%</span> </div>
+  <div class="league">葡超 <span class="time">10-27 02:45 次日</span> <span class="tag tag-odds">市场概率</span> <span class="conf">置信度 30%</span> </div>
   <div class="teams">
-    <div class="team"><div class="team-name">皇家社会</div></div>
+    <div class="team"><div class="team-name">圣克拉拉</div></div>
     <div class="vs">VS</div>
-    <div class="team"><div class="team-name">莱万特</div></div>
+    <div class="team"><div class="team-name">本菲卡</div></div>
   </div>
   <div class="probs">
-    <div class="prob"><div class="prob-label">主胜</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:65%;background:linear-gradient(90deg,#f43f5e,#e11d48)"></div></div><div class="prob-val">64.6%</div></div>
-    <div class="prob"><div class="prob-label">平局</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:20%;background:linear-gradient(90deg,#cbd5e1,#94a3b8)"></div></div><div class="prob-val">19.7%</div></div>
-    <div class="prob"><div class="prob-label">客胜</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:16%;background:linear-gradient(90deg,#10b981,#059669)"></div></div><div class="prob-val">15.7%</div></div>
+    <div class="prob"><div class="prob-label">主胜</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:9%;background:linear-gradient(90deg,#f43f5e,#e11d48)"></div></div><div class="prob-val">9.5%</div></div>
+    <div class="prob"><div class="prob-label">平局</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:18%;background:linear-gradient(90deg,#cbd5e1,#94a3b8)"></div></div><div class="prob-val">17.9%</div></div>
+    <div class="prob"><div class="prob-label">客胜</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:73%;background:linear-gradient(90deg,#10b981,#059669)"></div></div><div class="prob-val">72.6%</div></div>
   </div>
-  <div class="score">预期比分 <b>2.636 : 1.753</b>　高频 2-1 7.6%　3-1 6.7%　2-2 6.6%</div>
-  <div class="odds">官方赔率 胜 <b>1.37</b> / 平 <b>4.50</b> / 负 <b>5.65</b></div>
-  <div class="divergence">模型 vs 市场分歧 11.0%　<span style="color:#f87171">模型对「主胜」更乐观 ↓11.0%</span></div>
-  <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
-</div>
-<div class="card">
-  <div class="league">荷甲 <span class="time">10-26 03:00 次日</span> <span class="tag tag-odds">市场概率</span> <span class="conf">置信度 4%</span> </div>
-  <div class="teams">
-    <div class="team"><div class="team-name">阿尔克马</div></div>
-    <div class="vs">VS</div>
-    <div class="team"><div class="team-name">特温特</div></div>
-  </div>
-  <div class="probs">
-    <div class="prob"><div class="prob-label">主胜</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:48%;background:linear-gradient(90deg,#f43f5e,#e11d48)"></div></div><div class="prob-val">47.8%</div></div>
-    <div class="prob"><div class="prob-label">平局</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:24%;background:linear-gradient(90deg,#cbd5e1,#94a3b8)"></div></div><div class="prob-val">23.6%</div></div>
-    <div class="prob"><div class="prob-label">客胜</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:29%;background:linear-gradient(90deg,#10b981,#059669)"></div></div><div class="prob-val">28.5%</div></div>
-  </div>
-  <div class="score">预期比分 <b>1.287 : 1.291</b>　高频 1-1 14.8%　0-0 9.8%　1-2 8.1%</div>
-  <div class="odds">官方赔率 胜 <b>1.85</b> / 平 <b>3.75</b> / 负 <b>3.10</b></div>
-  <div class="divergence">模型 vs 市场分歧 13.4%　<span style="color:#f87171">模型对「主胜」更乐观 ↓13.3%</span></div>
-  <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
-</div>
-<div class="card">
-  <div class="league">意甲 <span class="time">10-26 03:45 次日</span> <span class="tag tag-odds">市场概率</span> <span class="conf">置信度 11%</span> </div>
-  <div class="teams">
-    <div class="team"><div class="team-name">乌迪内斯</div></div>
-    <div class="vs">VS</div>
-    <div class="team"><div class="team-name">AC米兰</div></div>
-  </div>
-  <div class="probs">
-    <div class="prob"><div class="prob-label">主胜</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:19%;background:linear-gradient(90deg,#f43f5e,#e11d48)"></div></div><div class="prob-val">19.2%</div></div>
-    <div class="prob"><div class="prob-label">平局</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:24%;background:linear-gradient(90deg,#cbd5e1,#94a3b8)"></div></div><div class="prob-val">23.6%</div></div>
-    <div class="prob"><div class="prob-label">客胜</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:57%;background:linear-gradient(90deg,#10b981,#059669)"></div></div><div class="prob-val">57.1%</div></div>
-  </div>
-  <div class="score">预期比分 <b>1.06 : 1.772</b>　高频 1-1 10.8%　0-1 10.7%　1-2 9.8%</div>
-  <div class="odds">官方赔率 胜 <b>4.60</b> / 平 <b>3.75</b> / 负 <b>1.55</b></div>
-  <div class="divergence">模型 vs 市场分歧 3.4%　<span style="color:#8b94ad">模型对「主胜」更乐观 ↑3.4%</span></div>
-  <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
-</div>
-<div class="card">
-  <div class="league">西甲 <span class="time">10-26 04:00 次日</span> <span class="tag tag-odds">市场概率</span> <span class="conf">置信度 13%</span> </div>
-  <div class="teams">
-    <div class="team"><div class="team-name">巴萨</div></div>
-    <div class="vs">VS</div>
-    <div class="team"><div class="team-name">皇马</div></div>
-  </div>
-  <div class="probs">
-    <div class="prob"><div class="prob-label">主胜</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:59%;background:linear-gradient(90deg,#f43f5e,#e11d48)"></div></div><div class="prob-val">58.7%</div></div>
-    <div class="prob"><div class="prob-label">平局</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:17%;background:linear-gradient(90deg,#cbd5e1,#94a3b8)"></div></div><div class="prob-val">17.4%</div></div>
-    <div class="prob"><div class="prob-label">客胜</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:24%;background:linear-gradient(90deg,#10b981,#059669)"></div></div><div class="prob-val">23.9%</div></div>
-  </div>
-  <div class="score">预期比分 <b>2.535 : 1.314</b>　高频 2-1 9.0%　1-1 7.9%　3-1 7.6%</div>
-  <div class="odds">官方赔率 胜 <b>1.51</b> / 平 <b>5.10</b> / 负 <b>3.70</b></div>
-  <div class="divergence">模型 vs 市场分歧 4.7%　<span style="color:#8b94ad">模型对「客胜」更乐观 ↓4.7%</span></div>
-  <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
-</div>
-<div class="card">
-  <div class="league">葡超 <span class="time">10-26 04:30 次日</span> <span class="tag tag-dc">Dixon-Coles</span> <span class="conf">置信度 1%</span> </div>
-  <div class="teams">
-    <div class="team"><div class="team-name">里斯本</div></div>
-    <div class="vs">VS</div>
-    <div class="team"><div class="team-name">维塞乌</div></div>
-  </div>
-  <div class="probs">
-    <div class="prob"><div class="prob-label">主胜</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:41%;background:linear-gradient(90deg,#f43f5e,#e11d48)"></div></div><div class="prob-val">40.6%</div></div>
-    <div class="prob"><div class="prob-label">平局</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:28%;background:linear-gradient(90deg,#cbd5e1,#94a3b8)"></div></div><div class="prob-val">28.2%</div></div>
-    <div class="prob"><div class="prob-label">客胜</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:31%;background:linear-gradient(90deg,#10b981,#059669)"></div></div><div class="prob-val">31.2%</div></div>
-  </div>
-  <div class="score">预期比分 <b>1.252 : 1.142</b>　高频 1-1 12.3%　1-0 12.2%　0-1 11.2%</div>
-  
+  <div class="score">预期比分 <b>0.878 : 2.435</b>　高频 0-2 10.8%　1-2 9.5%　0-1 9.3%</div>
+  <div class="odds">官方赔率 胜 <b>9.35</b> / 平 <b>4.95</b> / 负 <b>1.22</b></div>
+  <div class="divergence">模型 vs 市场分歧 3.1%　<span style="color:#8b94ad">模型对「主胜」更乐观 ↑3.1%</span></div>
   
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
 <div class="card">
-  <div class="league">美职 <span class="time">10-26 09:00 次日</span> <span class="tag tag-odds">市场概率</span> <span class="conf">置信度 16%</span> </div>
+  <div class="league">法乙 <span class="time">10-27 03:45 次日</span> <span class="tag tag-odds">市场概率</span> <span class="conf">置信度 2%</span> </div>
   <div class="teams">
-    <div class="team"><div class="team-name">洛杉矶FC</div></div>
+    <div class="team"><div class="team-name">布洛涅</div></div>
     <div class="vs">VS</div>
-    <div class="team"><div class="team-name">洛城银河</div></div>
+    <div class="team"><div class="team-name">兰斯</div></div>
   </div>
   <div class="probs">
-    <div class="prob"><div class="prob-label">主胜</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:62%;background:linear-gradient(90deg,#f43f5e,#e11d48)"></div></div><div class="prob-val">61.9%</div></div>
-    <div class="prob"><div class="prob-label">平局</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:20%;background:linear-gradient(90deg,#cbd5e1,#94a3b8)"></div></div><div class="prob-val">20.4%</div></div>
-    <div class="prob"><div class="prob-label">客胜</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:18%;background:linear-gradient(90deg,#10b981,#059669)"></div></div><div class="prob-val">17.7%</div></div>
+    <div class="prob"><div class="prob-label">主胜</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:28%;background:linear-gradient(90deg,#f43f5e,#e11d48)"></div></div><div class="prob-val">27.7%</div></div>
+    <div class="prob"><div class="prob-label">平局</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:29%;background:linear-gradient(90deg,#cbd5e1,#94a3b8)"></div></div><div class="prob-val">29.1%</div></div>
+    <div class="prob"><div class="prob-label">客胜</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:43%;background:linear-gradient(90deg,#10b981,#059669)"></div></div><div class="prob-val">43.2%</div></div>
   </div>
   <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
-  <div class="odds">官方赔率 胜 <b>1.43</b> / 平 <b>4.35</b> / 负 <b>5.00</b></div>
+  <div class="odds">官方赔率 胜 <b>3.20</b> / 平 <b>3.05</b> / 负 <b>2.05</b></div>
   <div class="divergence">模型 vs 市场分歧 0.0%　<span style="color:#8b94ad">模型对「主胜」更乐观 ↓0.0%</span></div>
+  
+  <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
+</div>
+<div class="card">
+  <div class="league">西甲 <span class="time">10-27 04:00 次日</span> <span class="tag tag-odds">市场概率</span> <span class="conf">置信度 5%</span> </div>
+  <div class="teams">
+    <div class="team"><div class="team-name">塞维利亚</div></div>
+    <div class="vs">VS</div>
+    <div class="team"><div class="team-name">奥萨苏纳</div></div>
+  </div>
+  <div class="probs">
+    <div class="prob"><div class="prob-label">主胜</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:49%;background:linear-gradient(90deg,#f43f5e,#e11d48)"></div></div><div class="prob-val">49.2%</div></div>
+    <div class="prob"><div class="prob-label">平局</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:28%;background:linear-gradient(90deg,#cbd5e1,#94a3b8)"></div></div><div class="prob-val">27.5%</div></div>
+    <div class="prob"><div class="prob-label">客胜</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:23%;background:linear-gradient(90deg,#10b981,#059669)"></div></div><div class="prob-val">23.3%</div></div>
+  </div>
+  <div class="score">预期比分 <b>1.953 : 1.041</b>　高频 1-1 11.3%　2-1 10.0%　2-0 9.6%</div>
+  <div class="odds">官方赔率 胜 <b>1.80</b> / 平 <b>3.22</b> / 负 <b>3.80</b></div>
+  <div class="divergence">模型 vs 市场分歧 6.0%　<span style="color:#8b94ad">模型对「主胜」更乐观 ↑6.0%</span></div>
+  
+  <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
+</div>
+<div class="card">
+  <div class="league">巴甲 <span class="time">10-27 07:00 次日</span> <span class="tag tag-odds">市场概率</span> <span class="conf">置信度 29%</span> </div>
+  <div class="teams">
+    <div class="team"><div class="team-name">弗拉门戈</div></div>
+    <div class="vs">VS</div>
+    <div class="team"><div class="team-name">米竞技</div></div>
+  </div>
+  <div class="probs">
+    <div class="prob"><div class="prob-label">主胜</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:72%;background:linear-gradient(90deg,#f43f5e,#e11d48)"></div></div><div class="prob-val">72.0%</div></div>
+    <div class="prob"><div class="prob-label">平局</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:17%;background:linear-gradient(90deg,#cbd5e1,#94a3b8)"></div></div><div class="prob-val">17.4%</div></div>
+    <div class="prob"><div class="prob-label">客胜</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:11%;background:linear-gradient(90deg,#10b981,#059669)"></div></div><div class="prob-val">10.6%</div></div>
+  </div>
+  <div class="score">该联赛暂无历史数据，概率来自官方赔率去水</div>
+  <div class="odds">官方赔率 胜 <b>1.23</b> / 平 <b>5.10</b> / 负 <b>8.35</b></div>
+  <div class="divergence">模型 vs 市场分歧 0.0%　<span style="color:#8b94ad">模型对「主胜」更乐观 ↓0.0%</span></div>
+  
   <div class="disclaimer-sm">模型参考值，不构成投注建议</div>
 </div>
 </div>

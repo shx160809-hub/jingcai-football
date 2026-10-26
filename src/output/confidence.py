@@ -62,8 +62,11 @@ def annotate_score_confidence(results: list[dict]) -> list[dict]:
     return results
 
 
-def top_n_by_score_confidence(results: list[dict], n: int = 3) -> list[dict]:
-    """返回比分置信度最高的 n 场（仅统计有比分分布的场次）。"""
+def top_n_by_score_confidence(results: list[dict], n: int = 5) -> list[dict]:
+    """返回比分置信度最高的 n 场（仅统计有比分分布的场次）。
+
+    不足 n 场时返回全部（min(n, 有比分分布的场次数)）。
+    """
     scored = [
         r for r in results
         if r.get("score_confidence") is not None

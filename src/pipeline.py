@@ -81,6 +81,13 @@ def run(day: str | None = None) -> dict:
     # Step 6: 输出 JSON + HTML
     print("[5/6] 生成输出...")
     if results:
+        # 生成每日推荐并落库（比分 4-5 场 + 胜平负 Top5）
+        try:
+            from src.strategy.recommend import generate_recommendations
+
+            generate_recommendations(results, day)
+        except Exception as e:  # noqa: BLE001
+            print(f"      ⚠️ 推荐生成失败：{e}")
         outs = render(results, day)
         for o in outs:
             print(f"      {o}")
