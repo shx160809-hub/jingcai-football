@@ -1,16 +1,16 @@
 {
-  "date": "20261104",
-  "generated_at": "2026-11-04T03:03:40.114134",
+  "date": "20261124",
+  "generated_at": "2026-11-24T03:59:26.089813",
   "archive": {
-    "date": "20261103",
+    "date": "20261123",
     "n_archived": 0
   },
   "metrics": {
-    "n_matches": 8547,
-    "log_loss": 1.0144075292810766,
-    "brier_score": 0.20209484525525526,
-    "rps": 0.1386554607211107,
-    "top1_accuracy": 0.4984204984204984
+    "n_matches": 8462,
+    "log_loss": 1.0135658450317784,
+    "brier_score": 0.2018904978381785,
+    "rps": 0.13867082552745608,
+    "top1_accuracy": 0.49870007090522334
   },
   "calibration_directions": [
     "p_home",
@@ -18,31 +18,31 @@
     "p_away"
   ],
   "calibration_gain": {
-    "before": 0.4976,
-    "after": 0.5108,
-    "delta": 0.0132,
-    "n_test": 1670
+    "before": 0.4983,
+    "after": 0.5163,
+    "delta": 0.0181,
+    "n_test": 1716
   },
   "delta_vs_baseline": {
     "log_loss": {
-      "baseline": 1.0159,
-      "current": 1.0144,
-      "change": -0.0015
+      "baseline": 1.0144,
+      "current": 1.0136,
+      "change": -0.0008
     },
     "rps": {
-      "baseline": 0.1386,
+      "baseline": 0.1387,
       "current": 0.1387,
       "change": 0.0
     },
     "brier_score": {
-      "baseline": 0.2025,
-      "current": 0.2021,
-      "change": -0.0004
+      "baseline": 0.2021,
+      "current": 0.2019,
+      "change": -0.0002
     },
     "top1_accuracy": {
-      "baseline": 0.4967,
-      "current": 0.4984,
-      "change": 0.0017
+      "baseline": 0.4984,
+      "current": 0.4987,
+      "change": 0.0003
     }
   },
   "unmapped_teams": []
